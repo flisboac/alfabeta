@@ -1,0 +1,52 @@
+
+div#wrapper {
+    
+    width: 100%;
+}
+
+div#wrapperup {
+    
+    display: block;
+    height: 60px;
+    width: 100%;
+    background-color: green;
+}
+
+div#wrapperdown {
+    
+    display: block;
+    width: 100%;
+    height: 40px;
+    
+    background-color: blue;
+}
+
+div#wrappermiddle {
+    
+    display: block;
+    background-color: red;
+}
+
+div#corpo {
+    
+    width: 700px;
+    min-height: 500px;
+    background-color: grey;
+    margin: 0 auto;
+}
+
+div#cabecalho {
+    
+    width: 700px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: grey;
+}
+
+div#rodape {
+    
+    width: 700px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: grey;
+}

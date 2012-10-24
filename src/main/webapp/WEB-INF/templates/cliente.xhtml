@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>#{tituloPagina}</title>
+        <ui:insert name="head" />
+        <h:outputStylesheet library="css" name="reset.css" />
+        <h:outputStylesheet library="css" name="cliente.css" />
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <div id="wrapperup">
+                <div id="cabecalho">
+                    <ui:insert name="cabecalho"/>
+                </div>
+            </div>
+            
+            <div id="wrappermiddle">
+                <div id="corpo">
+                    <ui:insert name="corpo" />
+                </div>
+            </div>
+            
+            <div id="wrapperdown">
+                <div id="rodape">
+                    <ui:insert name="rodape" />
+                </div>
+            </div>
+        </div>
+        <ui:insert name="extra" />
+    </h:body>
+</html>
+
