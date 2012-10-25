@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>#{tituloPagina}</title>
         <ui:insert name="head" />
@@ -13,7 +15,61 @@
         <div id="wrapper">
             <div id="wrapperup">
                 <div id="cabecalho">
-                    <ui:insert name="cabecalho"/>
+                    <div id="cabecalho_logo">
+                        <h1>ALFABETA</h1>
+                    </div>
+                    
+                    <div id="cabecalho_corpo">
+                        <ui:insert name="cabecalho"/>
+                    </div>
+                    
+                    <div id="cabecalho_login">
+                        <h:form id="frmLogin">
+                            <p>
+                                <p:commandLink value="Cadastre-se!" rendered="#{not clienteBean.usuarioLogado}" />
+                                <p:commandLink value="Usuário" rendered="#{clienteBean.usuarioLogado}" />
+                            </p>
+                            <p>
+                                <p:commandButton id="btnLoginPanel"
+                                                 value="Login"
+                                                 icon="ui-icon-key"
+                                                 rendered="#{not clienteBean.usuarioLogado}" />
+                                <p:commandButton id="btnLogoff"
+                                                 value="Logoff"
+                                                 icon="ui-icon-key"
+                                                 action="#{clienteBean.efetuarLogoff}"
+                                                 update="@form"
+                                                 rendered="#{clienteBean.usuarioLogado}" />
+                                <p:overlayPanel id="pnlLogin"
+                                                for="btnLoginPanel"
+                                                widgetVar="pnlLogin">
+                                    <p:panelGrid columns="2">
+                                        <h:outputLabel for="txtLogin" value="E-mail" />
+                                        <p:inputText id="txtLogin" />
+                                        
+                                        <h:outputLabel for="txtSenha" value="Senha" />
+                                        <p:password id="txtSenha" />
+                                        
+                                        <f:facet name="footer">
+                                            <center>
+                                                <p:commandButton id="btnLogin"
+                                                                 value="Login"
+                                                                 icon="ui=icon-key"
+                                                                 action="#{clienteBean.efetuarLogin}"
+                                                                 onsuccess="pnlLogin.hide()"
+                                                                 update="@form" />
+                                                <p:commandButton id="btnCancelar"
+                                                                 value="Cancelar"
+                                                                 icon="ui-icon-cancel"
+                                                                 onclick="pnlLogin.hide()" />
+                                            </center>
+                                        </f:facet>
+                                    </p:panelGrid>
+                                </p:overlayPanel>
+                                               
+                            </p>
+                        </h:form>
+                    </div>
                 </div>
             </div>
             
