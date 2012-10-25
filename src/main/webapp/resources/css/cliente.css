@@ -78,6 +78,16 @@ div#rodape {
     
     width: 700px;
     height: 100%;
+    line-height: 40px;
     margin: 0 auto;
     background-color: #b5bdc8;
+}
+
+div#rodape p {
+    
+    text-align: center;
+    font-size: 11px;
+    font-weight: lighter;
+    font-stretch: extra-expanded;
+    font-family: monospace;
 }
