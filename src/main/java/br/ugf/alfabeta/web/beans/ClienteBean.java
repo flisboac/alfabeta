@@ -27,3 +27,4 @@ public class ClienteBean {
         return this.usuarioLogado;
     }
 }
+

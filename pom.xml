@@ -22,6 +22,15 @@
             <url>http://repository.primefaces.org</url>  
             <layout>default</layout>  
         </repository>      
+        <repository>  
+            <id>JBoss Repo</id>  
+            <url>http://repository.jboss.com/maven2</url>  
+        </repository>
+        <repository>  
+            <id>maven2-repository.dev.java.net</id>  
+            <name>Java.net Repository for Maven</name>  
+            <url>http://download.java.net/maven/2</url>  
+        </repository> 
     </repositories>
     
     <dependencies>
@@ -30,24 +39,50 @@
             <artifactId>primefaces</artifactId>  
             <version>3.4.1</version>  
         </dependency>
+        <dependency>  
+            <groupId>com.sun.faces</groupId>  
+            <artifactId>jsf-api</artifactId>  
+            <version>2.0.0-b13</version>  
+            <scope>compile</scope>  
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>  
+            <groupId>org.hibernate.java-persistence</groupId>  
+            <artifactId>jpa-api</artifactId>  
+            <version>2.0-cr-1</version>  
+        </dependency>  
+        <dependency>  
+            <groupId>org.hibernate</groupId>  
+            <artifactId>hibernate-entitymanager</artifactId>  
+            <version>3.5.0-Beta-2</version>  
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>6.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>8.3-603.jdbc4</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-site-plugin</artifactId>
-    <version>2.0</version>
-    <configuration>
-      <siteDirectory>${basedir}/src/main/java</siteDirectory>          
-    </configuration>
-  </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <siteDirectory>${basedir}/src/main/java</siteDirectory>          
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
