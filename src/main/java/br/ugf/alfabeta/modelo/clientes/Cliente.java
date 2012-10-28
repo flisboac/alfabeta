@@ -32,7 +32,7 @@ public class Cliente implements Serializable, Entidade {
     @Id
     @GeneratedValue
     @Column(name="id_cliente")
-    private Long id; //todo atributo mapeado com @GeneratedValue deve ser tipo Long.
+    private Integer id; //todo atributo mapeado com @GeneratedValue deve ser tipo Long (danillo).
     
     /**
      * E-mail do cliente.
@@ -57,11 +57,11 @@ public class Cliente implements Serializable, Entidade {
     // [ GETTERS / SETTERS ] ===================================================
     
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
