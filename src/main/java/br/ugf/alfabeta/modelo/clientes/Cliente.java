@@ -32,7 +32,7 @@ public class Cliente implements Serializable, Entidade {
     @Id
     @GeneratedValue
     @Column(name="id_cliente")
-    private Long id;
+    private Long id; //todo atributo mapeado com @GeneratedValue deve ser tipo Long.
     
     /**
      * E-mail do cliente.
