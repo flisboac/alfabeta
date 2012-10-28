@@ -16,7 +16,7 @@ public class ClienteDao implements Dao<Cliente> {
     private JpaDao<Cliente> dao = new JpaDao<Cliente>(Cliente.class);
 
     @Override
-    public Cliente obter(int id) {
+    public Cliente obter(long id) {
         return this.dao.obter(id);
     }
 
