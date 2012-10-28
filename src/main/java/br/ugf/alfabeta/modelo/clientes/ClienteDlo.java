@@ -15,7 +15,7 @@ import java.util.List;
 public class ClienteDlo implements Dlo<Cliente> {
 
     @Override
-    public Cliente obter(long id) throws ExcecaoDlo {
+    public Cliente obter(Integer id) throws ExcecaoDlo {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
