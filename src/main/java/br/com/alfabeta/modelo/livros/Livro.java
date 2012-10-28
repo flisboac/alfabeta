@@ -30,7 +30,7 @@ public class Livro implements Serializable, Entidade {
     @Id
     @GeneratedValue
     @Column(name="id_livro")
-    private Integer id;
+    private Long id; //quando vamos  usar um atributo para chave do BD e mapeamos com @generatedValue ele deve ser tipo Long.
     
     @Column(name="cod_livro")
     private String codigo;
