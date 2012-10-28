@@ -32,7 +32,7 @@ public class Cliente implements Serializable, Entidade {
     @Id
     @GeneratedValue
     @Column(name="id_cliente")
-    private Integer id;
+    private Long id;
     
     /**
      * E-mail do cliente.
@@ -57,11 +57,11 @@ public class Cliente implements Serializable, Entidade {
     // [ GETTERS / SETTERS ] ===================================================
     
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
