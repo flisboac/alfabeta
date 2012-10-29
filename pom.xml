@@ -13,7 +13,6 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>
 
     <repositories>
@@ -49,6 +48,11 @@
             <groupId>org.primefaces</groupId>  
             <artifactId>primefaces</artifactId>  
             <version>3.4.1</version>  
+        </dependency>
+        <dependency>  
+            <groupId>org.primefaces.themes</groupId>  
+            <artifactId>south-street</artifactId>  
+            <version>1.0.8</version>  
         </dependency>
         <dependency>  
             <groupId>com.sun.faces</groupId>  

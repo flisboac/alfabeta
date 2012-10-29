@@ -10,20 +10,21 @@
         <ui:insert name="head" />
         <h:outputStylesheet library="css" name="reset.css" />
         <h:outputStylesheet library="css" name="cliente.css" />
+        <h:outputStylesheet library="css" name="efeitos.css" />
     </h:head>
     <h:body>
         <div id="wrapper">
-            <div id="wrapperup">
+            <div id="wrapperup" class="effect-bg-carbon effect-glass">
                 <div id="cabecalho">
                     <div id="cabecalho_logo">
                         <h1>ALFABETA</h1>
                     </div>
-                    
+
                     <div id="cabecalho_corpo">
                         &nbsp;
                         <ui:insert name="cabecalho"/>
                     </div>
-                    
+
                     <div id="cabecalho_login">
                         <h:form id="frmLogin">
                             <p>
@@ -47,10 +48,10 @@
                                     <p:panelGrid columns="2">
                                         <h:outputLabel for="txtLogin" value="E-mail" />
                                         <p:inputText id="txtLogin" />
-                                        
+
                                         <h:outputLabel for="txtSenha" value="Senha" />
                                         <p:password id="txtSenha" />
-                                        
+
                                         <f:facet name="footer">
                                             <center>
                                                 <p:commandButton id="btnLogin"
@@ -67,19 +68,26 @@
                                         </f:facet>
                                     </p:panelGrid>
                                 </p:overlayPanel>
-                                               
+
                             </p>
                         </h:form>
                     </div>
                 </div>
             </div>
-            
+
             <div id="wrappermiddle">
+                <div id="menu">
+                    <h:form id="frmMenu">
+                        <p:megaMenu id="mnuPrincipal">
+                            <p:menuitem value="Home" icon="ui-icon-home" action="/cliente" />
+                        </p:megaMenu>
+                    </h:form>
+                </div>
                 <div id="corpo">
                     <ui:insert name="corpo" />
                 </div>
             </div>
-            
+
             <div id="wrapperdown">
                 <div id="rodape">
                     <p>&copy; 2012 Flávio Lisbôa, Carlos Eduardo, Ruan Seraphim, Danillo Coradello</p>
