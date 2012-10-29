@@ -1,5 +1,5 @@
 
-package br.com.alfabeta.modelo.livros;
+package br.ugf.alfabeta.modelo.livros;
 
 import br.ugf.alfabeta.modelo.editoras.Editora;
 import br.ugf.alfabeta.modelo.entidades.Entidade;
