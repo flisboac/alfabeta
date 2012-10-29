@@ -30,7 +30,7 @@ public class Livro implements Serializable, Entidade {
     @Id
     @GeneratedValue
     @Column(name="id_livro")
-    private Long id; //quando vamos  usar um atributo para chave do BD e mapeamos com @generatedValue ele deve ser tipo Long.
+    private Integer id; //quando vamos  usar um atributo para chave do BD e mapeamos com @generatedValue ele deve ser tipo Long.
     
     @Column(name="cod_livro")
     private String codigo;
@@ -46,11 +46,11 @@ public class Livro implements Serializable, Entidade {
     // [ GETTERS / SETTERS ] ===================================================
     
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
