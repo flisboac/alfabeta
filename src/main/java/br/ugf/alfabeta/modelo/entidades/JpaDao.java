@@ -4,13 +4,11 @@
  */
 package br.ugf.alfabeta.modelo.entidades;
 
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.util.JpaHelper;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-import javax.persistence.criteria.CriteriaQuery;
 
 /**
  *
@@ -28,76 +26,65 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
     }
     
     @Override
-    public T obter(int id) {
+    public T obter(Long id) throws ExcecaoDao {
         T retorno = null;
         EntityManager manager = this.helper.getEntityManager();
         
         try {
-            manager.getTransaction().begin();
             retorno = manager.find(this.classe, id);
-            manager.getTransaction().commit();
                     
         } catch (PersistenceException ex) {
-            logErro("Erro ao obter entidade '" + this.classe.getName() + "' com ID " + id + ".", ex);
+            throw new ExcecaoDao("Erro ao obter entidade '" + this.classe.getName() + "' com ID " + id + ".", ex);
             
-        }
-        
-        return retorno;
-    }
-    
-    public boolean inserir(T entidade) {
-        boolean retorno = false;
-        EntityManager manager = this.helper.getEntityManager();
-        
-        try {
-            manager.getTransaction().begin();
-            manager.persist(entidade);
-            manager.getTransaction().commit();
-            retorno = true;
-            
-        } catch (PersistenceException e) {
-            logErro("Erro ao inserir nova entidade '" + this.classe.getName() + "'.", e);
-        }
-        
-        return retorno;
-    }
-    
-    public boolean alterar(T entidade) {
-        boolean retorno = false;
-        EntityManager manager = this.helper.getEntityManager();
-        
-        try {
-            manager.getTransaction().begin();
-            manager.merge(entidade);
-            manager.getTransaction().commit();
-            retorno = true;
-            
-        } catch (PersistenceException e) {
-            logErro("Erro ao alterar dados da entidade '" + this.classe.getName() + "'.", e);
-        }
-        
-        return retorno;
-    }
-    
-    public boolean excluir(T entidade) {    
-        boolean retorno = false;
-        EntityManager manager = this.helper.getEntityManager();
-        
-        try {
-            manager.getTransaction().begin();
-            manager.remove(entidade);
-            manager.getTransaction().commit();
-            retorno = true;
-            
-        } catch (PersistenceException e) {
-            logErro("Erro ao excluir entidade '" + this.classe.getName() + "'.", e);
         }
         
         return retorno;
     }
     
     @Override
-    public boolean existe(T entidade) {
+    public void inserir(T entidade) throws ExcecaoDao {
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.getTransaction().begin();
+            manager.persist(entidade);
+            manager.getTransaction().commit();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao inserir nova entidade '" + this.classe.getName() + "'.", e);
+        }
+    }
+    
+    @Override
+    public void alterar(T entidade) throws ExcecaoDao {
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.getTransaction().begin();
+            manager.merge(entidade);
+            manager.getTransaction().commit();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao alterar dados da entidade '" + this.classe.getName() + "'.", e);
+        }
+    }
+    
+    @Override
+    public void excluir(T entidade) throws ExcecaoDao {
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.getTransaction().begin();
+            manager.remove(entidade);
+            manager.getTransaction().commit();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao excluir entidade '" + this.classe.getName() + "'.", e);
+        }
+    }
+    
+    @Override
+    public boolean existe(T entidade) throws ExcecaoDao {
         boolean retorno = false;
         EntityManager manager = this.helper.getEntityManager();
         
@@ -107,30 +94,44 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             manager.getTransaction().commit();
             
         } catch (PersistenceException e) {
-            logErro("Erro ao verificar a existência da entidade '" + this.classe.getName() + "'.", e);
+            throw new ExcecaoDao("Erro ao verificar a existência da entidade '" + this.classe.getName() + "'.", e);
         }
         
         return retorno;
     }
     
     @Override
-    public List<T> listar() {
-        List<T> retorno = null;
+    public boolean existeId(Long id) throws ExcecaoDao {
+        boolean retorno = false;
         EntityManager manager = this.helper.getEntityManager();
         
         try {
-            CriteriaQuery<T> query = manager.getCriteriaBuilder().createQuery(this.classe);
-            query.select(query.from(this.classe));
-            retorno = manager.createQuery(query).getResultList();
+            retorno = manager.find(this.classe, id) != null;
             
         } catch (PersistenceException e) {
-            logErro("Erro ao listar entidades '" + this.classe.getName() + "'.", e);
+            throw new ExcecaoDao("Erro ao verificar a existência do ID " + id + "para a entidade '" + this.classe.getName() + "'.", e);
         }
         
         return retorno;
     }
     
-    protected void logErro(String msg, Throwable t) {
-        Logger.getLogger(this.classe.getName()).log(Level.SEVERE, msg, t);
+    @Override
+    public List<T> listar() throws ExcecaoDao {
+        List<T> retorno = null;
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            retorno = manager.createQuery("from " + this.classe.getName()).getResultList();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao listar entidades '" + this.classe.getName() + "'.", e);
+        }
+        
+        return retorno;
+    }
+    
+    @Override
+    public Class<T> getClasseEntidade() {
+        return this.classe;
     }
 }

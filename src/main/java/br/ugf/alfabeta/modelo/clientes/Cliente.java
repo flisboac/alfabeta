@@ -5,13 +5,15 @@
 package br.ugf.alfabeta.modelo.clientes;
 
 import br.ugf.alfabeta.modelo.entidades.Entidade;
+import br.ugf.alfabeta.modelo.funcionarios.Funcionario;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * Representa um cliente que acessa o portal do cliente.
@@ -20,10 +22,8 @@ import javax.persistence.UniqueConstraint;
  * @author Ana
  */
 @Entity
-@Table(name="cliente", uniqueConstraints={
-    @UniqueConstraint(name="id", columnNames={"id_cliente"}),
-    @UniqueConstraint(name="identidade", columnNames={"email_cliente"})
-})
+@Table(name="cliente")
+@Inheritance(strategy= InheritanceType.JOINED)
 public class Cliente implements Serializable, Entidade {
    
     /**
@@ -31,38 +31,47 @@ public class Cliente implements Serializable, Entidade {
      */
     @Id
     @GeneratedValue
-    @Column(name="id_cliente")
-    private Integer id; //todo atributo mapeado com @GeneratedValue deve ser tipo Long (danillo).
+    @Column(name="id_cliente", nullable=false, unique=true)
+    protected Long idCliente;
     
     /**
      * E-mail do cliente.
      * O E-mail identifica unicamente o cliente.
      */
-    @Column(name="email_cliente")
-    private String email;
+    @Column(name="email_cliente", length=30, nullable=false, unique=true)
+    protected String email;
     
     /**
      * A senha do cliente, em texto puro.
      */
-    @Column(name="senha_cliente")
-    private String senha;
+    @Column(name="senha_cliente", length=30)
+    protected String senha;
     
     /**
      * O nome completo do cliente.
      */
-    @Column(name="nome_cliente")
-    private String nome;
+    @Column(name="nome_cliente", length=30, nullable=false)
+    protected String nome;
     
     
     // [ GETTERS / SETTERS ] ===================================================
     
+    
     @Override
-    public Integer getId() {
-        return id;
+    public Long getId() {
+        return idCliente;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Long id) {
+        this.idCliente = id;
+    }
+
+    public Long getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getEmail() {
@@ -125,7 +134,7 @@ public class Cliente implements Serializable, Entidade {
     @Override
     public String toString() {
         return "Cliente{" 
-                + "id=" + id 
+                + "id=" + idCliente 
                 + ", email=" + email 
                 + ", senha=" + senha 
                 + ", nome=" + nome 

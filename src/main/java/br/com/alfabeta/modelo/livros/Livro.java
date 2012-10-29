@@ -22,8 +22,8 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="livro", uniqueConstraints= {
-    @UniqueConstraint(name="id", columnNames={"id_livro"}),
-    @UniqueConstraint(name="identidade", columnNames={"cod_livro"})
+    @UniqueConstraint(columnNames={"id_livro"}), // ID
+    @UniqueConstraint(columnNames={"cod_livro"}) // Identidade
 })
 public class Livro implements Serializable, Entidade {
     

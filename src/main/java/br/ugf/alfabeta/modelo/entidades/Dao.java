@@ -4,15 +4,21 @@
  */
 package br.ugf.alfabeta.modelo.entidades;
 
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import java.util.List;
 
 /**
  *
- * @author Ana
+ * @author flavio
  */
 public interface Dao<T extends Entidade> {
-    
-    T obter(int id);
-    boolean existe(T entidade);
-    List<T> listar();
+
+    T obter(Long id) throws ExcecaoDao;
+    void inserir(T entidade) throws ExcecaoDao;
+    void alterar(T entidade) throws ExcecaoDao;
+    void excluir(T entidade) throws ExcecaoDao;
+    boolean existe(T entidade) throws ExcecaoDao;
+    boolean existeId(Long id) throws ExcecaoDao;
+    List<T> listar() throws ExcecaoDao;
+    Class<T> getClasseEntidade();
 }

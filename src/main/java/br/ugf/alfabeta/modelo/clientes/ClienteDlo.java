@@ -6,26 +6,14 @@ package br.ugf.alfabeta.modelo.clientes;
 
 import br.ugf.alfabeta.modelo.entidades.Dlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
-import java.util.List;
 
 /**
  *
- * @author Ana
+ * @author flavio
  */
-public class ClienteDlo implements Dlo<Cliente> {
-
-    @Override
-    public Cliente obter(Integer id) throws ExcecaoDlo {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean existe(Cliente entidade) throws ExcecaoDlo {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<Cliente> listar() throws ExcecaoDlo {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+public interface ClienteDlo extends Dlo<Cliente> {
+    
+    void inserir(Cliente cliente) throws ExcecaoDlo;
+    void alterar(Cliente cliente) throws ExcecaoDlo;
+    void persistir(Cliente cliente) throws ExcecaoDlo;
 }

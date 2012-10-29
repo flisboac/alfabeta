@@ -6,23 +6,44 @@ package br.ugf.alfabeta.modelo.editoras;
 
 import br.ugf.alfabeta.modelo.entidades.Entidade;
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Ana
  */
+@Entity
+@Table(name="editora", uniqueConstraints={
+    @UniqueConstraint(columnNames="id_editora"),
+    @UniqueConstraint(columnNames="nome_editora")
+})
 public class Editora implements Serializable, Entidade {
     
-    private Integer id;
+    @Id
+    @GeneratedValue
+    @Column(name="id_editora")
+    private Long id;
+    
+    @Column(name="nome_editora")
     private String nome;
+    
+    @Column(name="end_editora")
     private String endereco;
 
+    
+    // [ GETTERS / SETTERS ] ===================================================
+    
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,7 +62,11 @@ public class Editora implements Serializable, Entidade {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-
+    
+    
+    // [ EQUALS / HASHCODE ] =================================================
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -70,6 +95,10 @@ public class Editora implements Serializable, Entidade {
         boolean retorno = (this.nome != null && !this.nome.isEmpty());
         return retorno;
     }
+    
+    
+    // [ TOSTRING ] ============================================================
+    
     
     @Override
     public String toString() {
