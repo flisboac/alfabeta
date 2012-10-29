@@ -1,5 +1,5 @@
 .ui-widget,.ui-widget .ui-widget {
-    font-size: 86% !important;
+    font-size: 95% !important;
 }
 
 body {
@@ -7,9 +7,31 @@ body {
     background: url("#{resource['images:fundo-carbon.png']}") repeat;
 }
 
+div#wrapperbg {
+    
+    position: relative;
+    width: 720px;
+    margin: 0 auto;
+}
+
+div#bg {
+    
+    position: fixed;
+    height: 100%;
+    width: 720px;
+    margin: 0 auto;
+    
+    background-color: rgba(127, 255, 127, 0.1);
+    border-left: 1px solid rgba(0,0,0,0.4);
+    border-right: 1px solid rgba(0,0,0,0.4);
+}
+
 div#wrapper {
     
+/*    position: fixed;
+    overflow-y: auto;*/
     width: 100%;
+    height: 100%;
 }
 
 div#wrapperup {

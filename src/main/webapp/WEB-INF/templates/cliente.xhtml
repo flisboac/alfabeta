@@ -13,7 +13,12 @@
         <h:outputStylesheet library="css" name="efeitos.css" />
     </h:head>
     <h:body>
+            
         <div id="wrapper">
+            
+        <div id="wrapperbg">
+            <div id="bg" class="effect-shadow" />
+        </div>
             <div id="wrapperup" class="effect-bg-carbon effect-glass">
                 <div id="cabecalho">
                     <div id="cabecalho_logo">
@@ -28,29 +33,29 @@
                     <div id="cabecalho_login">
                         <h:form id="frmLogin">
                             <p>
-                                <p:commandLink value="Cadastre-se!" rendered="#{not clienteBean.usuarioLogado}" />
-                                <p:commandLink value="Usuário" rendered="#{clienteBean.usuarioLogado}" />
+                                <p:commandLink value="Cadastre-se!" rendered="#{not clienteBean.clienteLogado}" />
+                                <p:commandLink value="Usuário" rendered="#{clienteBean.clienteLogado}" />
                             </p>
                             <p>
                                 <p:commandButton id="btnLoginPanel"
                                                  value="Login"
                                                  icon="ui-icon-key"
-                                                 rendered="#{not clienteBean.usuarioLogado}" />
+                                                 rendered="#{not clienteBean.clienteLogado}" />
                                 <p:commandButton id="btnLogoff"
                                                  value="Logoff"
                                                  icon="ui-icon-key"
                                                  action="#{clienteBean.efetuarLogoff}"
-                                                 update="@form"
-                                                 rendered="#{clienteBean.usuarioLogado}" />
+                                                 update="@all"
+                                                 rendered="#{clienteBean.clienteLogado}" />
                                 <p:overlayPanel id="pnlLogin"
                                                 for="btnLoginPanel"
                                                 widgetVar="pnlLogin">
                                     <p:panelGrid columns="2">
                                         <h:outputLabel for="txtLogin" value="E-mail" />
-                                        <p:inputText id="txtLogin" />
+                                        <p:inputText id="txtLogin" value="#{clienteBean.loginCliente}" />
 
                                         <h:outputLabel for="txtSenha" value="Senha" />
-                                        <p:password id="txtSenha" />
+                                        <p:password id="txtSenha" value="#{clienteBean.senhaCliente}" />
 
                                         <f:facet name="footer">
                                             <center>
@@ -59,7 +64,8 @@
                                                                  icon="ui=icon-key"
                                                                  action="#{clienteBean.efetuarLogin}"
                                                                  onsuccess="pnlLogin.hide()"
-                                                                 update="@form" />
+                                                                 ajax="false"
+                                                                 update="@all" />
                                                 <p:commandButton id="btnCancelar"
                                                                  value="Cancelar"
                                                                  icon="ui-icon-cancel"
@@ -79,7 +85,7 @@
                 <div id="menu">
                     <h:form id="frmMenu">
                         <p:megaMenu id="mnuPrincipal">
-                            <p:menuitem value="Home" icon="ui-icon-home" action="/cliente" />
+                            <p:menuitem value="Home" icon="ui-icon-home" outcome="/cliente/index.xhtml" />
                         </p:megaMenu>
                     </h:form>
                 </div>
