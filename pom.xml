@@ -16,12 +16,7 @@
     </properties>
 
     <repositories>
-        <repository>  
-            <id>prime-repo</id>  
-            <name>PrimeFaces Maven Repository</name>  
-            <url>http://repository.primefaces.org</url>  
-            <layout>default</layout>  
-        </repository>
+        <!-- Substituindo o repositório deprecado do JBoss -->
         <repository>
             <id>maven-nuxeo</id>
             <name>Maven Nuxeo Repository</name>
@@ -41,9 +36,33 @@
             <name>Java.net Repository for Maven</name>  
             <url>http://download.java.net/maven/2</url>  
         </repository> 
+        <repository>  
+            <id>prime-repo</id>  
+            <name>PrimeFaces Maven Repository</name>  
+            <url>http://repository.primefaces.org</url>  
+            <layout>default</layout>  
+        </repository>
     </repositories>
     
     <dependencies>
+        <!-- LOGGING -->
+        <dependency>  
+            <groupId>org.slf4j</groupId>  
+            <artifactId>slf4j-api</artifactId>  
+            <version>1.6.4</version>  
+        </dependency>  
+        <dependency>  
+            <groupId>log4j</groupId>  
+            <artifactId>log4j</artifactId>  
+            <version>1.2.14</version>  
+        </dependency>  
+        <dependency>  
+            <groupId>org.slf4j</groupId>  
+            <artifactId>slf4j-log4j12</artifactId>  
+            <version>1.6.4</version>  
+        </dependency>
+        
+        <!-- PRIMEFACES -->
         <dependency>  
             <groupId>org.primefaces</groupId>  
             <artifactId>primefaces</artifactId>  
@@ -54,21 +73,19 @@
             <artifactId>south-street</artifactId>  
             <version>1.0.8</version>  
         </dependency>
-        <dependency>  
-            <groupId>com.sun.faces</groupId>  
-            <artifactId>jsf-api</artifactId>  
-            <version>2.0.0-b13</version>  
-            <scope>compile</scope>  
-        </dependency>
-        <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>2.1.7</version>
-        </dependency>
+        
+        <!-- JPA -->
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
             <version>1.0</version>
+        </dependency>
+        
+        <!-- POSTGRESQL / HIBERNATE -->
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901.jdbc4</version>
         </dependency>
         <dependency>  
             <groupId>org.hibernate.java-persistence</groupId>  
@@ -80,16 +97,35 @@
             <artifactId>hibernate-entitymanager</artifactId>  
             <version>3.5.0-Beta-2</version>  
         </dependency>
+        
+        <!-- JSF -->
+        <dependency>  
+            <groupId>com.sun.faces</groupId>  
+            <artifactId>jsf-api</artifactId>  
+            <version>2.1.7</version>  
+            <scope>compile</scope>  
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+        <dependency>  
+            <groupId>org.glassfish</groupId>  
+            <artifactId>javax.faces</artifactId>  
+            <version>2.1.7</version>  
+        </dependency> 
+        <dependency>  
+            <groupId>org.apache.tomcat</groupId>  
+            <artifactId>tomcat-servlet-api</artifactId>  
+            <version>7.0.26</version>  
+            <scope>provided</scope>  
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>6.0</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901.jdbc4</version>
         </dependency>
     </dependencies>
 
@@ -101,7 +137,13 @@
                 <version>2.0</version>
                 <configuration>
                     <siteDirectory>${basedir}/src/main/java</siteDirectory>          
-                </configuration>
+                </configuration> 
+                <inherited>true</inherited>  
+                <!--                <configuration>  
+                    <source>1.6</source>  
+                    <target>1.6</target>  
+                    <encoding>UTF-8</encoding>  
+                </configuration>  -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
