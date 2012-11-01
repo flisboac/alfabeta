@@ -4,8 +4,10 @@
  */
 package br.ugf.alfabeta.modelo.clientes;
 
+import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.funcionarios.Funcionario;
+import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * Representa um cliente que acessa o portal do cliente.
@@ -32,6 +37,7 @@ public class Cliente implements Serializable, Entidade {
     @Id
     @GeneratedValue
     @Column(name="id_cliente", nullable=false, unique=true)
+    @NotNull(message="ID deve ser fornecido.", groups=Identificacao.class)
     protected Long idCliente;
     
     /**
@@ -39,18 +45,24 @@ public class Cliente implements Serializable, Entidade {
      * O E-mail identifica unicamente o cliente.
      */
     @Column(name="email_cliente", length=30, nullable=false, unique=true)
+    @Size(min=1, max=30, message="E-mail excede os limites de tamanho.", groups=Identidade.class)
+    @NotNull(message="E-mail deve ser fornecido.", groups=Identidade.class)
+    @Pattern(regexp="\\w+@\\w+(\\.\\w+)*", message="Formato de e-mail inválido.", groups=Identidade.class)
     protected String email;
     
     /**
      * A senha do cliente, em texto puro.
      */
     @Column(name="senha_cliente", length=30)
+    @Size(min=0, max=30, message="Senha excede os limites de tamanho.", groups=Identidade.class)
     protected String senha;
     
     /**
      * O nome completo do cliente.
      */
     @Column(name="nome_cliente", length=30, nullable=false)
+    @NotNull(message="Nome deve ser fornecido.", groups=Identidade.class)
+    @Size(min=1, max=30, message="Nome excede os limites.", groups=Identidade.class)
     protected String nome;
     
     

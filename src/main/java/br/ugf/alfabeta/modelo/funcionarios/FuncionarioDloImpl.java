@@ -4,44 +4,32 @@
  */
 package br.ugf.alfabeta.modelo.funcionarios;
 
-import br.ugf.alfabeta.modelo.entidades.DloAbstrato;
-import br.ugf.alfabeta.modelo.entidades.Validador;
+import br.ugf.alfabeta.modelo.entidades.EntidadeDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
+import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 
 /**
  *
  * @author flavio
  */
-public class FuncionarioDloImpl extends DloAbstrato<Funcionario> implements FuncionarioDlo {
+public class FuncionarioDloImpl extends EntidadeDlo<Funcionario> implements FuncionarioDlo {
     
-    private Validador<Funcionario> validador = new ValidadorFuncionario();
-    private FuncionarioDao dao;
     
     public FuncionarioDloImpl() {
-        this.dao = new FuncionarioDaoImpl();
+        super(new FuncionarioDaoImpl());
     }
     
     public FuncionarioDloImpl(FuncionarioDao dao) {
-        this.dao = dao;
+        super(dao);
     }
     
     @Override
-    public FuncionarioDao getDao() {
-        return this.dao;
-    }
-
-    @Override
-    protected Validador<Funcionario> getValidador() {
-        return this.validador;
-    }
-
-    @Override
     public void inserir(Funcionario funcionario) throws ExcecaoDlo {
-        FuncionarioDao funcionarioDao = getDao();
+        FuncionarioDao funcionarioDao = (FuncionarioDao) getDao();
         
-        getValidador().validarParaPersistencia(funcionario);
+        validar(funcionario, Persistencia.class);
         try {
             funcionarioDao.inserir(funcionario);
             
@@ -51,12 +39,12 @@ public class FuncionarioDloImpl extends DloAbstrato<Funcionario> implements Func
     }
     
     @Override
-    public void alterar(Funcionario cliente) throws ExcecaoDlo {
-        FuncionarioDao funcionarioDao = getDao();
+    public void alterar(Funcionario funcionario) throws ExcecaoDlo {
+        FuncionarioDao funcionarioDao = (FuncionarioDao) getDao();
         
-        getValidador().validarParaPersistencia(cliente);
+        validar(funcionario, Persistencia.class);
         try {
-            funcionarioDao.alterar(cliente);
+            funcionarioDao.alterar(funcionario);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
@@ -64,15 +52,15 @@ public class FuncionarioDloImpl extends DloAbstrato<Funcionario> implements Func
     }
     
     @Override
-    public void persistir(Funcionario cliente) throws ExcecaoDlo {
-        FuncionarioDao funcionarioDao = getDao();
+    public void persistir(Funcionario funcionario) throws ExcecaoDlo {
+        FuncionarioDao funcionarioDao = (FuncionarioDao) getDao();
         
-        getValidador().validarParaPersistencia(cliente);
+        validar(funcionario, Persistencia.class);
         try {
-            if (existe(cliente)) {
-                funcionarioDao.alterar(cliente);
+            if (existe(funcionario)) {
+                funcionarioDao.alterar(funcionario);
             } else {
-                funcionarioDao.inserir(cliente);
+                funcionarioDao.inserir(funcionario);
             }
             
         } catch (ExcecaoDao ex) {

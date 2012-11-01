@@ -5,9 +5,12 @@
 package br.ugf.alfabeta.modelo.funcionarios;
 
 import br.ugf.alfabeta.modelo.clientes.Cliente;
+import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -18,6 +21,8 @@ import javax.persistence.Table;
 public class Funcionario extends Cliente {
     
     @Column(name="matr_funcionario", length=30, unique=true, nullable=false) 
+    @NotNull(message="Matrícula deve ser fornecida.", groups=Identidade.class)
+    @Size(min=1, max=30, message="Matrícula excede os limites de tamanho.", groups=Identidade.class)
     protected String matricula;
 
     

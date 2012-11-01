@@ -18,6 +18,7 @@ public interface Dlo<T extends Entidade> {
     boolean existe(T entidade) throws ExcecaoDlo;
     boolean existeId(Long id) throws ExcecaoDlo;
     List<T> listar() throws ExcecaoDlo;
+    void validar(T entidade, Class<?>... gruposValidacao) throws ExcecaoDlo;
     
     // Why type erasure?
     Class<T> getClasseEntidade();

@@ -4,44 +4,31 @@
  */
 package br.ugf.alfabeta.modelo.clientes;
 
-import br.ugf.alfabeta.modelo.entidades.DloAbstrato;
-import br.ugf.alfabeta.modelo.entidades.Validador;
+import br.ugf.alfabeta.modelo.entidades.EntidadeDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
+import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 
 /**
  *
  * @author Ana
  */
-public class ClienteDloImpl extends DloAbstrato<Cliente> implements ClienteDlo {
-    
-    private Validador<Cliente> validador = new ValidadorCliente();
-    private ClienteDao dao;
+public class ClienteDloImpl extends EntidadeDlo<Cliente> implements ClienteDlo {
     
     public ClienteDloImpl() {
-        this.dao = new ClienteDaoImpl();
+        super(new ClienteDaoImpl());
     }
     
     public ClienteDloImpl(ClienteDao dao) {
-        this.dao = dao;
-    }
-    
-    @Override
-    public ClienteDao getDao() {
-        return this.dao;
-    }
-    
-    @Override
-    protected Validador<Cliente> getValidador() {
-        return this.validador;
+        super(dao);
     }
     
     @Override
     public void inserir(Cliente cliente) throws ExcecaoDlo {
-        ClienteDao clienteDao = getDao();
+        ClienteDao clienteDao = (ClienteDao) getDao();
         
-        getValidador().validarParaPersistencia(cliente);
+        validar(cliente, Persistencia.class);
         try {
             clienteDao.inserir(cliente);
             
@@ -52,9 +39,9 @@ public class ClienteDloImpl extends DloAbstrato<Cliente> implements ClienteDlo {
     
     @Override
     public void alterar(Cliente cliente) throws ExcecaoDlo {
-        ClienteDao clienteDao = getDao();
+        ClienteDao clienteDao = (ClienteDao) getDao();
         
-        getValidador().validarParaPersistencia(cliente);
+        validar(cliente, Persistencia.class);
         try {
             clienteDao.alterar(cliente);
             
@@ -65,9 +52,9 @@ public class ClienteDloImpl extends DloAbstrato<Cliente> implements ClienteDlo {
     
     @Override
     public void persistir(Cliente cliente) throws ExcecaoDlo {
-        ClienteDao clienteDao = getDao();
+        ClienteDao clienteDao = (ClienteDao) getDao();
         
-        getValidador().validarParaPersistencia(cliente);
+        validar(cliente, Persistencia.class);
         try {
             if (existe(cliente)) {
                 clienteDao.alterar(cliente);

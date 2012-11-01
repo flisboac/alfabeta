@@ -4,19 +4,36 @@
  */
 package br.ugf.alfabeta.modelo.entidades;
 
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoCriticaDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
+import br.ugf.alfabeta.modelo.validacoes.Consulta;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  *
  * @author flavio
  */
-public abstract class DloAbstrato<T extends Entidade> implements Dlo<T> {
+public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
     
-    protected abstract Validador<T> getValidador();
-    protected abstract Dao<T> getDao();
+    protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    protected Dao<T> dao;
+    
+    public EntidadeDlo() {}
+    
+    public EntidadeDlo(Dao<T> dao) {
+        this.dao = dao;
+    }
+    
+    protected Dao<T> getDao() {
+        return this.dao;
+    }
     
     @Override
     public Class<T> getClasseEntidade() {
@@ -24,14 +41,35 @@ public abstract class DloAbstrato<T extends Entidade> implements Dlo<T> {
     }
     
     @Override
+    public void validar(T entidade, Class<?>... grupos) throws ExcecaoDlo {
+        
+        Validator validator = validatorFactory.getValidator();
+        Set erros = validator.validate(entidade, grupos);
+        
+        if (erros != null) {
+            if (erros.size() > 1) {
+                throw new ExcecaoCriticaDlo(erros, "Múltiplos erros de validação.");
+                
+            } else {
+                for (Object erro : erros) {
+                    ConstraintViolation<?> violation = (ConstraintViolation<?>) erro;
+                    throw new ExcecaoCriticaDlo(erros, violation.getMessage());
+                }
+            }
+        }
+    }
+    
+    @Override
     public T obter(Long id) throws ExcecaoDlo {
         T retorno = null;
-        Dao<T> dao = getDao();
+        Dao<T> entidadeDao = getDao();
         
-        getValidador().validarId(id);
+        if (id == null) {
+            throw new ExcecaoCriticaDlo("ID não pode ser nulo.");
+        }
         
         try {
-            retorno = dao.obter(id);
+            retorno = entidadeDao.obter(id);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
@@ -47,11 +85,12 @@ public abstract class DloAbstrato<T extends Entidade> implements Dlo<T> {
     @Override
     public boolean existe(T entidade) throws ExcecaoDlo {
         boolean retorno = false;
-        Dao<T> dao = getDao();
+        Dao<T> entidadeDao = getDao();
         
-        getValidador().validarParaConsulta(entidade);
+        validar(entidade, Consulta.class);
+        
         try {
-            retorno = dao.existe(entidade);
+            retorno = entidadeDao.existe(entidade);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
@@ -63,11 +102,14 @@ public abstract class DloAbstrato<T extends Entidade> implements Dlo<T> {
     @Override
     public boolean existeId(Long id) throws ExcecaoDlo {
         boolean retorno = false;
-        Dao<T> dao = getDao();
+        Dao<T> entidadeDao = getDao();
         
-        getValidador().validarId(id);
+        if (id == null) {
+            throw new ExcecaoCriticaDlo("ID não pode ser nulo.");
+        }
+        
         try {
-            retorno = dao.existeId(id);
+            retorno = entidadeDao.existeId(id);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
@@ -79,10 +121,10 @@ public abstract class DloAbstrato<T extends Entidade> implements Dlo<T> {
     @Override
     public List<T> listar() throws ExcecaoDlo {
         List<T> retorno = null;
-        Dao<T> dao = getDao();
+        Dao<T> entidadeDao = getDao();
         
         try {
-            retorno = dao.listar();
+            retorno = entidadeDao.listar();
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
