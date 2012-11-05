@@ -36,21 +36,11 @@ public class ClienteBean implements Serializable {
     public String efetuarLogin() {
         String outcome = "";
         
-        if (this.clienteLogado.isIdentidadeValida()) {
-            // Fazer a verificação da senha!
-            outcome = "/cliente";
-        }
-        
         return outcome;
     }
     
     public String efetuarLogoff() {
         String outcome = "";
-        
-        if (this.clienteLogado.isIdentidadeValida()) {
-            this.helper.efetuarLogoffCliente();
-            outcome = "/cliente";
-        }
         
         return outcome;
     }

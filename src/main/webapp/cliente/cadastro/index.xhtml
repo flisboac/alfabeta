@@ -14,7 +14,7 @@
         <p:breadCrumb>
             <p:menuitem value="Home" url="/" />
             <p:menuitem value="Cliente" url="/cliente/index.xhtml" />
-            <p:menuitem value="Cadastro" url="/cliente/cadastro/cadastro.xhtml" />
+            <p:menuitem value="Cadastro" url="/cliente/cadastro/index.xhtml" />
         </p:breadCrumb>
 
         <h:form id="frmCadastro">
@@ -25,13 +25,15 @@
                     <h:outputLabel for="txtNome" value="Nome" />
                     <p:inputText id="txtNome"
                                  required="true"
-                                 requiredMessage="Digite seu nome."/>
+                                 requiredMessage="Digite seu nome."
+                                 value="#{clienteCadastroBean.nomecliente}"/>
                     <p:message for="txtNome" />
 
                     <h:outputLabel for="txtEmail" value="E-mail" />
                     <p:inputText id="txtEmail"
                                  required="true"
                                  requiredMessage="Digite seu e-mail."
+                                 value="#{clienteCadastroBean.emailCliente}"
                                  validatorMessage="Formato de e-mail inválido.">
                         <f:validateRegex pattern="\w+@\w+(\.\w)+" />
                     </p:inputText>
@@ -39,7 +41,7 @@
                 </p:panelGrid>
 
                 <p:separator />
-                <p:commandButton value="Cadastrar" action=""/>
+                <p:commandButton value="Cadastrar" action="#{clienteCadastroBean.cadastrarCliente}"/>
                  
             </center>
         </h:form>

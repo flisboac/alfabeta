@@ -39,11 +39,4 @@ public class Debito implements Serializable, Entidade{
         return nf;
     }
     
-    @Override
-    public boolean isIdentidadeValida() {
-        boolean retorno = (this.nf != null && !this.nf.isEmpty());
-        return retorno;
-    }
-
-
 }

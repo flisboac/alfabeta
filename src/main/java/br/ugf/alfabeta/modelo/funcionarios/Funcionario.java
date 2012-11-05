@@ -65,14 +65,6 @@ public class Funcionario extends Cliente {
         return true;
     }
     
-    @Override
-    public boolean isIdentidadeValida() {
-        boolean retorno = (super.isIdentidadeValida())
-                && (this.matricula != null && !this.matricula.isEmpty());
-        return retorno;
-    }
-    
-    
     // [ TOSTRING ] ============================================================
 
     @Override

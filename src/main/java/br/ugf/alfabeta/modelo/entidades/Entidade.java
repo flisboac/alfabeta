@@ -11,5 +11,4 @@ package br.ugf.alfabeta.modelo.entidades;
 public interface Entidade {
     
     public Long getId();
-    public boolean isIdentidadeValida();
 }

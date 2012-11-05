@@ -3,6 +3,8 @@ package br.ugf.alfabeta.modelo.livros;
 
 import br.ugf.alfabeta.modelo.editoras.Editora;
 import br.ugf.alfabeta.modelo.entidades.Entidade;
+import br.ugf.alfabeta.modelo.validacoes.Identidade;
+import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -20,24 +24,29 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name="livro", uniqueConstraints= {
     @UniqueConstraint(columnNames={"id_livro"}), // ID
-    @UniqueConstraint(columnNames={"cod_livro"}) // Identidade
+    @UniqueConstraint(columnNames={"cod_livro", "id_editora"}) // Identidade
 })
 public class Livro implements Serializable, Entidade {
     
     @Id
     @GeneratedValue
     @Column(name="id_livro")
+    @NotNull(message="ID não pode ser nulo.", groups=Identificacao.class)
     private Long id; //quando vamos  usar um atributo para chave do BD e mapeamos com @generatedValue ele deve ser tipo Long.
     
-    @Column(name="cod_livro")
+    @Column(name="cod_livro", unique=true, nullable=false, length=30)
+    @NotNull(message="Nome não pode ser nulo.", groups=Identidade.class)
+    @Size(min=1, max=30, message="Tamanho do código excede os limites.", groups=Identidade.class)
     private String codigo;
     
-    @Column(name="nome_livro")
+    @Column(name="nome_livro", length=30)
+    @Size(min=1, max=30, message="Tamanho do nome excede os limites.", groups=Identidade.class)
     private String nome;
 
-    @Column(name="id_editora")
+    @Column(name="id_editora", nullable=false)
     @ManyToOne
     @JoinColumn(name="id_editora", referencedColumnName="id_editora")
+    @NotNull(message="Livro deve pertencer a uma editora.", groups=Identidade.class)
     private Editora editora;
     
     // [ GETTERS / SETTERS ] ===================================================
@@ -89,13 +98,6 @@ public class Livro implements Serializable, Entidade {
             return false;
         }
         return true;
-    }
-    
-    @Override
-    public boolean isIdentidadeValida() {
-        
-        boolean retorno = (this.codigo != null && !this.codigo.isEmpty());
-        return retorno;
     }
     
     // [ TOSTRING ] ============================================================

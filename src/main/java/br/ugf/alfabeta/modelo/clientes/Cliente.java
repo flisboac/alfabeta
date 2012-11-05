@@ -134,13 +134,6 @@ public class Cliente implements Serializable, Entidade {
         return true;
     }
     
-    @Override
-    public boolean isIdentidadeValida() {
-        
-        boolean retorno = (this.email != null && !this.email.isEmpty());
-        return retorno;
-    }
-    
     // [ TOSTRING / UTIL ] =====================================================
 
     @Override

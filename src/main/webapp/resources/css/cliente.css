@@ -19,14 +19,14 @@ body {
 
 div#wrapperbg {
     
-    position: relative;
+    position: absolute;
     width: 720px;
     margin: 0 auto;
 }
 
 div#bg {
     
-    position: fixed;
+    position: absolute;
     height: 100%;
     width: 720px;
     margin: 0 auto;

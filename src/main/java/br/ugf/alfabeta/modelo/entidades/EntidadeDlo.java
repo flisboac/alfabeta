@@ -9,6 +9,7 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
 import br.ugf.alfabeta.modelo.validacoes.Consulta;
+import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -75,9 +76,11 @@ public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
         }
         
-        if (retorno == null || retorno.getId() == null || !retorno.isIdentidadeValida()) {
+        if (retorno == null || retorno.getId() == null) {
             throw new ExcecaoPersistenciaDlo("Valor inválido retornado da camada de persistência.");
         }
+        
+        //validar(retorno, Persistencia.class);
         
         return retorno;
     }

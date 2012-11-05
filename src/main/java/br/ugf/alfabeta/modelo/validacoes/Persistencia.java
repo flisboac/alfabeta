@@ -8,6 +8,6 @@ package br.ugf.alfabeta.modelo.validacoes;
  *
  * @author flavio
  */
-public interface Persistencia extends Identidade {
+public interface Persistencia extends Identidade, Identificacao {
     
 }

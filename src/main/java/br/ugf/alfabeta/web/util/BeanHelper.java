@@ -32,7 +32,7 @@ public class BeanHelper {
     
     public void efetuarLoginCliente(Cliente cliente) {
         
-        if (cliente != null && cliente.isIdentidadeValida()) {
+        if (cliente != null) {
             getSessao().setAttribute("cliente", cliente);
         }
     }
@@ -55,7 +55,7 @@ public class BeanHelper {
     
     public void efetuarLoginFuncionario(Funcionario funcionario) {
         
-        if (funcionario != null && funcionario.isIdentidadeValida()) {
+        if (funcionario != null) {
             getSessao().setAttribute("funcionario", funcionario);
         }
     }

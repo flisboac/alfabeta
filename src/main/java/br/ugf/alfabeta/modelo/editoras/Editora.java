@@ -89,13 +89,6 @@ public class Editora implements Serializable, Entidade {
         return true;
     }
     
-    @Override
-    public boolean isIdentidadeValida() {
-        
-        boolean retorno = (this.nome != null && !this.nome.isEmpty());
-        return retorno;
-    }
-    
     
     // [ TOSTRING ] ============================================================
     
