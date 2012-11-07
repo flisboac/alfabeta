@@ -5,9 +5,11 @@
 package br.ugf.alfabeta.modelo.encomendas;
 
 import br.ugf.alfabeta.modelo.editoras.Editora;
+import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.funcionarios.Funcionario;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +36,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(columnNames={"id_encomenda"}),
     @UniqueConstraint(columnNames={"cod_encomenda"})
 })
-public class Encomenda {
+public class Encomenda implements Entidade, Serializable {
     
     @Id
     @GeneratedValue
@@ -75,7 +77,8 @@ public class Encomenda {
     @ManyToOne
     @JoinColumn(name="id_editora", referencedColumnName="id_editora", nullable=false)
     private Editora editora;
-
+    
+    @Override
     public Long getId() {
         return id;
     }

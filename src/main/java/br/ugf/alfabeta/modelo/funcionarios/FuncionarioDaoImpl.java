@@ -12,4 +12,7 @@ import br.ugf.alfabeta.modelo.entidades.JpaDao;
  */
 public class FuncionarioDaoImpl extends JpaDao<Funcionario> implements FuncionarioDao {
     
+    public FuncionarioDaoImpl() {
+        super(Funcionario.class);
+    }
 }
