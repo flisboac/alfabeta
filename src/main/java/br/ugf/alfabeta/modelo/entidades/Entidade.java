@@ -8,7 +8,7 @@ package br.ugf.alfabeta.modelo.entidades;
  *
  * @author Ana
  */
-public interface Entidade {
+public interface Entidade<T extends Entidade> {
     
     public Long getId();
 }

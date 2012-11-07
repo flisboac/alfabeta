@@ -5,6 +5,8 @@
 package br.ugf.alfabeta.modelo.editoras;
 
 import br.ugf.alfabeta.modelo.entidades.Entidade;
+import br.ugf.alfabeta.modelo.validacoes.Identidade;
+import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,32 +14,36 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Ana
  */
 @Entity
-@Table(name="editora", uniqueConstraints={
-    @UniqueConstraint(columnNames="id_editora"),
-    @UniqueConstraint(columnNames="nome_editora")
+@Table(name = "editora", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "id_editora"),
+    @UniqueConstraint(columnNames = "nome_editora")
 })
 public class Editora implements Serializable, Entidade {
-    
+
     @Id
     @GeneratedValue
-    @Column(name="id_editora")
+    @Column(name = "id_editora", nullable = false, unique = true)
+    @NotNull(message = "ID não pode ser nulo.", groups = Identificacao.class)
     private Long id;
     
-    @Column(name="nome_editora")
+    @Column(name = "nome_editora", nullable = false, unique = true, length = 30)
+    @NotNull(message = "Nome não pode ser nulo.", groups = Identidade.class)
+    @Size(min = 1, max = 30, message = "Nome excede os limites de tamanho.", groups = Identidade.class)
     private String nome;
     
-    @Column(name="end_editora")
+    @Column(name = "end_editora", length = 30)
+    @Size(min = 1, max = 30, message = "Endereço ultrapassa os limites de tamanho.", groups = Identidade.class)
     private String endereco;
 
-    
     // [ GETTERS / SETTERS ] ===================================================
-    
     @Override
     public Long getId() {
         return id;
@@ -62,11 +68,8 @@ public class Editora implements Serializable, Entidade {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-    
-    
+
     // [ EQUALS / HASHCODE ] =================================================
-    
-    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -88,19 +91,14 @@ public class Editora implements Serializable, Entidade {
         }
         return true;
     }
-    
-    
+
     // [ TOSTRING ] ============================================================
-    
-    
     @Override
     public String toString() {
-        return "Editora{" 
-                + "id=" + id 
-                + ", nome=" + nome 
-                + ", endereco=" + endereco 
+        return "Editora{"
+                + "id=" + id
+                + ", nome=" + nome
+                + ", endereco=" + endereco
                 + '}';
     }
-    
-    
 }

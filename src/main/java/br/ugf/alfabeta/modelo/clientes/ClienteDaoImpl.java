@@ -12,4 +12,7 @@ import br.ugf.alfabeta.modelo.entidades.JpaDao;
  */
 public class ClienteDaoImpl extends JpaDao<Cliente> implements ClienteDao {
     
+    public ClienteDaoImpl() {
+        super(Cliente.class);
+    }
 }

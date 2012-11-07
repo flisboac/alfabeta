@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ugf.alfabeta.modelo.funcionarios;
+package br.ugf.alfabeta.modelo.editoras;
 
 import br.ugf.alfabeta.modelo.entidades.DloPersistencia;
 
 /**
  *
- * @author flavio
+ * @author Ana
  */
-public interface FuncionarioDlo extends DloPersistencia<Funcionario> {
+public interface EditoraDlo extends DloPersistencia<Editora> {
     
 }

@@ -4,10 +4,10 @@
  */
 package br.ugf.alfabeta.modelo.clientes;
 
-import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.funcionarios.Funcionario;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
+import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
