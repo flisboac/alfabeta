@@ -5,8 +5,8 @@
 package br.ugf.alfabeta.web.beans;
 
 import br.ugf.alfabeta.modelo.clientes.Cliente;
+import br.ugf.alfabeta.web.util.BeanHelper;
 import java.io.Serializable;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -16,12 +16,12 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class ClienteCadastroBean implements Serializable {
+public class CadastroClienteBean implements Serializable {
     
-    
+    private transient BeanHelper helper = new BeanHelper();
     private String nomecliente;
     private String emailCliente;
-    private Cliente cadastraCliente = new Cliente();
+    private String senhaCliente;
     
     public String getNomecliente() {
         return nomecliente;
@@ -38,10 +38,28 @@ public class ClienteCadastroBean implements Serializable {
     public void setEmailCliente(String emailCliente) {
         this.emailCliente = emailCliente;
     }
-    
-    public void cadastrarCliente(){
-        
-                
+
+    public String getSenhaCliente() {
+        return senhaCliente;
+    }
+
+    public void setSenhaCliente(String senhaCliente) {
+        this.senhaCliente = senhaCliente;
     }
     
+    public String cadastrarCliente(){
+        
+        String outcome = "PortalCliente";
+        return outcome;
+    }
+    
+    public Cliente getClienteLogado() {
+        
+        return this.helper.getClienteLogado();
+    }
+    
+    public boolean isClienteLogado() {
+        
+        return this.helper.isClienteLogado();
+    }
 }

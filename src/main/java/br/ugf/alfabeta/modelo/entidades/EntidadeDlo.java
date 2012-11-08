@@ -9,7 +9,6 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
 import br.ugf.alfabeta.modelo.validacoes.Consulta;
-import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;

@@ -7,10 +7,10 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>#{tituloPagina}</title>
-        <ui:insert name="head" />
         <h:outputStylesheet library="css" name="reset.css" />
         <h:outputStylesheet library="css" name="cliente.css" />
         <h:outputStylesheet library="css" name="efeitos.css" />
+        <ui:insert name="head" />
     </h:head>
     <h:body>
             
@@ -34,36 +34,36 @@
                         <h:form id="frmLogin">
                             <p>
                                
-                                <p:commandLink value="Cadastre-se!"  rendered="#{not clienteBean.clienteLogado}" action="/cliente/cadastro/index" ajax="false" />
-                                <p:commandLink value="Usuário" rendered="#{clienteBean.clienteLogado}" />
+                                <p:commandLink value="Cadastre-se!" rendered="#{not loginClienteBean.clienteLogado}" action="/cliente/cadastro.xhtml" />
+                                <p:commandLink value="Usuário" rendered="#{loginClienteBean.clienteLogado}" />
                             </p>
                             <p>
                                 <p:commandButton id="btnLoginPanel"
                                                  value="Login"
                                                  icon="ui-icon-key"
-                                                 rendered="#{not clienteBean.clienteLogado}" />
+                                                 rendered="#{not loginClienteBean.clienteLogado}" />
                                 <p:commandButton id="btnLogoff"
                                                  value="Logoff"
                                                  icon="ui-icon-key"
-                                                 action="#{clienteBean.efetuarLogoff}"
+                                                 action="#{loginClienteBean.efetuarLogoff}"
                                                  update="@all"
-                                                 rendered="#{clienteBean.clienteLogado}" />
+                                                 rendered="#{loginClienteBean.clienteLogado}" />
                                 <p:overlayPanel id="pnlLogin"
                                                 for="btnLoginPanel"
                                                 widgetVar="pnlLogin">
                                     <p:panelGrid columns="2" styleClass="ui-panelgrid-noborder">
                                         <h:outputLabel for="txtLogin" value="E-mail" />
-                                        <p:inputText id="txtLogin" value="#{clienteBean.loginCliente}" />
+                                        <p:inputText id="txtLogin" value="#{loginClienteBean.emailCliente}" />
 
                                         <h:outputLabel for="txtSenha" value="Senha" />
-                                        <p:password id="txtSenha" value="#{clienteBean.senhaCliente}" />
+                                        <p:password id="txtSenha" value="#{loginClienteBean.senhaCliente}" />
 
                                         <f:facet name="footer">
                                             <center>
                                                 <p:commandButton id="btnLogin"
                                                                  value="Login"
                                                                  icon="ui=icon-key"
-                                                                 action="#{clienteBean.efetuarLogin}"
+                                                                 action="#{loginClienteBean.efetuarLogin}"
                                                                  onsuccess="pnlLogin.hide()"
                                                                  ajax="false"
                                                                  update="@all" />
