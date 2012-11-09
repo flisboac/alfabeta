@@ -8,11 +8,7 @@ import br.ugf.alfabeta.modelo.clientes.Cliente;
 import br.ugf.alfabeta.modelo.clientes.ClienteDlo;
 import br.ugf.alfabeta.modelo.clientes.ClienteDloImpl;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
-import br.ugf.alfabeta.modelo.validacoes.Persistencia;
-import br.ugf.alfabeta.web.util.BeanHelper;
-import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import br.ugf.alfabeta.web.entidades.CadastroBean;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,17 +19,17 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class CadastroClienteBean implements Serializable {
+public class CadastroClienteBean extends CadastroBean<Cliente> {
     
     private transient ClienteDlo clienteDlo = new ClienteDloImpl();
     
-    private BeanHelper helper = new BeanHelper();
     private Cliente cliente;
     
+    @Override
     @PostConstruct
     public void inicializar() {
         
-        this.cliente = new Cliente();
+        super.inicializar();
     }
     
     public Cliente getCliente() {
@@ -44,10 +40,6 @@ public class CadastroClienteBean implements Serializable {
         this.cliente = cliente;
     }
     
-    public BeanHelper getHelper() {
-        return helper;
-    }
-
     public String cadastrarCliente(){
         
         String outcome = "";
@@ -63,4 +55,7 @@ public class CadastroClienteBean implements Serializable {
         return outcome;
     }
     
+    @Override public ClienteDlo getDlo() { return this.clienteDlo; }
+    @Override public Cliente getEntidade() { return this.cliente; }
+    @Override public void setEntidade(Cliente cliente) { this.cliente = cliente; }
 }

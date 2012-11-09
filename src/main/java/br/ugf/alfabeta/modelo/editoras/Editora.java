@@ -93,6 +93,7 @@ public class Editora implements Serializable, Entidade {
     }
 
     // [ TOSTRING ] ============================================================
+    
     @Override
     public String toString() {
         return "Editora{"
@@ -100,5 +101,15 @@ public class Editora implements Serializable, Entidade {
                 + ", nome=" + nome
                 + ", endereco=" + endereco
                 + '}';
+    }
+    
+    @Override
+    public Editora clone() {
+        
+        Editora editora = new Editora();
+        editora.id = this.id;
+        editora.nome = this.nome;
+        editora.endereco = this.endereco;
+        return editora;
     }
 }

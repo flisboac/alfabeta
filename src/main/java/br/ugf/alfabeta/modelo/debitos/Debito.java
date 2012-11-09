@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(columnNames = {"id_debito"}),
     @UniqueConstraint(columnNames = {"id_pedido"})
 })
-public class Debito implements Serializable, Entidade {
+public class Debito implements Entidade {
 
     @Id
     @GeneratedValue
@@ -114,5 +114,15 @@ public class Debito implements Serializable, Entidade {
                 + '}';
     }
     
+    @Override
+    public Debito clone() {
+        
+        Debito debito = new Debito();
+        debito.id = this.id;
+        debito.pedido = this.pedido;
+        debito.valor = this.valor;
+        debito.codigoNf = this.codigoNf;
+        return debito;
+    }
     
 }

@@ -4,21 +4,18 @@
  */
 package br.ugf.alfabeta.web.beans;
 
-import br.ugf.alfabeta.modelo.clientes.Cliente;
-import br.ugf.alfabeta.web.util.BeanHelper;
-import java.io.Serializable;
+import br.ugf.alfabeta.web.util.Bean;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author ubuntu
  */
 @ManagedBean
-@SessionScoped
-public class LoginClienteBean implements Serializable {
+@ViewScoped
+public class LoginClienteBean extends Bean {
     
-    private transient BeanHelper helper = new BeanHelper();
     private String emailCliente;
     private String senhaCliente;
 
@@ -38,11 +35,6 @@ public class LoginClienteBean implements Serializable {
         this.senhaCliente = senhaCliente;
     }
     
-    public Cliente getClienteLogado() {
-        
-        return this.helper.getClienteLogado();
-    }
-    
     public String efetuarLogin() {
         
         String outcome = "PortalCliente";
@@ -53,10 +45,5 @@ public class LoginClienteBean implements Serializable {
         
         String outcome = "PortalCliente";
         return outcome;
-    }
-    
-    public boolean isClienteLogado() {
-        
-        return this.helper.isClienteLogado();
     }
 }

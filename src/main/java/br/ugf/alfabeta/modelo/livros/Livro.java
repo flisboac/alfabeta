@@ -32,7 +32,7 @@ public class Livro implements Serializable, Entidade {
     @GeneratedValue
     @Column(name="id_livro")
     @NotNull(message="ID não pode ser nulo.", groups=Identificacao.class)
-    private Long id; //quando vamos  usar um atributo para chave do BD e mapeamos com @generatedValue ele deve ser tipo Long.
+    private Long id;
     
     @Column(name="cod_livro", unique=true, nullable=false, length=30)
     @NotNull(message="Nome não pode ser nulo.", groups=Identidade.class)
@@ -43,9 +43,8 @@ public class Livro implements Serializable, Entidade {
     @Size(min=1, max=30, message="Tamanho do nome excede os limites.", groups=Identidade.class)
     private String nome;
 
-    @Column(name="id_editora", nullable=false)
     @ManyToOne
-    @JoinColumn(name="id_editora", referencedColumnName="id_editora")
+    @JoinColumn(name="id_editora", referencedColumnName="id_editora", nullable=false)
     @NotNull(message="Livro deve pertencer a uma editora.", groups=Identidade.class)
     private Editora editora;
     
@@ -109,6 +108,17 @@ public class Livro implements Serializable, Entidade {
                 + ", codigo=" + codigo 
                 + ", nome=" + nome 
                 + '}';
+    }
+    
+    @Override
+    public Livro clone() {
+        
+        Livro livro = new Livro();
+        livro.id = this.id;
+        livro.codigo = this.codigo;
+        livro.nome = this.nome;
+        livro.editora = this.editora;
+        return livro;
     }
     
 }

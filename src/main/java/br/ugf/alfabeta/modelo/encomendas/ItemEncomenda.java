@@ -2,13 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ugf.alfabeta.modelo.pedidos;
+package br.ugf.alfabeta.modelo.encomendas;
 
 import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.livros.Livro;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,36 +20,32 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Ana
+ * @author flavio
  */
 @Entity
-@Table(name="itempedido", uniqueConstraints= {
-    @UniqueConstraint(columnNames={"id_itempedido"}),
-    @UniqueConstraint(columnNames={"id_pedido", "id_livro"})
+@Table(name="itemencomenda", uniqueConstraints={
+    @UniqueConstraint(columnNames={"id_encomenda", "id_livro"})
 })
-public class ItemPedido implements Serializable, Entidade {
+public class ItemEncomenda implements Entidade {
     
     @Id
     @GeneratedValue
-    @Column(name="id_itempedido", nullable=false, unique=true)
+    @Column(name="id_itemencomenda", unique=true, nullable=false)
     @NotNull(message="ID não pode ser nulo.", groups=Identificacao.class)
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name="id_pedido", referencedColumnName="id_pedido", nullable=false)
-    @NotNull(message="Item de pedido deve pertencer a um pedido.", groups=Identidade.class)
-    private Pedido pedido;
+    @JoinColumn(name="id_encomenda", nullable=false, referencedColumnName="id_encomenda")
+    @NotNull(message="Item de encomenda deve pertencer a uma encomenda.", groups=Identidade.class)
+    private Encomenda encomenda;
     
     @ManyToOne
     @JoinColumn(name="id_livro", referencedColumnName="id_livro", nullable=false)
-    @NotNull(message="Item de pedido deve referenciar um livro.", groups=Identidade.class)
+    @NotNull(message="Item de encomenda deve referenciar um livro.", groups=Identidade.class)
     private Livro livro;
     
-    @Column(name="qtd_itempedido")
+    @Column(name="qtd_itemencomenda")
     private int quantidade;
-    
-    @Column(name="pendente_itempedido", nullable=false)
-    private boolean pendente;
 
     @Override
     public Long getId() {
@@ -61,12 +56,12 @@ public class ItemPedido implements Serializable, Entidade {
         this.id = id;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public Encomenda getEncomenda() {
+        return encomenda;
     }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    public void setEncomenda(Encomenda encomenda) {
+        this.encomenda = encomenda;
     }
 
     public Livro getLivro() {
@@ -85,19 +80,11 @@ public class ItemPedido implements Serializable, Entidade {
         this.quantidade = quantidade;
     }
 
-    public boolean isPendente() {
-        return pendente;
-    }
-
-    public void setPendente(boolean pendente) {
-        this.pendente = pendente;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + (this.pedido != null ? this.pedido.hashCode() : 0);
-        hash = 31 * hash + (this.livro != null ? this.livro.hashCode() : 0);
+        hash = 29 * hash + (this.encomenda != null ? this.encomenda.hashCode() : 0);
+        hash = 29 * hash + (this.livro != null ? this.livro.hashCode() : 0);
         return hash;
     }
 
@@ -109,8 +96,8 @@ public class ItemPedido implements Serializable, Entidade {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemPedido other = (ItemPedido) obj;
-        if (this.pedido != other.pedido && (this.pedido == null || !this.pedido.equals(other.pedido))) {
+        final ItemEncomenda other = (ItemEncomenda) obj;
+        if (this.encomenda != other.encomenda && (this.encomenda == null || !this.encomenda.equals(other.encomenda))) {
             return false;
         }
         if (this.livro != other.livro && (this.livro == null || !this.livro.equals(other.livro))) {
@@ -121,24 +108,23 @@ public class ItemPedido implements Serializable, Entidade {
 
     @Override
     public String toString() {
-        return "ItemPedido{" 
+        return "ItemEncomenda{" 
                 + "id=" + id 
-                + ", pedido=" + pedido 
+                + ", encomenda=" + encomenda 
                 + ", livro=" + livro 
                 + ", quantidade=" + quantidade 
-                + ", pendente=" + pendente 
                 + '}';
     }
     
     @Override
-    public ItemPedido clone() {
+    public ItemEncomenda clone() {
         
-        ItemPedido itemPedido = new ItemPedido();
-        itemPedido.id = this.id;
-        itemPedido.livro = this.livro;
-        itemPedido.pedido = this.pedido;
-        itemPedido.pendente = this.pendente;
-        itemPedido.quantidade = this.quantidade;
-        return itemPedido;
+        ItemEncomenda itemEncomenda = new ItemEncomenda();
+        itemEncomenda.id = this.id;
+        itemEncomenda.livro = this.livro;
+        itemEncomenda.encomenda = this.encomenda;
+        itemEncomenda.quantidade = this.quantidade;
+        return itemEncomenda;
     }
+    
 }

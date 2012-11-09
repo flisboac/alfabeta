@@ -16,6 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.GroupSequence;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -29,6 +32,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name="cliente")
 @Inheritance(strategy= InheritanceType.JOINED)
+@GroupSequence({Identidade.class, Cliente.class})
 public class Cliente implements Serializable, Entidade {
    
     /**
@@ -47,14 +51,14 @@ public class Cliente implements Serializable, Entidade {
     @Column(name="email_cliente", length=30, nullable=false, unique=true)
     @Size(min=1, max=30, message="E-mail excede os limites de tamanho.", groups=Identidade.class)
     @NotNull(message="E-mail deve ser fornecido.", groups=Identidade.class)
-    @Pattern(regexp="\\w+@\\w+(\\.\\w+)*", message="Formato de e-mail inválido.", groups=Identidade.class)
+    @Pattern(regexp="\\w+(\\.\\w+)*@\\w+(\\.\\w+)*", message="Formato de e-mail inválido.", groups=Identidade.class)
     protected String email;
     
     /**
      * A senha do cliente, em texto puro.
      */
     @Column(name="senha_cliente", length=30)
-    @Size(min=0, max=30, message="Senha excede os limites de tamanho.", groups=Identidade.class)
+    @Size(min=3, max=30, message="Senha deve ter entre 3 a 30 caracteres.", groups=Identidade.class)
     protected String senha;
     
     /**
@@ -144,6 +148,17 @@ public class Cliente implements Serializable, Entidade {
                 + ", senha=" + senha 
                 + ", nome=" + nome 
                 + '}';
+    }
+    
+    @Override
+    public Cliente clone() {
+        
+        Cliente cliente = null;
+        cliente.idCliente = this.idCliente;
+        cliente.email = this.email;
+        cliente.nome = this.nome;
+        cliente.senha = this.senha;
+        return cliente;
     }
     
 }

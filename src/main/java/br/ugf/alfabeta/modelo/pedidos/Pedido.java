@@ -53,7 +53,7 @@ public class Pedido implements Serializable, Entidade {
     private Date dataHoraCriacao = new Date();
     
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "dtcriacao_pedido")
+    @Column(name = "dtcancelamento_pedido")
     @Future(message="Cancelamento do pedido deve ocorrer em uma data futura.", groups=Identidade.class)
     private Date dataHoraCancelamento;
     
@@ -149,5 +149,17 @@ public class Pedido implements Serializable, Entidade {
                 + '}';
     }
     
+    @Override
+    public Pedido clone() {
+        
+        Pedido pedido = new Pedido();
+        pedido.id = this.id;
+        pedido.codigo = this.codigo;
+        pedido.clienteCriador = this.clienteCriador;
+        pedido.clienteCancelador = this.clienteCancelador;
+        pedido.dataHoraCriacao = this.dataHoraCriacao;
+        pedido.dataHoraCancelamento = this.dataHoraCancelamento;
+        return pedido;
+    }
     
 }

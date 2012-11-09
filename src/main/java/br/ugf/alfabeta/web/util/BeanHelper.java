@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
  */
 public class BeanHelper implements Serializable {
     
-    
     public HttpSession getSessao() {
         
         HttpSession sessao = (HttpSession) FacesContext.getCurrentInstance()

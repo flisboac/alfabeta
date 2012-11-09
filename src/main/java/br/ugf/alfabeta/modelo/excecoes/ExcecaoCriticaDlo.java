@@ -4,6 +4,8 @@
  */
 package br.ugf.alfabeta.modelo.excecoes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 
@@ -26,6 +28,22 @@ public class ExcecaoCriticaDlo extends ExcecaoDlo {
 
     public Set<ConstraintViolation<?>> getViolacoes() {
         return violacoes;
+    }
+    
+    public boolean isMultiplo() {
+        
+        return violacoes != null && violacoes.size() > 1;
+    }
+    
+    public List<String> getMensagensViolacao() {
+        
+        List<String> erros = new ArrayList<String>();
+        
+        for (ConstraintViolation<?> violacao : violacoes) {
+            erros.add(violacao.getMessage());
+        }
+        
+        return erros;
     }
     
 }

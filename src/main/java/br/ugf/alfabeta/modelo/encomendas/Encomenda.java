@@ -56,7 +56,7 @@ public class Encomenda implements Entidade, Serializable {
     private Date dataHoraCriacao = new Date();
     
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "dtcriacao_encomenda")
+    @Column(name = "dtfinalizacao_encomenda")
     @Future(message="Cancelamento da encomenda deve ocorrer em uma data futura.", groups=Identidade.class)
     private Date dataHoraFinalizacao;
     
@@ -177,5 +177,20 @@ public class Encomenda implements Entidade, Serializable {
                 + ", funcionarioFinalizador=" + funcionarioFinalizador 
                 + ", editora=" + editora 
                 + '}';
+    }
+    
+    @Override
+    public Encomenda clone() {
+        
+        Encomenda encomenda = new Encomenda();
+        encomenda.id = this.id;
+        encomenda.codigo = this.codigo;
+        encomenda.dataHoraCriacao = this.dataHoraCriacao;
+        encomenda.dataHoraFinalizacao = this.dataHoraFinalizacao;
+        encomenda.editora = this.editora;
+        encomenda.estado = this.estado;
+        encomenda.funcionarioCriador = this.funcionarioCriador;
+        encomenda.funcionarioFinalizador = this.funcionarioFinalizador;
+        return encomenda;
     }
 }

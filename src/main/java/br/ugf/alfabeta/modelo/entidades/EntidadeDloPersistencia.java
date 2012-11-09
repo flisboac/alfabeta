@@ -8,6 +8,8 @@ package br.ugf.alfabeta.modelo.entidades;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
+import br.ugf.alfabeta.modelo.validacoes.Identidade;
+import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 
 /**
@@ -25,7 +27,7 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
     public void inserir(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = (Dao<T>) getDao();
         
-        validar(entidade, Persistencia.class);
+        validar(entidade, Identidade.class);
         try {
             entidadeDao.inserir(entidade);
             
@@ -68,7 +70,7 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
     public void excluir(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = (Dao<T>) getDao();
         
-        validar(entidade, Persistencia.class);
+        validar(entidade, Identificacao.class);
         try {
             entidadeDao.excluir(entidade);
             

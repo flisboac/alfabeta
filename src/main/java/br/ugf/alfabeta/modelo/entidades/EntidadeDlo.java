@@ -48,7 +48,44 @@ public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
         
         if (erros != null) {
             if (erros.size() > 1) {
-                throw new ExcecaoCriticaDlo(erros, "Múltiplos erros de validação.");
+                String mensagem = "";
+                String sep = "";
+                
+                for (Object erro : erros) {
+                    ConstraintViolation<?> violation = (ConstraintViolation<?>) erro;
+                    mensagem += sep + violation.getMessage();
+                    sep = "<br />";
+                }
+                
+                throw new ExcecaoCriticaDlo(erros, mensagem);
+                
+            } else {
+                for (Object erro : erros) {
+                    ConstraintViolation<?> violation = (ConstraintViolation<?>) erro;
+                    throw new ExcecaoCriticaDlo(erros, violation.getMessage());
+                }
+            }
+        }
+    }
+    
+    @Override
+    public void validarCampo(T entidade, String campo, Class<?>... grupos) throws ExcecaoDlo {
+        
+        Validator validator = validatorFactory.getValidator();
+        Set erros = validator.validateProperty(entidade, campo, grupos);
+        
+        if (erros != null) {
+            if (erros.size() > 1) {
+                String mensagem = "";
+                String sep = "";
+                
+                for (Object erro : erros) {
+                    ConstraintViolation<?> violation = (ConstraintViolation<?>) erro;
+                    mensagem += sep + violation.getMessage();
+                    sep = "<br />";
+                }
+                
+                throw new ExcecaoCriticaDlo(erros, mensagem);
                 
             } else {
                 for (Object erro : erros) {
