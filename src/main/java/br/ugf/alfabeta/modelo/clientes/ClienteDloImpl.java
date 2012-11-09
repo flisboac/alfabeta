@@ -4,7 +4,6 @@
  */
 package br.ugf.alfabeta.modelo.clientes;
 
-import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 
@@ -22,8 +21,15 @@ public class ClienteDloImpl extends EntidadeDloPersistencia<Cliente> implements 
         super(dao);
     }
     
-    public void incluir(Cliente cliente) throws ExcecaoDlo {
+    @Override
+    public void inserir(Cliente cliente) throws ExcecaoDlo {
         
-        super.incluir(cliente);
+        super.inserir(cliente);
+    }
+    
+    public static void main(String[] args) {
+        
+        ClienteDlo clienteDlo = new ClienteDloImpl();
+        System.out.println("BonSuccess!");
     }
 }

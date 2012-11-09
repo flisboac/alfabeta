@@ -5,61 +5,62 @@
 package br.ugf.alfabeta.web.beans;
 
 import br.ugf.alfabeta.modelo.clientes.Cliente;
+import br.ugf.alfabeta.modelo.clientes.ClienteDlo;
+import br.ugf.alfabeta.modelo.clientes.ClienteDloImpl;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
+import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 import br.ugf.alfabeta.web.util.BeanHelper;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author Ana
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class CadastroClienteBean implements Serializable {
     
-    private transient BeanHelper helper = new BeanHelper();
-    private String nomecliente;
-    private String emailCliente;
-    private String senhaCliente;
+    private transient ClienteDlo clienteDlo = new ClienteDloImpl();
     
-    public String getNomecliente() {
-        return nomecliente;
-    }
-
-    public void setNomecliente(String nomecliente) {
-        this.nomecliente = nomecliente;
-    }
-
-    public String getEmailCliente() {
-        return emailCliente;
-    }
-
-    public void setEmailCliente(String emailCliente) {
-        this.emailCliente = emailCliente;
-    }
-
-    public String getSenhaCliente() {
-        return senhaCliente;
-    }
-
-    public void setSenhaCliente(String senhaCliente) {
-        this.senhaCliente = senhaCliente;
+    private BeanHelper helper = new BeanHelper();
+    private Cliente cliente;
+    
+    @PostConstruct
+    public void inicializar() {
+        
+        this.cliente = new Cliente();
     }
     
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
+    public BeanHelper getHelper() {
+        return helper;
+    }
+
     public String cadastrarCliente(){
         
-        String outcome = "PortalCliente";
+        String outcome = "";
+        
+        try {
+            this.clienteDlo.inserir(cliente);
+            
+        } catch (ExcecaoDlo ex) {
+            
+            this.helper.erro(ex.getMessage());
+        }
+        
         return outcome;
     }
     
-    public Cliente getClienteLogado() {
-        
-        return this.helper.getClienteLogado();
-    }
-    
-    public boolean isClienteLogado() {
-        
-        return this.helper.isClienteLogado();
-    }
 }

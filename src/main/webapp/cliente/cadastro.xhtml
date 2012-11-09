@@ -20,9 +20,54 @@
         <h:form id="frmCadastro">
             <center>
                 <p:separator />
-                <p:panelGrid columns="3">
+                <p:messages />
+                
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
+
+                    <h:outputLabel for="txtEmail" value="E-mail" />
+                    <p:inputText id="txtEmail"
+                                 value="#{cadastroClienteBean.cliente.email}"
+                                 required="true"
+                                 requiredMessage="Digite seu e-mail."
+                                 validatorMessage="Formato de e-mail inválido."
+                                 maxlength="30"
+                                 >
+                        <p:ajax event="blur" update="@this msgTxtEmail btnCadastrar" />
+                        <f:validateRequired for="txtEmail" />
+                        <f:validateRegex for="txtEmail" pattern="\w+@\w+(\.\w+)+" />
+                        <f:validateLength for="txtEmail" minimum="1" />
+                    </p:inputText>
+                    <p:message id="msgTxtEmail" for="txtEmail" />
+
+                    <h:outputLabel for="txtNome" value="Nome" />
+                    <p:inputText id="txtNome"
+                                 value="#{cadastroClienteBean.cliente.nome}"
+                                 required="true"
+                                 requiredMessage="Digite seu nome."
+                                 maxlength="30"
+                                 >
+                        <p:ajax event="blur" update="@this msgTxtNome btnCadastrar" />
+                    </p:inputText>
+                    <p:message id="msgTxtNome" for="txtNome" />
                     
-                    <p:messages />
+                    <h:outputLabel for="txtSenha" value="Senha" />
+                    <p:password id="txtSenha"
+                                value="#{cadastroClienteBean.cliente.senha}"
+                                required="true"
+                                requiredMessage="Digite sua senha."
+                                feedback="true"
+                                promptLabel="Digite sua senha"
+                                goodLabel="Boa senha"
+                                strongLabel="Senha forte"
+                                weakLabel="Senha fraca"
+                                validatorMessage="Senha deve possuir no mínimo 3 caracteres."
+                                inline="true"
+                                maxlength="30"
+                                >
+                        <p:ajax event="blur" update="msgTxtSenha btnCadastrar" />
+                        <f:validateLength minimum="3" />
+                    </p:password>
+                    <p:message id="msgTxtSenha" for="txtSenha" />
                     
                 </p:panelGrid>
 
@@ -31,8 +76,9 @@
                                  value="Cadastrar"
                                  global="true"
                                  update="@all"
+                                 disabled="#{not facesContext.postback or facesContext.validationFailed}"
                                  action="#{cadastroClienteBean.cadastrarCliente}"/>
-                
+
                 <p:commandButton id="btnLimpar"
                                  value="Limpar Campos"
                                  type="reset" />

@@ -6,6 +6,9 @@ package br.ugf.alfabeta.web.util;
 
 import br.ugf.alfabeta.modelo.clientes.Cliente;
 import br.ugf.alfabeta.modelo.funcionarios.Funcionario;
+import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Ana
  */
-public class BeanHelper {
+public class BeanHelper implements Serializable {
     
     
     public HttpSession getSessao() {
@@ -68,5 +71,56 @@ public class BeanHelper {
     public boolean isFuncionarioLogado() {
         
         return getFuncionarioLogado() != null;
+    }
+    
+    public void mensagem(Severity severidade, String idComponente, String titulo, String mensagem) {
+        
+        FacesMessage message = new FacesMessage(severidade, mensagem, titulo);
+        FacesContext.getCurrentInstance().addMessage(idComponente, message);
+    }
+    
+    public void ok(String idComponente, String titulo, String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_INFO, idComponente, titulo, mensagem);
+    }
+    
+    public void ok(String titulo, String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_INFO, null, titulo, mensagem);
+    }
+    
+    public void ok(String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_INFO, null, "OK!", mensagem);
+    }
+    
+    public void warn(String idComponente, String titulo, String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_WARN, idComponente, titulo, mensagem);
+    }
+    
+    public void warn(String titulo, String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_WARN, null, titulo, mensagem);
+    }
+    
+    public void warn(String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_WARN, null, "OK!", mensagem);
+    }
+    
+    public void erro(String idComponente, String titulo, String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_ERROR, idComponente, titulo, mensagem);
+    }
+    
+    public void erro(String titulo, String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_ERROR, null, titulo, mensagem);
+    }
+    
+    public void erro(String mensagem) {
+        
+        mensagem(FacesMessage.SEVERITY_ERROR, null, "OK!", mensagem);
     }
 }

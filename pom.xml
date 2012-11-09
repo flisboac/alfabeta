@@ -91,11 +91,6 @@
             <groupId>org.hibernate.java-persistence</groupId>  
             <artifactId>jpa-api</artifactId>  
             <version>2.0-cr-1</version>  
-        </dependency>  
-        <dependency>  
-            <groupId>org.hibernate</groupId>  
-            <artifactId>hibernate-entitymanager</artifactId>  
-            <version>3.5.0-Beta-2</version>  
         </dependency>
         
         <!-- JSF -->
@@ -120,6 +115,12 @@
             <artifactId>tomcat-servlet-api</artifactId>  
             <version>7.0.26</version>  
             <scope>provided</scope>  
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

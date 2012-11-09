@@ -6,6 +6,7 @@ package br.ugf.alfabeta.web.beans;
 
 import br.ugf.alfabeta.modelo.clientes.Cliente;
 import br.ugf.alfabeta.web.util.BeanHelper;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -15,7 +16,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class LoginClienteBean {
+public class LoginClienteBean implements Serializable {
     
     private transient BeanHelper helper = new BeanHelper();
     private String emailCliente;
