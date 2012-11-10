@@ -34,36 +34,36 @@
                         <h:form id="frmLogin">
                             <p>
                                
-                                <h:outputLink rendered="#{not loginClienteBean.clienteLogado}" value="#{request.contextPath}/cliente/cadastro.xhtml">Cadastre-se!</h:outputLink>
-                                <p:commandLink value="Usuário" rendered="#{loginClienteBean.clienteLogado}" />
+                                <h:outputLink rendered="#{not clienteBean.clienteLogado}" value="#{request.contextPath}/cliente/cadastro.xhtml">Cadastre-se!</h:outputLink>
+                                <p:commandLink value="Usuário" rendered="#{clienteBean.clienteLogado}" />
                             </p>
                             <p>
                                 <p:commandButton id="btnLoginPanel"
                                                  value="Login"
                                                  icon="ui-icon-key"
-                                                 rendered="#{not loginClienteBean.clienteLogado}" />
+                                                 rendered="#{not clienteBean.clienteLogado}" />
                                 <p:commandButton id="btnLogoff"
                                                  value="Logoff"
                                                  icon="ui-icon-key"
-                                                 action="#{loginClienteBean.efetuarLogoff}"
+                                                 action="#{clienteBean.efetuarLogoff}"
                                                  update="@all"
-                                                 rendered="#{loginClienteBean.clienteLogado}" />
+                                                 rendered="#{clienteBean.clienteLogado}" />
                                 <p:overlayPanel id="pnlLogin"
                                                 for="btnLoginPanel"
                                                 widgetVar="pnlLogin">
                                     <p:panelGrid columns="2" styleClass="ui-panelgrid-noborder">
                                         <h:outputLabel for="txtLogin" value="E-mail" />
-                                        <p:inputText id="txtLogin" value="#{loginClienteBean.emailCliente}" />
+                                        <p:inputText id="txtLogin" value="#{clienteBean.cliente.email}" />
 
                                         <h:outputLabel for="txtSenha" value="Senha" />
-                                        <p:password id="txtSenha" value="#{loginClienteBean.senhaCliente}" />
+                                        <p:password id="txtSenha" value="#{clienteBean.cliente.senha}" />
 
                                         <f:facet name="footer">
                                             <center>
                                                 <p:commandButton id="btnLogin"
                                                                  value="Login"
                                                                  icon="ui=icon-key"
-                                                                 action="#{loginClienteBean.efetuarLogin}"
+                                                                 action="#{clienteBean.efetuarLogin}"
                                                                  onsuccess="pnlLogin.hide()"
                                                                  ajax="false"
                                                                  update="@all" />

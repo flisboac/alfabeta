@@ -35,5 +35,8 @@ public class Bean implements Serializable {
         
         return this.helper.getFuncionarioLogado();
     }
-            
+    
+    protected BeanHelper getHelper() {
+        return this.helper;
+    }
 }

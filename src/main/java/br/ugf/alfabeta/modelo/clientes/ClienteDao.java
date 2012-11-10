@@ -5,6 +5,7 @@
 package br.ugf.alfabeta.modelo.clientes;
 
 import br.ugf.alfabeta.modelo.entidades.Dao;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 
 /**
  *
@@ -12,4 +13,5 @@ import br.ugf.alfabeta.modelo.entidades.Dao;
  */
 public interface ClienteDao extends Dao<Cliente> {
     
+    public Cliente obterPorEmail(String email) throws ExcecaoDao;
 }

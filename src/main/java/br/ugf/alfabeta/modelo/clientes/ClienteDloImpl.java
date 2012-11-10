@@ -5,7 +5,12 @@
 package br.ugf.alfabeta.modelo.clientes;
 
 import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoCriticaDlo;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,9 +32,23 @@ public class ClienteDloImpl extends EntidadeDloPersistencia<Cliente> implements 
         super.inserir(cliente);
     }
     
-    public static void main(String[] args) {
+    @Override
+    public Cliente obterPorEmail(String email) throws ExcecaoDlo {
         
-        ClienteDlo clienteDlo = new ClienteDloImpl();
-        System.out.println("BonSuccess!");
+        if (email == null || email.isEmpty()) {
+            throw new ExcecaoCriticaDlo("E-mail não pode ser nulo ou vazio.");
+        }
+        
+        ClienteDao dao = (ClienteDao)getDao();
+        Cliente retorno = null;
+        try {
+            retorno = dao.obterPorEmail(email);
+            
+        } catch (ExcecaoDao ex) {
+            throw new ExcecaoPersistenciaDlo(
+                    "Erro ao carregar cliente com e-mail '" + email + "'.", ex);
+        }
+        
+        return retorno;
     }
 }
