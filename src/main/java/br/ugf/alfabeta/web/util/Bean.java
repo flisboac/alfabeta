@@ -21,7 +21,7 @@ public class Bean implements Serializable {
         return this.helper.isClienteLogado();
     }
     
-    public Cliente getClienteLogado() {
+    public Cliente getClienteLogadoAtual() {
         
         return this.helper.getClienteLogado();
     }
@@ -31,7 +31,7 @@ public class Bean implements Serializable {
         return this.helper.isFuncionarioLogado();
     }
     
-    public Funcionario getFuncionarioLogado() {
+    public Funcionario getFuncionarioLogadoAtual() {
         
         return this.helper.getFuncionarioLogado();
     }

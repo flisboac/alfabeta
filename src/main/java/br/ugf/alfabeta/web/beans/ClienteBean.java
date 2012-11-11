@@ -10,14 +10,14 @@ import br.ugf.alfabeta.modelo.clientes.ClienteDloImpl;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.web.util.Bean;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author ubuntu
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ClienteBean extends Bean {
     
     private transient ClienteDlo clienteDlo = new ClienteDloImpl();
@@ -76,6 +76,7 @@ public class ClienteBean extends Bean {
         if (getHelper().isClienteLogado()) {
             getHelper().efetuarLogoffCliente();
             outcome = "/cliente/index.xhtml";
+            getHelper().ok("Logoff efetuado com sucesso.");
         }
         
         return outcome;

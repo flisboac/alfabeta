@@ -74,7 +74,7 @@ public class BeanHelper implements Serializable {
     
     public void mensagem(Severity severidade, String idComponente, String titulo, String mensagem) {
         
-        FacesMessage message = new FacesMessage(severidade, mensagem, titulo);
+        FacesMessage message = new FacesMessage(severidade, titulo, mensagem);
         FacesContext.getCurrentInstance().addMessage(idComponente, message);
     }
     

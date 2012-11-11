@@ -35,7 +35,7 @@
                             <p>
                                
                                 <h:outputLink rendered="#{not clienteBean.clienteLogado}" value="#{request.contextPath}/cliente/cadastro.xhtml">Cadastre-se!</h:outputLink>
-                                <p:commandLink value="Usuário" rendered="#{clienteBean.clienteLogado}" />
+                                <p:commandLink value="Perfil" rendered="#{clienteBean.clienteLogado}" />
                             </p>
                             <p>
                                 <p:commandButton id="btnLoginPanel"
@@ -52,6 +52,11 @@
                                                 for="btnLoginPanel"
                                                 widgetVar="pnlLogin">
                                     <p:panelGrid columns="2" styleClass="ui-panelgrid-noborder">
+                                        
+                                        <f:facet name="header">
+                                            <p:messages autoUpdate="true" />
+                                        </f:facet>
+                                        
                                         <h:outputLabel for="txtLogin" value="E-mail" />
                                         <p:inputText id="txtLogin" value="#{clienteBean.cliente.email}" />
 
@@ -91,6 +96,9 @@
                     </h:form>
                 </div>
                 <div id="corpo">
+                    <h:form id="frmMensagens" rendered="#{mensagensGlobais}">
+                        <p:growl autoUpdate="true" globalOnly="true" showDetail="true" />
+                    </h:form>
                     <ui:insert name="corpo" />
                 </div>
             </div>

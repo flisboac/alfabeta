@@ -23,11 +23,14 @@ public class ClienteDaoImpl extends JpaDao<Cliente> implements ClienteDao {
     public Cliente obterPorEmail(String email) throws ExcecaoDao {
         Cliente retorno = null;
         EntityManager manager = helper.getEntityManager();
+        String jql = "select x"
+                + " from " + Cliente.class.getName() + " x"
+                + " where x.email = :email";
         
         try {
-            String jql = "from " + Cliente.class.getName() + " where email = " + email;
             manager.getTransaction().begin();
             TypedQuery<Cliente> query = manager.createQuery(jql, Cliente.class);
+            query.setParameter("email", email);
             retorno = query.getSingleResult();
             manager.getTransaction().commit();
             
