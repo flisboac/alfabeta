@@ -46,10 +46,12 @@ public class CadastroClienteBean extends CadastroBean<Cliente> {
         
         try {
             this.clienteDlo.inserir(cliente);
+            getHelper().ok("Cliente cadastrado com sucesso!");
+            outcome = "/cliente/index.xhtml";
             
         } catch (ExcecaoDlo ex) {
             
-            this.helper.erro(ex.getMessage());
+            getHelper().erro(ex.getMessage());
         }
         
         return outcome;
