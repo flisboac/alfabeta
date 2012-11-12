@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>#{tituloPagina}</title>
+        <h:outputStylesheet library="css" name="reset.css" />
+        <h:outputStylesheet library="css" name="principal.css" />
+        <h:outputStylesheet library="css" name="admin.css" />
+        <h:outputStylesheet library="css" name="efeitos.css" />
+        <ui:insert name="head" />
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <div id="wrapper-corpo">
+                <div id="wrapper-corpo-conteudo">
+                    <div id="cabecalho" class="effect-lowradius-10">
+                        <ui:insert name="cabecalho" />
+                    </div>
+                    
+                    <div id="corpo" class="effect-radius-10">
+                        <h:form id="frmMensagens" rendered="#{mensagensGlobais}">
+                            <p:growl autoUpdate="true" globalOnly="true" showDetail="true" />
+                        </h:form>
+                        <ui:insert name="corpo" />
+                    </div>
+                </div>
+            </div>
+            
+            <div id="wrapper-lateral" class="effect-shadow">
+                <div id="banner" class="itemmenulateral effect-glass effect-radius-10 effect-textshadow-10">
+                    <div id="banner-logo">
+                        <h3>Livraria</h3>
+                        <h1>Alfabeta</h1>
+                    </div>
+                </div>
+                
+                <div id="login" class="itemmenulateral">
+                    <h:form id="frmLogin">
+                        <p>Olá, Usuário</p>
+                        <p>
+                            <p:commandButton value="Logoff" icon="ui-icon-logoff" style="width: 100%"/>
+                        </p>
+                    </h:form>
+                </div>
+                
+                <div id="menu" class="itemmenulateral">
+                    <h:form id="frmMenu">
+                        <center>
+                            <p:tieredMenu autoDisplay="true" >
+                                <f:facet name="header">
+                                    Teste
+                                </f:facet>
+                                <p:submenu label="Teste 1">
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                </p:submenu>
+                                <p:submenu label="Teste 2">
+                                    <p:submenu label="Teste 2-1">
+                                        <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                        <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                        <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                    </p:submenu>
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                </p:submenu>
+                                <p:submenu label="Teste 3">
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
+                                </p:submenu>
+                            </p:tieredMenu>
+                        </center>
+                    </h:form>
+                </div>
+                
+                <div id="rodape" class="itemmenulateral">
+                    <p>&copy; 2012 UGF, INFSLQ</p>
+                </div>
+            </div>
+        </div>
+        <ui:insert name="extra" />
+    </h:body>
+</html>
+

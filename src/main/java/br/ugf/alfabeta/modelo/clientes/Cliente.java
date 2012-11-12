@@ -16,9 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -30,7 +29,10 @@ import javax.validation.constraints.Size;
  * @author Ana
  */
 @Entity
-@Table(name="cliente")
+@Table(name="cliente", uniqueConstraints={
+    @UniqueConstraint(name="cliente_pk", columnNames={"id_cliente"}),
+    @UniqueConstraint(name="cliente_uq", columnNames={"email_cliente"})
+})
 @Inheritance(strategy= InheritanceType.JOINED)
 @GroupSequence({Identidade.class, Cliente.class})
 public class Cliente implements Serializable, Entidade {

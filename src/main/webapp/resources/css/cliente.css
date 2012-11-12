@@ -1,16 +1,3 @@
-.ui-widget,.ui-widget .ui-widget {
-    font-size: 95% !important;
-}
-
-.ui-panelgrid-nobackground, .ui-panelgrid-nobackground tr, .ui-panelgrid-nobackground td {
-    background: none !important;
-    border: none !important;
-}
-
-/* Retira as bordas dos panelgrids */
-.ui-panelgrid-noborder tr, .ui-panelgrid-noborder td {
-    border: none !important;
-}
 
 body {
     

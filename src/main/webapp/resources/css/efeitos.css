@@ -1,3 +1,16 @@
+.ui-widget,.ui-widget .ui-widget {
+    font-size: 95% !important;
+}
+
+.ui-panelgrid-nobackground, .ui-panelgrid-nobackground tr, .ui-panelgrid-nobackground td {
+    background: none !important;
+    border: none !important;
+}
+
+/* Retira as bordas dos panelgrids */
+.ui-panelgrid-noborder tr, .ui-panelgrid-noborder td {
+    border: none !important;
+}
 
 .effect-glass {
    	        box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
