@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/WEB-INF/templates/admin.xhtml"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="tituloPagina" value="Cadastro de Funcionários" />
+    <ui:param name="mensagensGlobais" value="#{true}" />
+    
+    <ui:define name="cabecalho">
+        <p:breadCrumb>
+            <p:menuitem value="Home" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Cadastro" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Funcionários" outcome="/admin/funcionarios.xhtml" />
+        </p:breadCrumb>
+    </ui:define>
+
+    <ui:define name="corpo">
+        <h:form id="frmCadastro">
+            <p:toolbar>
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="btnInserir"
+                                     value="Novo"
+                                     icon="ui-icon-disk"
+                                     update=":frmEditar"
+                                     action="#{cadastroFuncionarioBean.prepararInsercao()}"
+                                     oncomplete="dlgEditar.show()" />
+                    <p:commandButton id="btnEditar"
+                                     value="Editar"
+                                     icon="ui-icon-pencil"
+                                     action="#{cadastroFuncionarioBean.prepararEdicao()}"
+                                     oncomplete="dlgEditar.show()"
+                                     update=":frmEditar"
+                                     disabled="#{not empty cadastroFuncionarioBean.entidade}" />
+                    <p:commandButton id="btnExcluir"
+                                     value="Excluir"
+                                     icon="ui-icon-trash"
+                                     action="#{cadastroFuncionarioBean.prepararExclusao()}"
+                                     oncomplete="dlgExcluir.show()"
+                                     update=":frmExcluir"
+                                     disabled="#{not empty cadastroFuncionarioBean.entidade}" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:separator />
+            
+            <p:dataTable id="lstEntidade"
+                         value="#{cadastroFuncionarioBean.funcionarios}"
+                         var="funcionario"
+                         widgetVar="lstEntidade"
+                         >
+                
+                <p:column headerText="Matrícula"
+                          filterBy="#{funcionario.matricula}"
+                          filterMatchMode="contains"
+                          >
+                    #{funcionario.matricula}
+                </p:column>
+                
+                <p:column headerText="E-mail"
+                          filterBy="#{funcionario.email}"
+                          filterMatchMode="contains"
+                          >
+                    #{funcionario.email}
+                </p:column>
+                
+                <p:column headerText="Nome"
+                          filterBy="#{funcionario.nome}"
+                          filterMatchMode="contains"
+                          >
+                    #{funcionario.nome}
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+    
+    <ui:define name="extra">
+        <h:form id="frmEditar">
+            <p:dialog id="dlgEditar"
+                      widgetVar="dlgEditar"
+                      modal="true"
+                      header="Cadastrar Funcionário"
+                      onHide="fade"
+                      >
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
+                    <h:outputLabel for="txtMatricula" value="Matrícula" />
+                    <p:inputText id="txtMatricula"
+                                 label="matricula"
+                                 value="#{cadastroFuncionarioBean.funcionario.matricula}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtMatricula btnEditar" />
+                    </p:inputText>
+                    <p:message id="msgTxtMatricula" for="txtMatricula" />
+                    
+                    <h:outputLabel for="txtEmail" value="E-mail" />
+                    <p:inputText id="txtEmail"
+                                 label="email"
+                                 value="#{cadastroFuncionarioBean.funcionario.email}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtEmail btnEditar" />
+                    </p:inputText>
+                    <p:message id="msgTxtEmail" for="txtEmail" />
+                    
+                    <h:outputLabel for="txtNome" value="Nome" />
+                    <p:inputText id="txtNome"
+                                 label="nome"
+                                 value="#{cadastroFuncionarioBean.funcionario.nome}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtNome btnEditar" />
+                    </p:inputText>
+                    <p:message id="msgTxtNome" for="txtNome" />
+                    
+                    <h:outputLabel for="txtSenha" value="Senha" />
+                    <p:password id="txtSenha"
+                                label="senha"
+                                value="#{cadastroFuncionarioBean.funcionario.senha}"
+                                >
+                        <p:ajax event="blur" update="msgTxtSenha btnEditar" />
+                    </p:password>
+                    <p:message id="msgTxtSenha" for="txtSenha" />
+                </p:panelGrid>
+                
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="btnEditar"
+                                         value="Cadastrar"
+                                         icon="ui-icon-disk"
+                                         action="#{cadastroFuncionarioBean.salvar()}"
+                                         disabled="#{cadastroFuncionarioBean.edicaoValida}"
+                                         update=":frmCadastro"
+                                         oncomplete="dlgEditar.hide()" />
+                        <p:commandButton id="btnCancelar"
+                                        value="Cancelar"
+                                        immediate="true"
+                                        icon="ui-icon-cancel"
+                                        onclick="dlgEditar.hide()" />
+                    </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="frmExcluir">
+            <p:confirmDialog id="dlgExcluir"
+                             widgetVar="dlgExcluir"
+                             closable="false"
+                             header="Excluir Funcionário"
+                             message="Tem certeza de que deseja excluir?"
+                             >
+                <center>
+                    <p:commandButton id="btnExcluir"
+                                     value="Excluir"
+                                     icon="ui-icon-trash"
+                                     action="#{cadastroFuncionarioBean.excluir()}"
+                                     oncomplete="dlgEditar.hide()"
+                                     update=":frmCadastro" />
+                    <p:commandButton id="btnCancelar"
+                                     value="Cancelar"
+                                     immediate="true"
+                                     icon="ui-icon-cancel"
+                                     onclick="dlgExcluir.hide()" />
+                </center>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

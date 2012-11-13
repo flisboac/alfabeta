@@ -51,29 +51,10 @@
                     <h:form id="frmMenu">
                         <center>
                             <p:tieredMenu autoDisplay="true" >
-                                <f:facet name="header">
-                                    Teste
-                                </f:facet>
-                                <p:submenu label="Teste 1">
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                </p:submenu>
-                                <p:submenu label="Teste 2">
-                                    <p:submenu label="Teste 2-1">
-                                        <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                        <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                        <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                    </p:submenu>
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                </p:submenu>
-                                <p:submenu label="Teste 3">
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                    <p:menuitem value="Teste" icon="ui-icon-lock" />
-                                </p:submenu>
+                                <p:menuitem value="Funcionários" icon="ui-icon-person" action="/admin/funcionarios.xhtml" />
+                                <p:menuitem value="Livros" icon="ui-icon-note" action="/admin/livros.xhtml" />
+                                <p:menuitem value="Encomendas" icon="ui-icon-bookmark" action="/admin/encomendas.xhtml" />
+                                <p:menuitem value="Pedidos" icon="ui-icon-cart" action="/admin/pedidos.xhtml" />
                             </p:tieredMenu>
                         </center>
                     </h:form>

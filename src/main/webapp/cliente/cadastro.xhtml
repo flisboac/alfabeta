@@ -23,7 +23,7 @@
                 <p:separator />
                 <p:messages />
                 
-                <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
+                <p:panelGrid columns="3" style="width: 100%" styleClass="ui-panelgrid-nobackground">
 
                     <h:outputLabel for="email" value="E-mail" />
                     <p:inputText id="email"
@@ -68,7 +68,7 @@
                 <p:commandButton id="btnCadastrar"
                                  value="Cadastrar"
                                  update="@form"
-                                 disabled="#{not cadastroClienteBean.inclusaoValida}"
+                                 disabled="#{not cadastroClienteBean.edicaoValida}"
                                  action="#{cadastroClienteBean.cadastrarCliente}"/>
 
                 <p:commandButton id="btnLimpar"

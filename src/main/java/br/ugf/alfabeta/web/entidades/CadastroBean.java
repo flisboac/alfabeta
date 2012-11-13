@@ -108,13 +108,6 @@ public abstract class CadastroBean<T extends Entidade> extends Bean implements S
         return isEntidadeValida(Identidade.class);
     }
     
-    public boolean isInclusaoValida() {
-        
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        boolean retorno = isEntidadeValida() && !(/* facesContext.isPostback() || */facesContext.isValidationFailed());
-        return retorno;
-    }
-    
     public boolean isEdicaoValida() {
         
         FacesContext facesContext = FacesContext.getCurrentInstance();
