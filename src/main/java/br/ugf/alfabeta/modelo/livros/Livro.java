@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -48,6 +49,14 @@ public class Livro implements Serializable, Entidade {
     @NotNull(message="Livro deve pertencer a uma editora.", groups=Identidade.class)
     private Editora editora;
     
+    @Column(name="qtdmin_livro") 
+    @Min(value=1, message="Quantidade mínima deve estar acima de 0.", groups=Identidade.class)
+    private int quantidadeMinima = 10;
+    
+    @Column(name="qtd_livro")
+    @Min(value=0, message="Quantidade deve ser positiva.", groups=Identidade.class)
+    private int quantidade = 0;
+    
     // [ GETTERS / SETTERS ] ===================================================
     
     @Override
@@ -73,6 +82,30 @@ public class Livro implements Serializable, Entidade {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Editora getEditora() {
+        return editora;
+    }
+
+    public void setEditora(Editora editora) {
+        this.editora = editora;
+    }
+
+    public int getQuantidadeMinima() {
+        return quantidadeMinima;
+    }
+
+    public void setQuantidadeMinima(int quantidadeMinima) {
+        this.quantidadeMinima = quantidadeMinima;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     // [ EQUALS / HASHCODE ] ===================================================

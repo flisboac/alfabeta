@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:param name="tituloPagina" value="Cadastro de Encomenda"/>
+    <ui:param name="mensagensGlobais" value="#{true}" />
+    
+    <ui:define name="Cabecalho">
+        <p:breadCrumb>
+            <p:menuitem value="Home" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Cadastro" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Encomendas" outcome="/admin/encomendas.xhtml" />
+        </p:breadCrumb>
+    </ui:define>
+    
+    <ui:define name="corpo">
+        <h:form id="frm Cadastro">
+            <p:toolbar>
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="btnInserir"
+                                     value="Novo"
+                                     icon="ui-icon-disk"
+                                     update=":frmEditar"
+                                     action="#{cadastroEncomendaBean.prepararInsercao()}"
+                                     oncomplete="dlgEditar.show()" />
+                    <p:commandButton id=""
+                                
+                
+            </p:toolbar>
+            
+        </h:form>
+               
+    
+    
+    
+    
+    
+    
+    </ui:composition>
+               
+    
+        

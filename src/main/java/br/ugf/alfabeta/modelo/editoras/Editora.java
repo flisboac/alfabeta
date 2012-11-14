@@ -23,8 +23,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "editora", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "id_editora"),
-    @UniqueConstraint(columnNames = "nome_editora")
+    @UniqueConstraint(name="editora_pk", columnNames = "id_editora"),
+    @UniqueConstraint(name="editora_uq", columnNames = "cod_editora")
 })
 public class Editora implements Serializable, Entidade {
 
@@ -35,9 +35,13 @@ public class Editora implements Serializable, Entidade {
     private Long id;
     
     @Column(name = "nome_editora", nullable = false, unique = true, length = 30)
-    @NotNull(message = "Nome não pode ser nulo.", groups = Identidade.class)
     @Size(min = 1, max = 30, message = "Nome excede os limites de tamanho.", groups = Identidade.class)
     private String nome;
+    
+    @Column(name="cod_editora", nullable=false, unique=true, length=30)
+    @NotNull(message="Código não pode ser nulo.", groups=Identidade.class)
+    @Size(min=1, max=30, message="Código excede os limites de tamanho.", groups=Identidade.class)
+    private String codigo;
     
     @Column(name = "end_editora", length = 30)
     @Size(min = 1, max = 30, message = "Endereço ultrapassa os limites de tamanho.", groups = Identidade.class)
@@ -69,11 +73,21 @@ public class Editora implements Serializable, Entidade {
         this.endereco = endereco;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
+    
     // [ EQUALS / HASHCODE ] =================================================
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + (this.nome != null ? this.nome.hashCode() : 0);
+        int hash = 5;
+        hash = 67 * hash + (this.codigo != null ? this.codigo.hashCode() : 0);
         return hash;
     }
 
@@ -86,20 +100,21 @@ public class Editora implements Serializable, Entidade {
             return false;
         }
         final Editora other = (Editora) obj;
-        if ((this.nome == null) ? (other.nome != null) : !this.nome.equals(other.nome)) {
+        if ((this.codigo == null) ? (other.codigo != null) : !this.codigo.equals(other.codigo)) {
             return false;
         }
         return true;
     }
-
-    // [ TOSTRING ] ============================================================
     
+    // [ TOSTRING ] ============================================================
+
     @Override
     public String toString() {
-        return "Editora{"
-                + "id=" + id
-                + ", nome=" + nome
-                + ", endereco=" + endereco
+        return "Editora{" 
+                + "id=" + id 
+                + ", nome=" + nome 
+                + ", codigo=" + codigo 
+                + ", endereco=" + endereco 
                 + '}';
     }
     
@@ -110,6 +125,7 @@ public class Editora implements Serializable, Entidade {
         editora.id = this.id;
         editora.nome = this.nome;
         editora.endereco = this.endereco;
+        editora.codigo = this.codigo;
         return editora;
     }
 }

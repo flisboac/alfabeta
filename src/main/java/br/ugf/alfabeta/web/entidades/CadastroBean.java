@@ -89,16 +89,13 @@ public abstract class CadastroBean<T extends Entidade> extends Bean implements S
         Dlo<T> dlo = getDlo();
         boolean retorno = false;
         
-        if (dlo != null && entidade != null) {
-            retorno = true;
-            
             try {
                 dlo.validar(entidade, grupos);
-
+                retorno = true;
+                
             } catch (ExcecaoDlo ex) {
                 retorno = false;
             }
-        }
         
         return retorno;
     }
@@ -111,7 +108,7 @@ public abstract class CadastroBean<T extends Entidade> extends Bean implements S
     public boolean isEdicaoValida() {
         
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        boolean retorno = isEntidadeValida(Persistencia.class) && !(/*facesContext.isPostback() || */facesContext.isValidationFailed());
+        boolean retorno = isEntidadeValida() && !(/*facesContext.isPostback() || */facesContext.isValidationFailed());
         return retorno;
     }
     

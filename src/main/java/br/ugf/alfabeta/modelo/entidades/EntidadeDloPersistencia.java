@@ -53,7 +53,6 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
     public void persistir(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = (Dao<T>) getDao();
         
-        validar(entidade, Persistencia.class);
         try {
             if (existe(entidade)) {
                 entidadeDao.alterar(entidade);

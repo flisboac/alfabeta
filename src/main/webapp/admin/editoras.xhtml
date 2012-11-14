@@ -1,166 +1,169 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition
+<ui:composition      
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      template="/WEB-INF/templates/admin.xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
-    
-    <ui:param name="tituloPagina" value="Cadastro da Editora" />
-    <ui:param name="mensagensGlobais" value="#{true}" />
-    
-    <ui:define name="cabecalho">
-        <p:breadCrumb>
-            <p:menuitem value="Home" outcome="/admin/index.xhtml" />
-            <p:menuitem value="Cadastro" outcome="/admin/index.xhtml" />
-            <p:menuitem value="Editora" outcome="/admin/editoras.xhtml" />
-        </p:breadCrumb>
-    </ui:define>
-    
-     <ui:define name="corpo">
-        <h:form id="frmCadastro">
-            <p:toolbar>
-                <p:toolbarGroup align="right">
-                    <p:commandButton id="btnInserir"
-                                     value="Novo"
-                                     icon="icon-ui-disk"
-                                     update="frmEditar"
-                                     action="#{cadastroEditoraBean.prepararInsersao()}"
-                                     oncomplete="dlgEditar.show()" />
-                    <p:commandButton id="btnEditar"
-                                     value="Editar"
-                                     icon="icon-ui-pencil"
-                                     action="#{cadastroEditoraBean.prepararEdicao()}"
-                                     oncomplete="dlgEditar.show()"
-                                     update="frmEditar"
-                                     disabled="#{not empty cadastroEditoraBean.entidade}" />
-                                   
-                </p:toolbarGroup>
-            </p:toolbar>
-            
-            <p:separator />
-            
-            <p:dataTable id="lstEntidade"
-                         value="#{cadastroEditoraBean.editoras}"
-                         var="editora"
-                         widgetVar="lstEntidade"
-                         >
-            <p:column headerText="Nome"
-                          filterBy="#{editora.nome}"
-                          filterMatchMode="contains"
-                          >
-                    #{editora.nome}
-                </p:column>
-                
-             <p:column headerText="Codigo"
-                          filterBy="#{editora.codigo}"
-                          filterMatchMode="contains"
-                          >
-                    #{editora.codigo}
-                </p:column>
-                   
-             <p:column headerText="endereco"
-                          filterBy="#{editora.endereco}"
-                          filterMatchMode="contains"
-                          >
-                    #{endereco.endereco}
-                </p:column>
-            </p:dataTable>
-        </h:form>
-    </ui:define>
-    
-    <ui:define name="extra">
-        <h:form id="frmEditar">
-            <p:dialog id="dlgEditar"
-                      widgetVar="dlgEditar"
-                      modal="true"
-                      header="Cadastrar Editora"
-                      onHide="fade"
-                      >
-                <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
-                    <h:outputLabel for="txtNome" value="Nome" />
-                    <p:inputText id="txtNome"
-                                 label="nome"
-                                 value="#{cadastroeditoraBean.editora.nome}"
-                                 >
-                        <p:ajax event="blur" update="msgTxtNome btnEditar" />
-                    </p:inputText>
-                    <p:message id="msgTxtNome" for="txtNome" />
-                    
-                    <h:outputLabel for="txtCodigo" value="Codigo" />
-                    <p:inputText id="txtCodigo"
-                                 label="codigo"
-                                 value="#{cadastroEditoraBean.editora.codigo}"
-                                 >
-                        <p:ajax event="blur" update="msgTxtc btnEditar" />
-                    </p:inputText>
-                    <p:message id="msgTxtCodigo" for="txtCodigo" />
-                    
-                    <h:outputLabel for="txtNome" value="Nome" />
-                    <p:inputText id="txtNome"
-                                 label="nome"
-                                 value="#{cadastroEditoraBean.editora.nome}"
-                                 >
-                        <p:ajax event="blur" update="msgTxtNome btnEditar" />
-                    </p:inputText>
-                    <p:message id="msgTxtNome" for="txtNome" />
-                    
-                    <h:outputLabel for="txtEndereco" value="Endereco" />
-                    <p:password id="txtendereco"
-                                label="endereco"
-                                value="#{cadastroEditoraBean.editora.endereco}"
-                                >
-                        <p:ajax event="blur" update="msgTxtEndereco btnEditar" />
-                    </p:password>
-                    <p:message id="msgTxtEndereco" for="txtEndereco" />
-                </p:panelGrid>
-                
-                <f:facet name="footer">
-                    <center>
-                        <p:commandButton id="btnEditar"
-                                         value="Cadastrar"
-                                         icon="ui-icon-disk"
-                                         action="#{cadastroEditoraBean.salvar()}"
-                                         disabled="#{cadastroEditoraBean.edicaoValida}"
-                                         update=":frmCadastro"
-                                         oncomplete="dlgEditar.hide()" />
-                        <p:commandButton id="btnCancelar"
-                                        value="Cancelar"
-                                        immediate="true"
-                                        icon="ui-icon-cancel"
-                                        onclick="dlgEditar.hide()" />
-                    </center>
-                </f:facet>
-            </p:dialog>
-        </h:form>
-        
-        <h:form id="frmExcluir">
-            <p:confirmDialog id="dlgExcluir"
-                             widgetVar="dlgExcluir"
-                             closable="false"
-                             header="Excluir Funcionário"
-                             message="Tem certeza de que deseja excluir?"
-                             >
-                <center>
-                    <p:commandButton id="btnExcluir"
-                                     value="Excluir"
-                                     icon="ui-icon-trash"
-                                     action="#{cadastroFuncionarioBean.excluir()}"
-                                     oncomplete="dlgEditar.hide()"
-                                     update=":frmCadastro" />
-                    <p:commandButton id="btnCancelar"
-                                     value="Cancelar"
-                                     immediate="true"
-                                     icon="ui-icon-cancel"
-                                     onclick="dlgExcluir.hide()" />
-                </center>
-            </p:confirmDialog>
-        </h:form>
-    </ui:define>
+      template="/WEB-INF/templates/admin.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" >
+      
+      <ui:param name="tituloPagina" value="Cadastro de Editoras" />
+      <ui:param name="mensagensGlobais" value="#{true}" />
+      
+      <ui:define name="cabecalho">
+          <p:breadCrumb>
+              <p:menuitem value="Home" outcome="/admin/index.xhtml" />
+              <p:menuitem value="Cadastro" outcome="/admin/index.xhtml" />
+              <p:menuitem value="Editoras" outcome="/admin/editoras.xhtml" />
+          </p:breadCrumb>
+      </ui:define>
+      
+      <ui:define name="corpo">
+          <h:form id="frmCadastro">
+              <p:toolbar>
+                  <p:toolbarGroup align="right">
+                      <p:commandButton id="btnInserir"
+                                       value="Novo"
+                                       icon="ui-icon-disk"
+                                       update=":frmEditar"
+                                       action="#{cadastroEditoraBean.prepararInsercao()}"
+                                       oncomplete="dlgEditar.show()" />
+                      <p:commandButton id="btnEditar"
+                                       value="Editar"
+                                       icon="ui-icon-pencil"
+                                       action="#{cadastroEditoraBean.prepararEdicao()}"
+                                       oncomplete="dlgEditar.show()"
+                                       update=":frmEditar"
+                                       disabled="#{not empty cadastroEditoraBean.entidade}" />
+                      <p:commandButton id="btnExcluir"
+                                       value="Excluir"
+                                       icon="ui-icon-trash"
+                                       action="#{cadastroEditoraBean.prepararExclusao()}"
+                                       oncomplete="dlgExcluir.show()"
+                                       update=":frmExcluir"
+                                       rendered="false"
+                                       disabled="#{not empty cadastroEditoraBean.entidade}" />
+                  </p:toolbarGroup>
+               </p:toolbar>
+              
+              <p:separator />
+              
+              <p:dataTable id="lstEntidade"
+                           value="#{cadastroEditoraBean.editoras}"
+                           var="editora"
+                           rowkey="#{editora.id}"
+                           widgetVar="lstEntidade"
+                           >
+              
+                  <p:column headerText="Codigo"
+                            filterBy="#{editora.codigo}"
+                            filterMatchMode="contains"
+                            >
+                      #{editora.codigo}
+                  </p:column>
+                  
+                  <p:column headerText="Endereco"
+                            filterBy="#{editora.endereco}"
+                            filterMatchMode="contains"
+                            >
+                      #{editora.endereco}
+                  </p:column>
+                  
+                  <p:column headerText="Nome"
+                            filterBy="#{editora.nome}"
+                            filterMatchMode="contains"
+                            >
+                      #{editora.nome}
+                  </p:column>
+              </p:dataTable>
+          </h:form>
+      </ui:define>
+      
+      <ui:define name="extra">
+          <h:form id="frmEditar">
+              <p:dialog id="dlgEditar"
+                        widgetVar="dlgEditar"
+                        resizable="false"
+                        header="Cadastrar Editora"
+                        onHide="fade"
+                        >
+                  <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
+                      <h:outputLabel for="txtCodigo" value="Codigo" />
+                      <p:inputText id="txtCodigo"
+                                   label="codigo"
+                                   value="#{cadastroEditoraBean.editora.codigo}"
+                                   >
+                          <p:ajax event="blur" process="@form" update="@this msgTxtCodigo btnEditar" />
+                     </p:inputText>
+                     <p:message id="msgTxtCodigo" for="txtCodigo" />
+                     
+                     <h:outputLabel for="txtEndereco" value="Endereco" />
+                     <p:inputText id="txtEndereco"
+                                  label="Endereco"
+                                  value="#{cadastroEditoraBean.editora.endereco}"
+                                  >
+                         <p:ajax event="blur" process="@form" update="@this msgTxtEndereco btnEditar" />
+                     </p:inputText>
+                     <p:message id="msgTxtEndereco" for="txtEndereco" />
+                     
+                     <h:outputLabel for="txtNome" value="Nome" />
+                     <p:inputText id="txtNome"
+                                  label="Nome"
+                                  value="#{cadastroEditoraBean.editora.nome}"
+                                  >
+                         <p:ajax event="blur" process="@form" update="@this msgTxtNome btnEditar" />
+                     </p:inputText> 
+                     <p:message id="msgTxtNome" for="txtNome" />
+                  </p:panelGrid>
+                  
+                  <f:facet name="footer">
+                      <center>
+                          <p:commandButton id="btnEditar"
+                                           value="Cadastrar"
+                                           icon="ui-icon-disk"
+                                           action="#{cadastroEditoraBean.salvar()}"
+                                           update=":frmCadastro"
+                                           disabled="#{not cadastroEditoraBean.edicaoValida}"
+                                           oncomplete="dlgEditar.hide()" />
+                          <p:commandButton id="btnCancelar"
+                                           value="Cancelar"
+                                           immediate="true"
+                                           icon="ui-icon-cancel"
+                                           onclick="dlgEditar.hide()" /> 
+                          
+                      </center>
+                  </f:facet>
+              </p:dialog>
+          </h:form>
+          
+          <h:form id="frmExcluir" rendered="false">
+              <p:confirmDialog id="dlgExcluir"
+                               widgetVar="dlgExcluir"
+                               closable="false"
+                               appendToBody="true"
+                               header="Excluir Editora"
+                               message="Tem certeza de que deseja excluir?"
+                               >
+                  <center>
+                      <p:commandButton id="btnExcluir"
+                                       value="Excluir"
+                                       icon="ui-icon-trash"
+                                       action="#{cadastroEditoraBean.excluir()}"
+                                       oncomplete="dlgExcluir.hide()"
+                                       update=":frmCadastro" />
+                      <p:commandButton id="btnCancelar"
+                                       value="Cancelar"
+                                       immediate="true"
+                                       icon="ui-icon-cancel"
+                                       onclick="dlgExcluir.hide()" /> 
+                  </center>
+              </p:confirmDialog>    
+          </h:form>>
+      </ui:define>
 </ui:composition>
-
-    
-             
-    
+                     
+                         
+                                   
+          
+          

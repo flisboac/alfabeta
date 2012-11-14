@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/admin.xhtml">
+
+    <ui:param name="tituloPagina" value="Cadastro de Livros" />
+    <ui:param name="mensagensglobais" value="#{true}" />
+
+    <ui:define name="cabecalho">
+        <p:breadCrumb>
+            <p:menuitem value="Home" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Cadastro" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Livros" outcome="/admin/livros.xhtml"/>
+        </p:breadCrumb>
+    </ui:define>
+
+    <ui:define name="corpo">
+        <h:outputText value="Cadastre uma editora antes de cadastrar livros."
+                      rendered="#{empty cadastroLivroBean.editoras}" />
+
+        <h:form id="frmCadastro" rendered="#{not empty cadastroLivroBean.editoras}">
+            <p:toolbar>
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="btnInserir"
+                                     value="Inserir"
+                                     action="#{cadastroLivroBean.prepararInsercao()}"
+                                     icon="ui-icon-disk"
+                                     update=":frmEditar"
+                                     />
+                    <p:commandButton id="btnEditar"
+                                     value="Editar"
+                                     action="#{cadastroLivroBean.prepararEdicao()}"
+                                     icon="ui-icon-pencil"
+                                     update=":frmEditar"
+                                     disabled="#{cadastroLivroBean.livro.id == null}"
+                                     />
+                    <p:commandButton id="btnExcluir"
+                                     value="Excluir"
+                                     action="#{cadastroLivroBean.prepararExclusao()}"
+                                     icon="ui-icon-trash"
+                                     update=":frmExcluir"
+                                     disabled="#{cadastroLivroBean.livro.id == null}"
+                                     rendered="false"
+                                     />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:separator />
+
+            <p:dataTable id="lstEntidades"
+                         widgetVar="lstEntidades"
+                         value="#{cadastroLivroBean.livros}"
+                         var="livro"
+                         rowKey="#{livro.id}">
+
+                <p:ajax event="rowSelect" update="@form" />
+                <p:ajax event="rowUnselect" update="@form" />
+
+                <p:column headerText="Código"
+                          filterBy="#{livro.codigo}"
+                          filterMatchMode="contains"
+                          >
+                    #{livro.codigo}
+                </p:column>
+
+                <p:column headerText="Nome"
+                          filterBy="#{livro.nome}"
+                          filterMatchMode="contains"
+                          >
+                    #{livro.nome}
+                </p:column>
+
+                <p:column headerText="Editora"
+                          filterBy="#{livro.editora.nome}"
+                          filterMatchMode="contains"
+                          >
+                    #{livro.editora.nome}
+                </p:column>
+
+                <p:column headerText="Qtd. Mínima"
+                          filterBy="#{livro.quantidadeMinima}"
+                          filterMatchMode="contains"
+                          >
+                    #{livro.quantidadeMinima}
+                </p:column>
+
+                <p:column headerText="Qtd. em Estoque"
+                          filterBy="#{livro.quantidade}"
+                          filterMatchMode="contains"
+                          >
+                    #{livro.quantidade}
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="extra">
+        <h:form id="frmEditar">
+            <p:dialog id="dlgEditar"
+                      widgetVar="dlgEditar"
+                      modal="true"
+                      header="Cadastrar Livro"
+                      resizable="false"
+                      hideEffect="fade"
+                      >
+
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-noborder">
+                    <h:outputLabel for="txtCodigo" value="Código" />
+                    <p:inputText id="txtCodigo"
+                                 label="codigo"
+                                 value="#{cadastroLivroBean.livro.codigo}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtCodigo btnEditar" />
+                    </p:inputText>
+                    <p:message id="msgTxtCodigo" for="txtCodigo"/>
+
+                    <h:outputLabel for="txtNome" value="Nome" />
+                    <p:inputText id="txtNome"
+                                 label="nome"
+                                 value="#{cadastroLivroBean.livro.nome}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtNome btnEditar" />
+                    </p:inputText>
+                    <p:message id="msgTxtNome" for="txtNome"/>
+
+                    <h:outputLabel for="cmbEditora" value="Editora" />
+                    <p:selectOneMenu id="cmbEditora"
+                                     label="editora"
+                                     value="#{cadastroLivroBean.livro.editora}"
+                                     >
+                        <p:ajax event="blur" update="msgCmbEditora btnEditar" />
+
+                        <f:selectItem itemLabel="Selecione..." itemValue="" />
+                        <f:selectItems value="#{cadastroLivroBean.editoras}"
+                                       var="editora"
+                                       itemLabel="#{editora.codigo} - #{editora.nome}"
+                                       itemValue="#{editora}" />
+                    </p:selectOneMenu>
+                    <p:message id="msgCmbEditora" for="cmbEditora"/>
+
+                    <h:outputLabel for="txtQtdMinima" value="Qtd. Mínima" />
+                    <p:inputText id="txtQtdMinima"
+                                 label="qtdmin"
+                                 value="#{cadastroLivroBean.livro.quantidadeMinima}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtQtdMinima btnEditar" />
+                    </p:inputText>
+                    <p:message id="msgTxtQtdMinima" for="txtQtdMinima"/>
+                </p:panelGrid>
+
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="btnEditar"
+                                         value="Cadastrar"
+                                         icon="ui-icon-disk"
+                                         update=":frmCadastro"
+                                         disabled="#{not cadastroLivroBean.edicaoValida}"
+                                         action="#{cadastroLivroBean.salvar()}"
+                                         oncomplete="dlgEditar.hide()"
+                                         />
+                        <p:commandButton id="btnCancelar"
+                                         value="Cancelar"
+                                         icon="ui-icon-cancel"
+                                         immediate="false"
+                                         onclick="dlgEditar.hide()"
+                                         />
+                    </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="frmExcluir" rendered="false">
+            <p:confirmDialog id="dlgExcluir"
+                             header="Excluir Livro"
+                             message="Tem certeza que deseja excluir o livro?"
+                             widgetVar="dlgExcluir"
+                             >
+                <center>
+                    <p:commandButton id="btnExcluir"
+                                     action="#{cadastroLivroBean.excluir}"
+                                     icon="ui-icon-trash"
+                                     value="Excluir"
+                                     update=":frmCadastro"
+                                     oncomplete="dlgExcluir.hide()"
+                                     />
+                    <p:commandButton id="btnCancelar"
+                                     value="Cancelar"
+                                     icon="ui-icon-cancel"
+                                     immediate="true"
+                                     onclick="dlgExcluir.hide()" />
+                </center>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition> 
+

@@ -5,6 +5,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
+    
     <h:head>
         <title>#{tituloPagina}</title>
         <h:outputStylesheet library="css" name="reset.css" />
@@ -51,17 +52,18 @@
                     <h:form id="frmMenu">
                         <center>
                             <p:tieredMenu autoDisplay="true" >
-                                <p:menuitem value="Funcionários" icon="ui-icon-person" action="/admin/funcionarios.xhtml" />
-                                <p:menuitem value="Livros" icon="ui-icon-note" action="/admin/livros.xhtml" />
-                                <p:menuitem value="Encomendas" icon="ui-icon-bookmark" action="/admin/encomendas.xhtml" />
-                                <p:menuitem value="Pedidos" icon="ui-icon-cart" action="/admin/pedidos.xhtml" />
+                                <p:menuitem value="Funcionários" icon="ui-icon-person" url="/admin/funcionarios.xhtml" />
+                                <p:menuitem value="Livros" icon="ui-icon-note" url="/admin/livros.xhtml" />
+                                <p:menuitem value="Encomendas" icon="ui-icon-bookmark" url="/admin/encomendas.xhtml" />
+                                <p:menuitem value="Pedidos" icon="ui-icon-cart" url="/admin/pedidos.xhtml" />
+                                <p:menuitem value="Editoras" icon="ui-icon-home" url="/admin/editoras.xhtml" />
                             </p:tieredMenu>
                         </center>
                     </h:form>
                 </div>
                 
                 <div id="rodape" class="itemmenulateral">
-                    <p>&copy; 2012 UGF, INFSLQ</p>
+                    <p>&copy; 2012 UGF, INFSQL</p>
                 </div>
             </div>
         </div>
