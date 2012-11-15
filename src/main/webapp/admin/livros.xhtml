@@ -28,9 +28,10 @@
                 <p:toolbarGroup align="right">
                     <p:commandButton id="btnInserir"
                                      value="Inserir"
-                                     action="#{cadastroLivroBean.prepararInsercao()}"
                                      icon="ui-icon-disk"
                                      update=":frmEditar"
+                                     action="#{cadastroLivroBean.prepararInsercao()}"
+                                     oncomplete="dlgEditar.show()"
                                      />
                     <p:commandButton id="btnEditar"
                                      value="Editar"
