@@ -29,21 +29,21 @@
                                        update=":frmEditar"
                                        action="#{cadastroEditoraBean.prepararInsercao()}"
                                        oncomplete="dlgEditar.show()" />
-                      <p:commandButton id="btnEditar"
-                                       value="Editar"
-                                       icon="ui-icon-pencil"
-                                       action="#{cadastroEditoraBean.prepararEdicao()}"
-                                       oncomplete="dlgEditar.show()"
-                                       update=":frmEditar"
-                                       disabled="#{not empty cadastroEditoraBean.entidade}" />
+                     <p:commandButton id="btnEditar"
+                                     value="Editar"
+                                     action="#{cadastroEditoraBean.prepararEdicao()}"
+                                     icon="ui-icon-pencil"
+                                     update=":frmEditar"
+                                     oncomplete="dlgEditar.show()"
+                                     disabled="#{cadastroEditoraBean.editora.id == null}" />
                       <p:commandButton id="btnExcluir"
-                                       value="Excluir"
-                                       icon="ui-icon-trash"
-                                       action="#{cadastroEditoraBean.prepararExclusao()}"
-                                       oncomplete="dlgExcluir.show()"
-                                       update=":frmExcluir"
-                                       rendered="false"
-                                       disabled="#{not empty cadastroEditoraBean.entidade}" />
+                                     value="Excluir"
+                                     action="#{cadastroEditoraBean.prepararExclusao()}"
+                                     icon="ui-icon-trash"
+                                     update=":frmExcluir"
+                                     oncomplete="dlgExcluir.show()"
+                                     disabled="#{cadastroEditoraBean.editora.id == null}"
+                                     rendered="false" />
                   </p:toolbarGroup>
                </p:toolbar>
               
@@ -52,7 +52,9 @@
               <p:dataTable id="lstEntidade"
                            value="#{cadastroEditoraBean.editoras}"
                            var="editora"
-                           rowkey="#{editora.id}"
+                           rowKey="#{editora.id}"
+                           selection="#{cadastroEditoraBean.editora}"
+                           selectionMode="single"
                            widgetVar="lstEntidade"
                            >
               
