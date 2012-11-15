@@ -21,65 +21,72 @@ import javax.faces.bean.ViewScoped;
  *
  * @author Ana
  */
-
 @ManagedBean
 @ViewScoped
 public class CadastroLivroBean extends CadastroBean<Livro> {
-    
+
     private transient EditoraDlo editoraDlo = new EditoraDloImpl();
     private transient LivroDlo livroDlo = new LivroDloImpl();
     private List<Editora> editoras;
-    private List<Livro> livros ;
+    private List<Livro> livros;
     private Livro livro;
 
+    
+    // [ ACTIONS ] =============================================================
+    
+    
     @Override
     public void inicializar() {
         super.inicializar();
         carregarLivros();
-        
+
         try {
             this.editoras = editoraDlo.listar();
-            
+
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao listar editoras.");
         }
     }
-    
+
     public void salvar() {
-        
+
         try {
             this.livroDlo.persistir(livro);
             getHelper().ok("Livro cadastrado com sucesso.");
             carregarLivros();
-            
+
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao cadastrar livro.");
         }
     }
-    
+
     public void excluir() {
-        
+
         try {
             this.livroDlo.excluir(livro);
             getHelper().ok("Livro excluído com sucesso.");
             carregarLivros();
-            
+
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao excluir livro.");
         }
     }
-    
+
     public void carregarLivros() {
-        
+
         this.livro = instanciarEntidade();
-        
+
         try {
             this.livros = this.livroDlo.listar();
-            
+
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao listar livros.");
         }
     }
+    
+    
+    // [ GETTERS / SETTERS ] ===================================================
+    
     
     public Livro getLivro() {
         return livro;
@@ -96,6 +103,10 @@ public class CadastroLivroBean extends CadastroBean<Livro> {
     public List<Editora> getEditoras() {
         return editoras;
     }
+
+    
+    // [ OVERRIDES ] ===========================================================
+    
     
     @Override
     public Dlo<Livro> getDlo() {
@@ -108,10 +119,7 @@ public class CadastroLivroBean extends CadastroBean<Livro> {
     }
 
     @Override
-    public void setEntidade(Livro entidade) {
+    public void setEntidade(Livro livro) {
         setLivro(livro);
     }
-    
-    
-    
 }
