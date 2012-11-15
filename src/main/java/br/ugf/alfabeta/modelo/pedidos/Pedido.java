@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -56,6 +58,11 @@ public class Pedido implements Serializable, Entidade {
     @Column(name = "dtcancelamento_pedido")
     @Future(message="Cancelamento do pedido deve ocorrer em uma data futura.", groups=Identidade.class)
     private Date dataHoraCancelamento;
+    
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="estado_encomenda", nullable=false)
+    @NotNull(message="Encomenda deve possuir um estado.", groups=Identidade.class)
+    private EstadoPedido estado = EstadoPedido.Criada;
     
     @ManyToOne
     @JoinColumn(name="id_cliente", referencedColumnName="id_cliente")
@@ -113,6 +120,14 @@ public class Pedido implements Serializable, Entidade {
 
     public void setClienteCancelador(Cliente clienteCancelador) {
         this.clienteCancelador = clienteCancelador;
+    }
+
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPedido estado) {
+        this.estado = estado;
     }
 
     @Override
