@@ -29,7 +29,7 @@ public abstract class JsfConverter<T extends Entidade> implements Converter {
         
         if (value != null && value.matches("[0-9]+")) {
             
-            long id = Long.getLong(value);
+            long id = Long.parseLong(value);
             try {
                 retorno = dlo.obter(id);
             } catch (ExcecaoDlo ex) {

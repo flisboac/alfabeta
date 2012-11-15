@@ -14,8 +14,6 @@ import br.ugf.alfabeta.modelo.livros.LivroDlo;
 import br.ugf.alfabeta.modelo.livros.LivroDloImpl;
 import br.ugf.alfabeta.web.entidades.CadastroBean;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -52,6 +50,7 @@ public class CadastroLivroBean extends CadastroBean<Livro> {
         try {
             this.livroDlo.persistir(livro);
             getHelper().ok("Livro cadastrado com sucesso.");
+            carregarLivros();
             
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao cadastrar livro.");

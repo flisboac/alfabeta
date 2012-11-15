@@ -87,7 +87,7 @@ public abstract class CadastroBean<T extends Entidade> extends Bean implements S
     public boolean isEntidadeValida(Class<?>... grupos) {
         T entidade = getEntidade();
         Dlo<T> dlo = getDlo();
-        boolean retorno = false;
+        boolean retorno;
         
             try {
                 dlo.validar(entidade, grupos);

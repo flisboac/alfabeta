@@ -5,6 +5,7 @@
 package br.ugf.alfabeta.web.clientes;
 
 import br.ugf.alfabeta.modelo.clientes.Cliente;
+import br.ugf.alfabeta.modelo.clientes.ClienteDlo;
 import br.ugf.alfabeta.modelo.clientes.ClienteDloImpl;
 import br.ugf.alfabeta.modelo.entidades.Dlo;
 import br.ugf.alfabeta.web.entidades.JsfConverter;
@@ -18,9 +19,11 @@ import javax.inject.Named;
 @FacesConverter(forClass=Cliente.class)
 @Named(value="clienteConverter")
 public class ClienteConverter extends JsfConverter<Cliente> {
-
+    
+    private ClienteDlo clienteDlo = new ClienteDloImpl();
+    
     @Override
     public Dlo<Cliente> getDlo() {
-        return new ClienteDloImpl();
+        return clienteDlo;
     }
 }

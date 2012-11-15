@@ -57,7 +57,11 @@
                          widgetVar="lstEntidades"
                          value="#{cadastroLivroBean.livros}"
                          var="livro"
-                         rowKey="#{livro.id}">
+                         rowKey="#{livro.id}"
+                         selection="#{cadastroLivroBean.livro}"
+                         selectionMode="single"
+                         rows="10"
+                         >
 
                 <p:ajax event="rowSelect" update="@form" />
                 <p:ajax event="rowUnselect" update="@form" />
@@ -134,7 +138,7 @@
                                      label="editora"
                                      value="#{cadastroLivroBean.livro.editora}"
                                      >
-                        <p:ajax event="blur" update="msgCmbEditora btnEditar" />
+                        <p:ajax event="change" update="msgCmbEditora btnEditar" />
 
                         <f:selectItem itemLabel="Selecione..." itemValue="" />
                         <f:selectItems value="#{cadastroLivroBean.editoras}"
@@ -145,12 +149,12 @@
                     <p:message id="msgCmbEditora" for="cmbEditora"/>
 
                     <h:outputLabel for="txtQtdMinima" value="Qtd. Mínima" />
-                    <p:inputText id="txtQtdMinima"
+                    <p:spinner id="txtQtdMinima"
                                  label="qtdmin"
                                  value="#{cadastroLivroBean.livro.quantidadeMinima}"
                                  >
                         <p:ajax event="blur" update="msgTxtQtdMinima btnEditar" />
-                    </p:inputText>
+                    </p:spinner>
                     <p:message id="msgTxtQtdMinima" for="txtQtdMinima"/>
                 </p:panelGrid>
 
