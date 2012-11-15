@@ -5,6 +5,7 @@
 package br.ugf.alfabeta.modelo.entidades;
 
 
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoCriticaDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
@@ -53,15 +54,36 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
     public void persistir(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = (Dao<T>) getDao();
         
-        try {
-            if (existe(entidade)) {
-                entidadeDao.alterar(entidade);
-            } else {
-                entidadeDao.inserir(entidade);
+        if (entidade != null) {
+            try {
+                if (entidade.getId() != null) {
+                    if (existeId(entidade.getId())) {
+                        // Já existe uma entidade com o ID passado, 
+                        // alterar a existente
+                        entidadeDao.alterar(entidade);
+                        
+                    } else {
+                        // ID inválido passado, lançar erro!
+                        throw new ExcecaoCriticaDlo("Não há entidade com o ID '" + entidade.getId() + "' passado.");
+                    }
+                    
+                } else {
+                    // Se não há ID, considera-se que a entidade ainda não tenha
+                    // sido persistida.
+                    
+                    if (existe(entidade)) {
+                        // Já existe uma entidade com a
+                        // identidade passada, lançar erro.
+                        throw new ExcecaoCriticaDlo("Já existe outra entidade com a identidade passada.");
+                        
+                    } else {
+                        entidadeDao.inserir(entidade);
+                    }
+                }
+
+            } catch (ExcecaoDao ex) {
+                throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
             }
-            
-        } catch (ExcecaoDao ex) {
-            throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
         }
     }
     

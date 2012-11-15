@@ -8,7 +8,6 @@ import br.ugf.alfabeta.modelo.entidades.Dlo;
 import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
-import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 import br.ugf.alfabeta.web.util.Bean;
 import java.io.Serializable;
 import java.util.logging.Level;

@@ -38,6 +38,7 @@
                                      action="#{cadastroLivroBean.prepararEdicao()}"
                                      icon="ui-icon-pencil"
                                      update=":frmEditar"
+                                     oncomplete="dlgEditar.show()"
                                      disabled="#{cadastroLivroBean.livro.id == null}"
                                      />
                     <p:commandButton id="btnExcluir"
@@ -45,6 +46,7 @@
                                      action="#{cadastroLivroBean.prepararExclusao()}"
                                      icon="ui-icon-trash"
                                      update=":frmExcluir"
+                                     oncomplete="dlgExcluir.show()"
                                      disabled="#{cadastroLivroBean.livro.id == null}"
                                      rendered="false"
                                      />
