@@ -20,8 +20,17 @@ import br.ugf.alfabeta.modelo.validacoes.Persistencia;
 public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> implements DloPersistencia<T> {
 
     public EntidadeDloPersistencia() {}
+    
     public EntidadeDloPersistencia(Dao<T> dao) {
         super(dao);
+    }
+    
+    public EntidadeDloPersistencia(Validador<T> validador) {
+        super(validador);
+    }
+    
+    public EntidadeDloPersistencia(Dao<T> dao, Validador<T> validador) {
+        super(dao, validador);
     }
     
     @Override

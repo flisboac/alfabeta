@@ -11,8 +11,6 @@ import br.ugf.alfabeta.modelo.entidades.Dlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.web.entidades.CadastroBean;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -97,7 +95,7 @@ public class CadastroEditoraBean extends CadastroBean<Editora> {
     }
 
     @Override
-    public void setEntidade(Editora entidade) {
+    public void setEntidade(Editora editora) {
         setEditora(editora);
     }
     

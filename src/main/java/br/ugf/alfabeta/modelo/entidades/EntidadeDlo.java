@@ -24,11 +24,27 @@ public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
     
     protected ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     protected Dao<T> dao;
+    protected Validador<T> validador;
     
     public EntidadeDlo() {}
     
     public EntidadeDlo(Dao<T> dao) {
         this.dao = dao;
+        this.validador = new ValidadorEntidade<T>(dao.getClasseEntidade());
+    }
+    
+    public EntidadeDlo(Validador<T> validador) {
+        this.validador = validador;
+    }
+    
+    public EntidadeDlo(Dao<T> dao, Validador<T> validador) {
+        this.dao = dao;
+        this.validador = validador;
+    }
+    
+    @Override
+    public Validador<T> getValidador() {
+        return this.validador;
     }
     
     protected Dao<T> getDao() {

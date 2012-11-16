@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -24,7 +25,8 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="itemencomenda", uniqueConstraints={
-    @UniqueConstraint(columnNames={"id_encomenda", "id_livro"})
+    @UniqueConstraint(name = "itemencomenda_pk", columnNames={"id_itemencomenda"}),
+    @UniqueConstraint(name = "itemencomenda_uq", columnNames={"id_encomenda", "id_livro"})
 })
 public class ItemEncomenda implements Entidade {
     
@@ -37,11 +39,13 @@ public class ItemEncomenda implements Entidade {
     @ManyToOne
     @JoinColumn(name="id_encomenda", nullable=false, referencedColumnName="id_encomenda")
     @NotNull(message="Item de encomenda deve pertencer a uma encomenda.", groups=Identidade.class)
+    @Valid
     private Encomenda encomenda;
     
     @ManyToOne
     @JoinColumn(name="id_livro", referencedColumnName="id_livro", nullable=false)
     @NotNull(message="Item de encomenda deve referenciar um livro.", groups=Identidade.class)
+    @Valid
     private Livro livro;
     
     @Column(name="qtd_itemencomenda")

@@ -11,6 +11,8 @@ import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,10 +21,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,8 +37,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name="encomenda", uniqueConstraints={
-    @UniqueConstraint(columnNames={"id_encomenda"}),
-    @UniqueConstraint(columnNames={"cod_encomenda"})
+    @UniqueConstraint(name = "encomenda_pk", columnNames={"id_encomenda"}),
+    @UniqueConstraint(name = "encomenda_uq", columnNames={"cod_encomenda"})
 })
 public class Encomenda implements Entidade, Serializable {
     
@@ -63,20 +67,30 @@ public class Encomenda implements Entidade, Serializable {
     @Enumerated(EnumType.ORDINAL)
     @Column(name="estado_encomenda", nullable=false)
     @NotNull(message="Encomenda deve possuir um estado.", groups=Identidade.class)
-    private EstadoEncomenda estado = EstadoEncomenda.Criada;
+    private EstadoEncomenda estado = EstadoEncomenda.Criado;
     
     @ManyToOne
     @JoinColumn(name="id_funcionario", referencedColumnName="id_cliente", nullable=false)
     @NotNull(message="Todo pedido deve ser originado de um funcionário.", groups=Identidade.class)
+    @Valid
     private Funcionario funcionarioCriador;
     
     @ManyToOne
     @JoinColumn(name="idcancelador_funcionario", referencedColumnName="id_cliente")
+    @Valid
     private Funcionario funcionarioFinalizador;
     
     @ManyToOne
     @JoinColumn(name="id_editora", referencedColumnName="id_editora", nullable=false)
+    @Valid
     private Editora editora;
+    
+    @OneToMany(mappedBy="encomenda", cascade = CascadeType.ALL)
+    private List<ItemEncomenda> itens;
+    
+    
+    // [ GETTERS / SETTERS ] ===================================================
+    
     
     @Override
     public Long getId() {
@@ -143,6 +157,18 @@ public class Encomenda implements Entidade, Serializable {
         this.editora = editora;
     }
 
+    public List<ItemEncomenda> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemEncomenda> itens) {
+        this.itens = itens;
+    }
+    
+    
+    // [ EQUALS / HASHCODE ] ===================================================
+    
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -164,7 +190,11 @@ public class Encomenda implements Entidade, Serializable {
         }
         return true;
     }
-
+    
+    
+    // [ UTIL ] ================================================================
+    
+    
     @Override
     public String toString() {
         return "Encomenda{" 
@@ -191,6 +221,7 @@ public class Encomenda implements Entidade, Serializable {
         encomenda.estado = this.estado;
         encomenda.funcionarioCriador = this.funcionarioCriador;
         encomenda.funcionarioFinalizador = this.funcionarioFinalizador;
+        encomenda.itens = this.itens;
         return encomenda;
     }
 }

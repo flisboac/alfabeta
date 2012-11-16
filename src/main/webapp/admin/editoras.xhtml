@@ -96,7 +96,7 @@
                                    label="codigo"
                                    value="#{cadastroEditoraBean.editora.codigo}"
                                    >
-                          <p:ajax event="blur" process="@form" update="@this msgTxtCodigo btnEditar" />
+                          <p:ajax event="blur" update="msgTxtCodigo btnEditar" />
                      </p:inputText>
                      <p:message id="msgTxtCodigo" for="txtCodigo" />
                      
@@ -105,7 +105,7 @@
                                   label="Endereco"
                                   value="#{cadastroEditoraBean.editora.endereco}"
                                   >
-                         <p:ajax event="blur" process="@form" update="@this msgTxtEndereco btnEditar" />
+                         <p:ajax event="blur" update="msgTxtEndereco btnEditar" />
                      </p:inputText>
                      <p:message id="msgTxtEndereco" for="txtEndereco" />
                      
@@ -114,7 +114,7 @@
                                   label="Nome"
                                   value="#{cadastroEditoraBean.editora.nome}"
                                   >
-                         <p:ajax event="blur" process="@form" update="@this msgTxtNome btnEditar" />
+                         <p:ajax event="blur" update="msgTxtNome btnEditar" />
                      </p:inputText> 
                      <p:message id="msgTxtNome" for="txtNome" />
                   </p:panelGrid>

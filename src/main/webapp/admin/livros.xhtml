@@ -9,7 +9,7 @@
     template="/WEB-INF/templates/admin.xhtml">
 
     <ui:param name="tituloPagina" value="Cadastro de Livros" />
-    <ui:param name="mensagensglobais" value="#{true}" />
+    <ui:param name="mensagensGlobais" value="#{true}" />
 
     <ui:define name="cabecalho">
         <p:breadCrumb>
@@ -173,7 +173,7 @@
                         <p:commandButton id="btnCancelar"
                                          value="Cancelar"
                                          icon="ui-icon-cancel"
-                                         immediate="false"
+                                         immediate="true"
                                          onclick="dlgEditar.hide()"
                                          />
                     </center>

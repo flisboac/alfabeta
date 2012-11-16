@@ -46,17 +46,14 @@
                                 <p:commandButton id="btnLogoff"
                                                  value="Logoff"
                                                  icon="ui-icon-key"
-                                                 action="#{clienteBean.efetuarLogoff}"
+                                                 immediate="true"
                                                  update="@all"
+                                                 action="#{clienteBean.efetuarLogoff()}"
                                                  rendered="#{clienteBean.clienteLogado}" />
                                 <p:overlayPanel id="pnlLogin"
                                                 for="btnLoginPanel"
                                                 widgetVar="pnlLogin">
                                     <p:panelGrid columns="2" styleClass="ui-panelgrid-noborder">
-                                        
-                                        <f:facet name="header">
-                                            <p:messages autoUpdate="true" />
-                                        </f:facet>
                                         
                                         <h:outputLabel for="txtLogin" value="E-mail" />
                                         <p:inputText id="txtLogin" value="#{clienteBean.cliente.email}" />

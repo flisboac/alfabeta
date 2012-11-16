@@ -151,6 +151,8 @@ public class Livro implements Serializable, Entidade {
         livro.codigo = this.codigo;
         livro.nome = this.nome;
         livro.editora = this.editora;
+        livro.quantidadeMinima = this.quantidadeMinima;
+        livro.quantidade = this.quantidade;
         return livro;
     }
     

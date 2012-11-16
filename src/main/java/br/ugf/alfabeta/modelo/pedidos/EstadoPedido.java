@@ -10,7 +10,20 @@ package br.ugf.alfabeta.modelo.pedidos;
  */
 public enum EstadoPedido {
     
-    Criada,
-    Atendido,
-    Cancelada
+    // Estado inicial do pedido.
+    Criado(false),
+    // Estado atribuído a um pedido já atendido.
+    Atendido(true),
+    // Estado atribuído a um pedido cancelado por um cliente.
+    Cancelado(true);
+    
+    private boolean terminal;
+    
+    private EstadoPedido(boolean terminal) {
+        this.terminal = terminal;
+    }
+
+    public boolean isTerminal() {
+        return terminal;
+    }
 }

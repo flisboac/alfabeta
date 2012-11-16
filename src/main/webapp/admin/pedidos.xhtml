@@ -5,11 +5,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://java.sun.com/jsf/core">
-    
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/WEB-INF/templates/admin.xhtml">
+
     <ui:param name="tituloPagina" value="Cadastro de Pedidos" />
     <ui:param name="mensagensglobais" value="#{true}" />
-    
+
     <ui:define name="cabecalho">
         <p:breadCrumb>
             <p:menuitem value="Home" outcome="/admin/index.xhtml" />
@@ -17,20 +18,21 @@
             <p:menuitem value="Pedidos" outcome="/admin/pedidos.xhtml"/>
         </p:breadCrumb>
     </ui:define>
-    
+
     <ui:define name="corpo">
-        
-        <p:toolbar>
+
+        <h:form id="frmListar">
+            <p:toolbar>
                 <p:toolbarGroup align="right">
-        <p:commandButton id="btnVisualizar"
+                    <p:commandButton id="btnVisualizar"
                                      value="Visualizar"
                                      icon="ui-icon-visualize"
                                      update=":frmVisualizar"
-                                     action="#{visualizacaoPedidoBean.prepararVisualizacaocao()}"
+                                     action="#{visualizacaoPedidoBean.prepararVisualizacao()}"
                                      oncomplete="dlgVisualizar.show()"
                                      />    
-        
-        <p:commandButton id="btnFinalizar"
+
+                    <p:commandButton id="btnFinalizar"
                                      value="Finalizar"
                                      icon="ui-icon-end"
                                      update=":frmFinalizar"
@@ -38,11 +40,11 @@
                                      oncomplete="dlgFinalizar.show()"
                                      />    
                 </p:toolbarGroup>
-         </p:toolbar>
+            </p:toolbar>
 
-        <p:separator />
-        
-        <p:dataTable id="lstEntidades"
+            <p:separator />
+
+            <p:dataTable id="lstEntidades"
                          widgetVar="lstEntidades"
                          value="#{visualizacaoPedidoBean.pedidos}"
                          var="pedido"
@@ -51,19 +53,20 @@
                          selectionMode="single"
                          rows="10"
                          >
-        <p:ajax event="rowSelect" update="@form" />
-        <p:ajax event="rowUnselect" update="@form" />
-        
-        <p:column headerText="Código"
+                <p:ajax event="rowSelect" update="@form" />
+                <p:ajax event="rowUnselect" update="@form" />
+
+                <p:column headerText="Código"
                           filterBy="#{pedido.codigo}"
                           filterMatchMode="contains"
                           >
                     #{pedido.codigo}
                 </p:column>
-        
-      </p:dataTable>
+
+            </p:dataTable>
+        </h:form>
     </ui:define>
-    
+
     <ui:define name="extra">
         <h:form id="frmVisualizar">
             <p:dialog id="dlgVisualizar"
@@ -78,21 +81,21 @@
                     <h:outputText value="#{VisualizacaoPedidoBean.pedido.dataHoraCriacao}" />
                     <h:outputText value="#{VisualizacaoPedidoBean.pedido.estado}" />
                     <h:outputText value="#{VisualizacaoPedidoBean.pedido.clientecriador.nome}" />
-                    
+
                     <f:facet name="footer">
-                    <center>
-                        <p:commandButton id="btnCancelar"
-                                         value="Cancelar"
-                                         icon="ui-icon-cancel"
-                                         immediate="false"
-                                         onclick="dlgEditar.hide()"
-                                         />
+                        <center>
+                            <p:commandButton id="btnCancelar"
+                                             value="Cancelar"
+                                             icon="ui-icon-cancel"
+                                             immediate="false"
+                                             onclick="dlgEditar.hide()"
+                                             />
                         </center>
-                </f:facet>
-          </p:panelGrid>
-       </p:dialog>
-     </h:form>
-        
+                    </f:facet>
+                </p:panelGrid>
+            </p:dialog>
+        </h:form>
+
         <h:form id="frmFinalizar" rendered="false">
             <p:confirmDialog id="dlgFinalizar"
                              header="Finalizar Pedido"
@@ -101,13 +104,13 @@
                              >
                 <center>
                     <p:commandButton id="btnFinalizar"
-                                     action="#{cadastroLivroBean.finalizarpedido}"
+                                     action="#{cadastroLivroBean.finalizarPedido}"
                                      icon="ui-icon-trash"
                                      value="Finalizar"
-                                     update=":frmCadastro"
+                                     update=":frmListar"
                                      oncomplete="dlgFinalizar.hide()"
                                      />
-                
+
                 </center>
             </p:confirmDialog>
         </h:form>
@@ -116,7 +119,6 @@
 </ui:composition> 
 
 
-                    
-                    
-                    
-                    
+
+
+

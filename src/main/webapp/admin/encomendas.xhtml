@@ -1,15 +1,16 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition     
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      template="/WEB-INF/templates/admin.xhtml">
-    
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/admin.xhtml"
+    xmlns:f="http://java.sun.com/jsf/core">
+
     <ui:param name="tituloPagina" value="Cadastro de Encomenda"/>
     <ui:param name="mensagensGlobais" value="#{true}" />
-    
+
     <ui:define name="cabecalho">
         <p:breadCrumb>
             <p:menuitem value="Home" outcome="/admin/index.xhtml" />
@@ -17,15 +18,186 @@
             <p:menuitem value="Encomendas" outcome="/admin/encomendas.xhtml" />
         </p:breadCrumb>
     </ui:define>
-    
+
     <ui:define name="corpo">
+        <h:form id="frmListar">
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton id="btnVerificar"
+                                 value="Verificar"
+                                 icon="ui-icon-lightbulb"
+                                 action="#{visualizacaoEncomendaBean.prepararVerificacao}"
+                                 update=":frmVerificar"
+                                 oncomplete="dlgVerificar.show()" />
+            </p:toolbarGroup>
+            
+            <p:toolbarGroup align="right">
+                <p:commandButton id="btnVisualizar"
+                                 value="Visualizar"
+                                 icon="ui-icon-search"
+                                 action="#{visualizacaoEncomendaBean.prepararVisualizacao}"
+                                 update=":frmVisualizar"
+                                 oncomplete="dlgVisualizar.show()" 
+                                 disabled="#{visualizacaoEncomendaBean.encomenda.id == null}"/>
+                <p:commandButton id="btnFinalizar"
+                                 value="Finalizar"
+                                 icon="ui-icon-trash"
+                                 action="#{visualizacaoEncomendaBean.prepararFinalizacao}"
+                                 update=":frmFinalizar"
+                                 oncomplete="dlgFinalizar.show()"
+                                 disabled="#{visualizacaoEncomendaBean.encomenda.id == null}"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+            
+        <p:separator />
         
+        <p:dataTable id="lstEntidades"
+                     widgetVar="lstEntidades"
+                     value="#{visualizacaoEncomendaBean.encomendas}"
+                     var="encomenda"
+                     rowKey="#{encomenda.id}"
+                     selection="#{visualizacaoEncomendaBean.encomenda}"
+                     selectionMode="single"
+                     rows="10">
+            
+        </p:dataTable>
+        </h:form>
     </ui:define>
-               
+
     <ui:define name="extra">
+        <h:form id="frmVerificar">
+            <p:dialog id="dlgVerificar"
+                      widgetVar="dlgVerificar"
+                      header="Verificar Possíveis Encomendas"
+                      modal="true"
+                      resizable="false"
+                      hideEffect="fade"
+                      >
+                <!-- TODO -->
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="btnCadastrar"
+                                         value="Cadastrar Selecionadas"
+                                         icon="ui-icon-disk"
+                                         action="#{visualizacaoEncomendaBean.cadastrar}"
+                                         update=":frmListar"
+                                         disabled="#{visualizacaoEncomendaBean.cadastroValido}"
+                                         oncomplete="dlgVerificar.hide()"/>
+                        <p:commandButton id="btnCancelar"
+                                         value="Cancelar"
+                                         icon="ui-icon-cancel"
+                                         immediate="true"
+                                         onclick="dlgVerificar.hide()" />
+                    </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
         
+        <h:form id="frmVisualizar">
+            <p:dialog id="dlgVisualizar"
+                      widgetVar="dlgVisualizar"
+                      header="Visualizando Encomenda"
+                      modal="true"
+                      resizable="false"
+                      hideEffect="fade"
+                      >
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-nobackground">
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-nobackground">
+                        <h:outputText value="Código" />
+                        <h:outputText value="#{visualizacaoEncomendaBean.encomenda.codigo}" />
+
+                        <h:outputText value="Estado Atual" />
+                        <h:outputText value="#{visualizacaoEncomendaBean.encomenda.estado.titulo}" />
+
+                        <h:outputText value="Editora de Destino" />
+                        <h:outputText value="#{visualizacaoEncomendaBean.encomenda.editora.codigo}
+                                      - #{visualizacaoEncomendaBean.encomenda.editora.nome}" />
+
+                        <h:outputText value="Data de Criação" />
+                        <h:outputText value="#{visualizacaoEncomendaBean.encomenda.dataHoraCriacao}" />
+
+                        <h:outputText value="Funcionário Criador" />
+                        <h:outputText value="#{visualizacaoEncomendaBean.encomenda.funcionarioCriador.matricula}
+                                      - #{visualizacaoEncomendaBean.encomenda.funcionarioCriador.nome}" />
+
+                        <h:outputText value="Data de Finalização"
+                                      rendered="#{not empty visualizacaoEncomendaBean.encomenda.dataHoraFinalizacao}" />
+                        <h:outputText value="#{visualizacaoEncomendaBean.encomenda.dataHoraFinalizacao}"
+                                      rendered="#{not empty visualizacaoEncomendaBean.encomenda.dataHoraFinalizacao}"/>
+                        
+                        <h:outputText value="Funcionário Finalizador"
+                                      rendered="#{not empty visualizacaoEncomendaBean.encomenda.funcionarioFinalizador}" />
+                        <h:outputText value="#{visualizacaoEncomendaBean.encomenda.funcionarioFinalizador.matricula}
+                                             - #{visualizacaoEncomendaBean.encomenda.funcionarioFinalizador.nome}" />
+                                      rendered="#{not empty visualizacaoEncomendaBean.encomenda.funcionarioFinalizador}"/>
+                    </p:panelGrid>
+                    
+                    <p:dataList value="#{visualizacaoEncomendaBean.encomenda.itens}"
+                                var="itemEncomenda"
+                                paginator="true"
+                                type="unordered"
+                                >
+                        <f:facet name="header">Livros Encomendados</f:facet>
+                        [#{itemEncomenda.livro.codigo}] #{itemEncomenda.livro.nome}: #{itemEncomenda.quantidade} unidades
+                    </p:dataList>
+                </p:panelGrid>
+                
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="btnFechar"
+                                         value="Fechar"
+                                         icon="ui-icon-cancel"
+                                         immediate="true"
+                                         onclick="dlgVisualizar.hide()" />
+                    </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+            
+        <h:form id="frmFinalizar">
+            <p:dialog id="dlgFinalizar" 
+                      widgetVar="dlgFinalizar"
+                      header="Finalizar Encomenda"
+                      modal="true"
+                      resizable="false"
+                      hideEffect="fade"
+                      >
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
+                    <h:outputLabel for="cmbEstado" value="Estado Final" />
+                    <p:selectOneMenu id="cmbEstado"
+                                     label="estado"
+                                     value="#{visualizacaoEncomendaBean.encomenda.estado}"
+                                     >
+                        <p:ajax event="change" update="msgCmbEstado btnFinalizar" />
+                        <f:selectItem itemLabel="Selecione..." itemValue="" />
+                        <f:selectItems value="#{visualizacaoEncomendaBean.estados}"
+                                       var="estado"
+                                       itemLabel="#{estado.titulo}"
+                                       itemValue="#{estado}" />
+                    </p:selectOneMenu>
+                    <p:message id="msgCmbEstado" for="cmbEstado" />
+                </p:panelGrid>
+
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="btnFinalizar"
+                                         value="Finalizar"
+                                         icon="ui-icon-disk"
+                                         action="#{visualizacaoEncomendaBean.finalizar}"
+                                         update=":frmListar"
+                                         disabled="#{visualizacaoEncomendaBean.finalizacaoValida}"
+                                         oncomplete="dlgFinalizar.hide()"/>
+                        <p:commandButton id="btnCancelar"
+                                         value="Cancelar"
+                                         icon="ui-icon-cancel"
+                                         immediate="true"
+                                         onclick="dlgFinalizar.hide()" />
+                    </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
     </ui:define>
 </ui:composition>
-               
-    
-        
+
+
+
