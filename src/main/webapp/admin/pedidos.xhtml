@@ -1,12 +1,121 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
-</html>
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:param name="tituloPagina" value="Cadastro de Pedidos" />
+    <ui:param name="mensagensglobais" value="#{true}" />
+    
+    <ui:define name="cabecalho">
+        <p:breadCrumb>
+            <p:menuitem value="Home" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Cadastro" outcome="/admin/index.xhtml" />
+            <p:menuitem value="Pedidos" outcome="/admin/pedidos.xhtml"/>
+        </p:breadCrumb>
+    </ui:define>
+    
+    <ui:define name="corpo">
+        
+        <p:toolbar>
+                <p:toolbarGroup align="right">
+        <p:commandButton id="btnVisualizar"
+                                     value="Visualizar"
+                                     icon="ui-icon-"
+                                     update=":frmVisualizar"
+                                     action="#{visualacaoPedidoBean.prepararVisualizacaocao()}"
+                                     oncomplete="dlgVisualizar.show()"
+                                     />    
+        
+        <p:commandButton id="btnFinalizar"
+                                     value="Visualizar"
+                                     icon="ui-icon-"
+                                     update=":frmVisualizar"
+                                     action="#{visualacaoPedidoBean.prepararVisualizacaocao()}"
+                                     oncomplete="dlgVisualizar.show()"
+                                     />    
+        </p:toolbarGroup>
+            </p:toolbar>
 
+        <p:separator />
+        
+        <p:dataTable id="lstEntidades"
+                         widgetVar="lstEntidades"
+                         value="#{visualizacaoPedidoBean.pedidos}"
+                         var="pedido"
+                         rowKey="#{pedido.id}"
+                         selection="#{cadastroPedidoBean.pedido}"
+                         selectionMode="single"
+                         rows="10"
+                         >
+        <p:ajax event="rowSelect" update="@form" />
+        <p:ajax event="rowUnselect" update="@form" />
+        
+        <p:column headerText="Código"
+                          filterBy="#{pedido.codigo}"
+                          filterMatchMode="contains"
+                          >
+                    #{pedido.codigo}
+                </p:column>
+        
+      </p:dataTable>
+    </ui:define>
+    
+    <ui:define name="extra">
+        <h:form id="frmVisualizar">
+            <p:dialog id="dlgVisualizar"
+                      widgetVar="dlgVisualizar"
+                      modal="true"
+                      header="Visualizar Pedido"
+                      resizable="false"
+                      hideEffect="fade"
+                      >
+        <p:panelGrid columns="3" styleClass="ui-panelgrid-noborder">
+                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.Codigo}" />
+                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.dataHoraCriacao}" />
+                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.estado}" />
+                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.clientecriador.nome}" />
+                    
+                    <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="btnCancelar"
+                                         value="Cancelar"
+                                         icon="ui-icon-cancel"
+                                         immediate="false"
+                                         onclick="dlgEditar.hide()"
+                                         />
+                        </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="frmFinalizar" rendered="false">
+            <p:confirmDialog id="dlgFinalizar"
+                             header="Finalizar Pedido"
+                             message="Tem certeza que deseja finalizar o pedido?"
+                             widgetVar="dlgFinalizar"
+                             >
+                <center>
+                    <p:commandButton id="btnFinalizar"
+                                     action="#{cadastroLivroBean.finalizarPedido}"
+                                     icon="ui-icon-trash"
+                                     value="Finalizar"
+                                     update=":frmCadastro"
+                                     oncomplete="dlgFinalizar.hide()"
+                                     />
+                
+                </center>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition> 
+
+
+                    
+                    
+                    
+                    
