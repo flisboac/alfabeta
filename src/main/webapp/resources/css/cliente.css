@@ -1,7 +1,8 @@
 
 body {
     
-    background: url("#{resource['images:fundo-carbon.png']}") repeat;
+    background: url("#{resource['images:fundo-cliente-repeat.png']}") repeat;
+    background-color: rgba(0, 255, 0, 0.05);
 }
 
 div#wrapperbg {

@@ -134,4 +134,42 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
     public Class<T> getClasseEntidade() {
         return this.classe;
     }
+
+    @Override
+    public List<T> listarOrdenado(OrdemListagem ordem, String... campos) throws ExcecaoDao {
+        
+        List<T> retorno = null;
+        Class<T> classeEntidade = getClasseEntidade();
+        EntityManager manager = this.helper.getEntityManager();
+        String sep = "";
+        String jpql = "select x"
+                + " from " + classeEntidade.getName();
+        
+        if (campos.length > 0) {
+            jpql += " order by ";
+            
+            for (String campo : campos) {
+                jpql += sep + "x." + campo;
+                sep = ", ";
+            }
+        }
+        
+        switch (ordem) {
+            case Ascendente:  jpql += " asc"; break;
+            case Descendente: jpql += " desc"; break;
+        }
+        
+        try {
+            retorno = manager.createQuery(jpql).getResultList();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao listar entidades '" 
+                    + classeEntidade.getName() 
+                    + "', ordem: " + ordem 
+                    + ", campos: [" + campos + "]."
+                    , e);
+        }
+        
+        return retorno;
+    }
 }

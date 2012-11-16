@@ -88,9 +88,24 @@
             <div id="wrappermiddle">
                 <div id="menu">
                     <h:form id="frmMenu">
-                        <p:megaMenu id="mnuPrincipal">
-                            <p:menuitem value="Home" icon="ui-icon-home" outcome="/cliente/index.xhtml" />
-                        </p:megaMenu>
+                        <p:toolbar id="mnuPrincipal">
+                            <p:toolbarGroup align="left">
+                                <p:menubar>
+                                    <p:menuitem value="Home" icon="ui-icon-home" url="/cliente/index.xhtml" />
+                                    <p:menuitem value="Acervo" icon="ui-icon-home" url="/cliente/acervo.xhtml" />
+                                    <p:menuitem value="Carrinho" icon="ui-icon-home" url="/cliente/carrinho.xhtml" 
+                                                rendered="#{clienteBean.clienteLogado}"/>
+                                </p:menubar>
+                            </p:toolbarGroup>
+                            
+                            <p:toolbarGroup align="right">
+                                <p:splitButton id="btnComprar"
+                                               icon="ui-icon-cart"
+                                               value="Comprar"
+                                               rendered="#{clienteBean.clienteLogado}"
+                                               />
+                            </p:toolbarGroup>
+                        </p:toolbar>
                     </h:form>
                 </div>
                 <div id="corpo">

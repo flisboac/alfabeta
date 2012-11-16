@@ -1,6 +1,7 @@
 body {
     
-    background-color: rgba(0, 255, 0, 0.1);
+    background: url("#{resource['images:fundo-cliente-repeat.png']}") repeat;
+    background-color: rgba(0, 255, 0, 0.05);
 }
 
 div#wrapper {

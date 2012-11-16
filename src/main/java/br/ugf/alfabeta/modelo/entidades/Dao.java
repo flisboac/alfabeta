@@ -20,5 +20,6 @@ public interface Dao<T extends Entidade> {
     boolean existe(T entidade) throws ExcecaoDao;
     boolean existeId(Long id) throws ExcecaoDao;
     List<T> listar() throws ExcecaoDao;
+    List<T> listarOrdenado(OrdemListagem ordem, String... campos) throws ExcecaoDao;
     Class<T> getClasseEntidade();
 }

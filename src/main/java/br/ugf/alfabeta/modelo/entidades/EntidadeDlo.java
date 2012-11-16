@@ -11,6 +11,8 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
 import br.ugf.alfabeta.modelo.validacoes.Consulta;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -191,6 +193,34 @@ public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
         // que o valor de retorno é válido é querer demais...
         if (retorno == null) {
             throw new ExcecaoPersistenciaDlo("Valor inválido retornado da camada de persistência.");
+        }
+        
+        return retorno;
+    }
+
+    @Override
+    public List<T> listarOrdenado(OrdemListagem ordem, String... campos) throws ExcecaoDlo {
+        
+        List<T> retorno = null;
+        Dao<T> entidadeDao = getDao();
+        
+        if (ordem == null) {
+            throw new ExcecaoCriticaDlo("Ordem não deve ser nula.");
+        }
+        
+        if (campos == null) {
+            campos = new String[0];
+        }
+        
+        try {
+            retorno = entidadeDao.listarOrdenado(ordem, campos);
+            
+        } catch (ExcecaoDao ex) {
+            throw new ExcecaoPersistenciaDlo(ex);
+        }
+        
+        if (retorno == null) {
+            throw new ExcecaoPersistenciaDlo("Lista nula retornada.");
         }
         
         return retorno;
