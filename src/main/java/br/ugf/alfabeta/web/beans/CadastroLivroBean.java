@@ -30,7 +30,7 @@ public class CadastroLivroBean extends CadastroBean<Livro> {
     private List<Editora> editoras;
     private List<Livro> livros;
     private Livro livro;
-
+    
     
     // [ ACTIONS ] =============================================================
     

@@ -125,6 +125,15 @@
                         <p:ajax event="blur" update="msgTxtCodigo btnEditar" />
                     </p:inputText>
                     <p:message id="msgTxtCodigo" for="txtCodigo"/>
+                    
+                    <h:outputLabel for="txtPreco" value="Preco" />
+                    <p:inputText id="txtPreco"
+                                 label="preco"
+                                 value="#{cadastroLivroBean.livro.preco}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtPreco btnEditar" />
+                    </p:inputText>
+                    <p:message id="msgTxtPreco" for="txtPreco"/>
 
                     <h:outputLabel for="txtNome" value="Nome" />
                     <p:inputText id="txtNome"
