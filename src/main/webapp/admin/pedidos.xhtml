@@ -24,21 +24,21 @@
                 <p:toolbarGroup align="right">
         <p:commandButton id="btnVisualizar"
                                      value="Visualizar"
-                                     icon="ui-icon-"
+                                     icon="ui-icon-visualize"
                                      update=":frmVisualizar"
-                                     action="#{visualacaoPedidoBean.prepararVisualizacaocao()}"
+                                     action="#{visualizacaoPedidoBean.prepararVisualizacaocao()}"
                                      oncomplete="dlgVisualizar.show()"
                                      />    
         
         <p:commandButton id="btnFinalizar"
-                                     value="Visualizar"
-                                     icon="ui-icon-"
-                                     update=":frmVisualizar"
-                                     action="#{visualacaoPedidoBean.prepararVisualizacaocao()}"
-                                     oncomplete="dlgVisualizar.show()"
+                                     value="Finalizar"
+                                     icon="ui-icon-end"
+                                     update=":frmFinalizar"
+                                     action="#{finalizacaoPedidoBean.prepararFinalizacao()}"
+                                     oncomplete="dlgFinalizar.show()"
                                      />    
-        </p:toolbarGroup>
-            </p:toolbar>
+                </p:toolbarGroup>
+         </p:toolbar>
 
         <p:separator />
         
@@ -73,7 +73,7 @@
                       resizable="false"
                       hideEffect="fade"
                       >
-        <p:panelGrid columns="3" styleClass="ui-panelgrid-noborder">
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-noborder">
                     <h:outputText value="#{VisualizacaoPedidoBean.pedido.Codigo}" />
                     <h:outputText value="#{VisualizacaoPedidoBean.pedido.dataHoraCriacao}" />
                     <h:outputText value="#{VisualizacaoPedidoBean.pedido.estado}" />
@@ -89,8 +89,9 @@
                                          />
                         </center>
                 </f:facet>
-            </p:dialog>
-        </h:form>
+          </p:panelGrid>
+       </p:dialog>
+     </h:form>
         
         <h:form id="frmFinalizar" rendered="false">
             <p:confirmDialog id="dlgFinalizar"
@@ -100,7 +101,7 @@
                              >
                 <center>
                     <p:commandButton id="btnFinalizar"
-                                     action="#{cadastroLivroBean.finalizarPedido}"
+                                     action="#{cadastroLivroBean.finalizarpedido}"
                                      icon="ui-icon-trash"
                                      value="Finalizar"
                                      update=":frmCadastro"
