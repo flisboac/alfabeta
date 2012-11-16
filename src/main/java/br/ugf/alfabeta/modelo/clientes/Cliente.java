@@ -6,15 +6,19 @@ package br.ugf.alfabeta.modelo.clientes;
 
 import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.funcionarios.Funcionario;
+import br.ugf.alfabeta.modelo.pedidos.Pedido;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
@@ -44,7 +48,7 @@ public class Cliente implements Serializable, Entidade {
     @GeneratedValue
     @Column(name="id_cliente", nullable=false, unique=true)
     @NotNull(message="ID deve ser fornecido.", groups=Identificacao.class)
-    protected Long idCliente;
+    protected Long id;
     
     /**
      * E-mail do cliente.
@@ -71,25 +75,28 @@ public class Cliente implements Serializable, Entidade {
     @Size(min=1, max=30, message="Nome excede os limites.", groups=Identidade.class)
     protected String nome;
     
+    @OneToMany(mappedBy="clienteCriador", cascade = CascadeType.ALL)
+    protected List<Pedido> pedidos;
+    
     
     // [ GETTERS / SETTERS ] ===================================================
     
     
     @Override
     public Long getId() {
-        return idCliente;
+        return id;
     }
 
     public void setId(Long id) {
-        this.idCliente = id;
+        this.id = id;
     }
 
     public Long getIdCliente() {
-        return idCliente;
+        return id;
     }
 
     public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
+        this.id = idCliente;
     }
 
     public String getEmail() {
@@ -114,6 +121,14 @@ public class Cliente implements Serializable, Entidade {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
     
     // [ IDENTIDADE / EQUALS / HASHCODE ] ======================================
@@ -145,7 +160,7 @@ public class Cliente implements Serializable, Entidade {
     @Override
     public String toString() {
         return "Cliente{" 
-                + "id=" + idCliente 
+                + "id=" + id 
                 + ", email=" + email 
                 + ", senha=" + senha 
                 + ", nome=" + nome 
@@ -155,12 +170,16 @@ public class Cliente implements Serializable, Entidade {
     @Override
     public Cliente clone() {
         
-        Cliente cliente = null;
-        cliente.idCliente = this.idCliente;
+        return clone(new Cliente());
+    }
+    
+    public Cliente clone(Cliente cliente) {
+        
+        cliente.id = this.id;
         cliente.email = this.email;
         cliente.nome = this.nome;
         cliente.senha = this.senha;
+        cliente.pedidos = this.pedidos;
         return cliente;
     }
-    
 }

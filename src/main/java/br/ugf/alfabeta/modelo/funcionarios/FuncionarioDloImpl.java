@@ -13,10 +13,10 @@ import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 public class FuncionarioDloImpl extends EntidadeDloPersistencia<Funcionario> implements FuncionarioDlo {
     
     public FuncionarioDloImpl() {
-        super(new FuncionarioDaoImpl());
+        super(new FuncionarioDaoImpl(), new ValidadorFuncionario());
     }
     
     public FuncionarioDloImpl(FuncionarioDao dao) {
-        super(dao);
+        super(dao, new ValidadorFuncionario());
     }
 }

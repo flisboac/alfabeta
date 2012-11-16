@@ -13,10 +13,10 @@ import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements PedidoDlo {
     
     public PedidoDloImpl() {
-        super(new PedidoDaoImpl());
+        super(new PedidoDaoImpl(), new ValidadorPedido());
     }
     
     public PedidoDloImpl(PedidoDao dao) {
-        super(dao);
+        super(dao, new ValidadorPedido());
     }
 }

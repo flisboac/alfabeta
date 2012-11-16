@@ -25,8 +25,8 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="itempedido", uniqueConstraints= {
-    @UniqueConstraint(columnNames={"id_itempedido"}),
-    @UniqueConstraint(columnNames={"id_pedido", "id_livro"})
+    @UniqueConstraint(name = "itempedido_pk", columnNames={"id_itempedido"}),
+    @UniqueConstraint(name = "itempedido_uq", columnNames={"id_pedido", "id_livro"})
 })
 public class ItemPedido implements Serializable, Entidade {
     

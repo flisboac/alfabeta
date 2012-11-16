@@ -13,10 +13,10 @@ import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 public class DebitoDloImpl extends EntidadeDloPersistencia<Debito> implements DebitoDlo { 
     
     public DebitoDloImpl() {
-        super(new DebitoDaoImpl());
+        super(new DebitoDaoImpl(), new ValidadorDebito());
     }
     
     public DebitoDloImpl(DebitoDao dao) {
-        super(dao);
+        super(dao, new ValidadorDebito());
     }
 }

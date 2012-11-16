@@ -8,15 +8,15 @@ import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.pedidos.Pedido;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,8 +26,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "debito", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_debito"}),
-    @UniqueConstraint(columnNames = {"id_pedido"})
+    @UniqueConstraint(name = "debito_pk", columnNames = {"id_debito"}),
+    @UniqueConstraint(name = "debito_uq", columnNames = {"id_pedido"})
 })
 public class Debito implements Entidade {
 
@@ -41,9 +41,10 @@ public class Debito implements Entidade {
     @Size(min=1, max=30, message="Código da nota fiscal excede os limites de tamanho.", groups=Identidade.class)
     private String codigoNf;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="id_pedido", referencedColumnName="id_pedido", nullable = false)
     @NotNull(message="Todo débito deve ter um pedido de origem.", groups=Identidade.class)
+    @Valid
     private Pedido pedido;
     
     @Column(name="valor_debito", nullable = false)

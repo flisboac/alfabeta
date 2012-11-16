@@ -42,6 +42,7 @@
                                      action="#{cadastroFuncionarioBean.prepararExclusao()}"
                                      oncomplete="dlgExcluir.show()"
                                      update=":frmExcluir"
+                                     rendered="false"
                                      disabled="#{not empty cadastroFuncionarioBean.entidade}" />
                 </p:toolbarGroup>
             </p:toolbar>
@@ -85,6 +86,7 @@
                       widgetVar="dlgEditar"
                       modal="true"
                       header="Cadastrar Funcionário"
+                      resizable="false"
                       onHide="fade"
                       >
                 <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
@@ -144,7 +146,7 @@
             </p:dialog>
         </h:form>
         
-        <h:form id="frmExcluir">
+        <h:form id="frmExcluir" rendered="false">
             <p:confirmDialog id="dlgExcluir"
                              widgetVar="dlgExcluir"
                              closable="false"

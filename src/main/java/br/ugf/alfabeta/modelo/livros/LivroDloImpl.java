@@ -13,10 +13,10 @@ import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 public class LivroDloImpl extends EntidadeDloPersistencia<Livro> implements LivroDlo {
     
     public LivroDloImpl() {
-        super(new LivroDaoImpl());
+        super(new LivroDaoImpl(), new ValidadorLivro());
     }
     
     public LivroDloImpl(LivroDao dao) {
-        super(dao);
+        super(dao, new ValidadorLivro());
     }
 }

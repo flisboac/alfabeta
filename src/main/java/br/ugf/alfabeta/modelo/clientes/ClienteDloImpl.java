@@ -19,11 +19,11 @@ import java.util.logging.Logger;
 public class ClienteDloImpl extends EntidadeDloPersistencia<Cliente> implements ClienteDlo {
     
     public ClienteDloImpl() {
-        super(new ClienteDaoImpl());
+        super(new ClienteDaoImpl(), new ValidadorCliente());
     }
     
     public ClienteDloImpl(ClienteDao dao) {
-        super(dao);
+        super(dao, new ValidadorCliente());
     }
     
     @Override

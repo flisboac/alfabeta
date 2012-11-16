@@ -13,10 +13,10 @@ import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 public class EditoraDloImpl extends EntidadeDloPersistencia<Editora> implements EditoraDlo {
     
     public EditoraDloImpl() {
-        super(new EditoraDaoImpl());
+        super(new EditoraDaoImpl(), new ValidadorEditora());
     }
     
     public EditoraDloImpl(EditoraDao dao) {
-        super(dao);
+        super(dao, new ValidadorEditora());
     }
 }
