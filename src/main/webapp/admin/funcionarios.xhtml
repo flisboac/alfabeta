@@ -23,7 +23,7 @@
         <h:form id="frmCadastro">
             <p:toolbar>
                 <p:toolbarGroup align="right">
-                    <p:commandButton id="btnInserir"
+                    <p:commandButton id="btnInserir" 
                                      value="Novo"
                                      icon="ui-icon-disk"
                                      update=":frmEditar"
@@ -79,6 +79,7 @@
     </ui:define>
     
     <ui:define name="extra">
+              
         <h:form id="frmEditar">
             <p:dialog id="dlgEditar"
                       widgetVar="dlgEditar"
@@ -130,7 +131,7 @@
                                          value="Cadastrar"
                                          icon="ui-icon-disk"
                                          action="#{cadastroFuncionarioBean.salvar()}"
-                                         disabled="#{cadastroFuncionarioBean.edicaoValida}"
+                                         disabled="#{not cadastroFuncionarioBean.edicaoValida}"
                                          update=":frmCadastro"
                                          oncomplete="dlgEditar.hide()" />
                         <p:commandButton id="btnCancelar"

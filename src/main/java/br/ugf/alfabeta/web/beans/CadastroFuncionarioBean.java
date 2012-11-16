@@ -5,11 +5,14 @@
 package br.ugf.alfabeta.web.beans;
 
 import br.ugf.alfabeta.modelo.entidades.Dlo;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.funcionarios.Funcionario;
 import br.ugf.alfabeta.modelo.funcionarios.FuncionarioDlo;
 import br.ugf.alfabeta.modelo.funcionarios.FuncionarioDloImpl;
 import br.ugf.alfabeta.web.entidades.CadastroBean;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -29,13 +32,45 @@ public class CadastroFuncionarioBean extends CadastroBean<Funcionario> {
     // [ ACTIONS ] =============================================================
     
     
+    @Override
+    public void inicializar(){
+        super.inicializar();
+        carregarFuncionarios();
+     }
+    
+    
     public void salvar() {
-        
+        try {
+            this.funcionarioDlo.persistir(funcionario);
+            getHelper().ok("Funcionário Cadastrado com Sucesso!");
+        } catch (ExcecaoDlo ex) {
+            getHelper().erro("Erro ao cadastrar o Funcionário!");
+        }
+                
     }
     
     public void excluir() {
-        
+        try {
+            this.funcionarioDlo.excluir(funcionario);
+            getHelper().ok("Funcionário Excluido com Sucesso!");
+        } catch (ExcecaoDlo ex) {
+            getHelper().erro("Erro ao excluir o Funcionário!");
+        }
     }
+    
+    public void carregarFuncionarios() {
+        
+        this.funcionario = instanciarEntidade();
+        
+        try {
+            this.funcionarios = this.funcionarioDlo.listar();
+            
+        } catch (ExcecaoDlo ex) {
+            getHelper().erro("Erro ao listar livros.");
+        }
+    }
+    
+    
     
     // [ GETTERS / SETTERS ] ===================================================
     
