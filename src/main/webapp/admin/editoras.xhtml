@@ -94,6 +94,8 @@
                       <h:outputLabel for="txtCodigo" value="Codigo" />
                       <p:inputText id="txtCodigo"
                                    label="codigo"
+                                   required="true"
+                                   requiredMessage="Digite o codigo da editora."
                                    value="#{cadastroEditoraBean.editora.codigo}"
                                    >
                           <p:ajax event="blur" update="msgTxtCodigo btnEditar" />
@@ -103,6 +105,8 @@
                      <h:outputLabel for="txtEndereco" value="Endereco" />
                      <p:inputText id="txtEndereco"
                                   label="Endereco"
+                                  required="true"
+                                 requiredMessage="Digite o endereco da editora."
                                   value="#{cadastroEditoraBean.editora.endereco}"
                                   >
                          <p:ajax event="blur" update="msgTxtEndereco btnEditar" />
@@ -112,6 +116,8 @@
                      <h:outputLabel for="txtNome" value="Nome" />
                      <p:inputText id="txtNome"
                                   label="Nome"
+                                  required="true"
+                                 requiredMessage="Digite o nome da editora."
                                   value="#{cadastroEditoraBean.editora.nome}"
                                   >
                          <p:ajax event="blur" update="msgTxtNome btnEditar" />

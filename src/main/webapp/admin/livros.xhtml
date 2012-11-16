@@ -120,6 +120,8 @@
                     <h:outputLabel for="txtCodigo" value="Código" />
                     <p:inputText id="txtCodigo"
                                  label="codigo"
+                                 required="true"
+                                 requiredMessage="Digite o código."
                                  value="#{cadastroLivroBean.livro.codigo}"
                                  >
                         <p:ajax event="blur" update="msgTxtCodigo btnEditar" />
@@ -138,6 +140,8 @@
                     <h:outputLabel for="txtNome" value="Nome" />
                     <p:inputText id="txtNome"
                                  label="nome"
+                                 required="true"
+                                 requiredMessage="Nome do livro deve ser fornecido."
                                  value="#{cadastroLivroBean.livro.nome}"
                                  >
                         <p:ajax event="blur" update="msgTxtNome btnEditar" />

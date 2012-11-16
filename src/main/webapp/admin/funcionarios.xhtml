@@ -93,6 +93,8 @@
                     <h:outputLabel for="txtMatricula" value="Matrícula" />
                     <p:inputText id="txtMatricula"
                                  label="matricula"
+                                 required="true"
+                                 requiredMessage="Digite sua matricula."
                                  value="#{cadastroFuncionarioBean.funcionario.matricula}"
                                  >
                         <p:ajax event="blur" update="msgTxtMatricula btnEditar" />
@@ -102,6 +104,8 @@
                     <h:outputLabel for="txtEmail" value="E-mail" />
                     <p:inputText id="txtEmail"
                                  label="email"
+                                 required="true"
+                                 requiredMessage="Digite seu e-mail."
                                  value="#{cadastroFuncionarioBean.funcionario.email}"
                                  >
                         <p:ajax event="blur" update="msgTxtEmail btnEditar" />
@@ -120,6 +124,8 @@
                     <h:outputLabel for="txtSenha" value="Senha" />
                     <p:password id="txtSenha"
                                 label="senha"
+                                feedback="true"
+                                promptLabel="Digite sua senha"
                                 value="#{cadastroFuncionarioBean.funcionario.senha}"
                                 >
                         <p:ajax event="blur" update="msgTxtSenha btnEditar" />
