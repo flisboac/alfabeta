@@ -57,6 +57,9 @@ public class Livro implements Serializable, Entidade {
     @Min(value=0, message="Quantidade deve ser positiva.", groups=Identidade.class)
     private int quantidade = 0;
     
+    @Column(name="preco_livro")
+    private double preco;
+
     // [ GETTERS / SETTERS ] ===================================================
     
     @Override
@@ -106,6 +109,14 @@ public class Livro implements Serializable, Entidade {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+    
+    public double getPreco() {
+        return preco;
+    }
+    
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
     // [ EQUALS / HASHCODE ] ===================================================
