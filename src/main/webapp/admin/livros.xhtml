@@ -89,6 +89,13 @@
                     #{livro.editora.nome}
                 </p:column>
 
+                <p:column headerText="Preço"
+                          filterBy="#{livro.preco}"
+                          filterMatchMode="startsWith"
+                          >
+                    #{livro.preco}
+                </p:column>
+                
                 <p:column headerText="Qtd. Mínima"
                           filterBy="#{livro.quantidadeMinima}"
                           filterMatchMode="contains"
@@ -128,7 +135,7 @@
                     </p:inputText>
                     <p:message id="msgTxtCodigo" for="txtCodigo"/>
                     
-                    <h:outputLabel for="txtPreco" value="Preco" />
+                    <h:outputLabel for="txtPreco" value="Preço" />
                     <p:inputText id="txtPreco"
                                  label="preco"
                                  value="#{cadastroLivroBean.livro.preco}"
