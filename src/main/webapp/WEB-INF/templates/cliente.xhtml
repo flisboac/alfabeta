@@ -74,7 +74,6 @@
                                                                  action="#{loginClienteBean.efetuarLogin}"
                                                                  onsuccess="pnlLogin.hide()"
                                                                  disabled="#{loginClienteBean.edicaoValida}"
-                                                                 ajax="false"
                                                                  update="@all" />
                                                 <p:commandButton id="btnCancelar"
                                                                  value="Cancelar"
@@ -110,7 +109,10 @@
                                                value="#{clienteBean.valorTotalFormatado}"
                                                style="margin-top: 3px;font-size: 90%"
                                                rendered="#{clienteBean.clienteLogado}"
+                                               action="/portal/cliente/carrinho.xhtml?faces-redirect=true"
                                                >
+                                    <p:menuitem value="Comprar Tudo" icon="ui-icon-check" url="/portal/cliente/carrinho.xhtml" />
+                                    <p:menuitem value="Esvaziar Carrinho" icon="ui-icon-close" action="#{clienteBean.esvaziar()}" update="btnComprar" />
                                 </p:splitButton>
                             </p:toolbarGroup>
                         </p:toolbar>

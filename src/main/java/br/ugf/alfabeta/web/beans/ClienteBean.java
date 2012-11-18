@@ -37,9 +37,16 @@ public class ClienteBean extends Bean {
         
     }
     
-    
     public String getValorTotalFormatado() {
         
         return "R$ 0,00";
+    }
+    
+    public void comprar() {
+        
+    }
+    
+    public void esvaziar() {
+        
     }
 }
