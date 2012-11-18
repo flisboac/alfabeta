@@ -14,10 +14,10 @@ import javax.faces.bean.ViewScoped;
  *
  * @author Ana
  */
-    @ManagedBean
-    @ViewScoped  
-    public class VisualizacaoPedidoBean extends Bean{
-        
+@ManagedBean
+@ViewScoped
+public class VisualizacaoPedidoBean extends Bean {
+
     public List<Pedido> getPedidos() {
         return pedidos;
     }
@@ -36,5 +36,3 @@ import javax.faces.bean.ViewScoped;
     private List<Pedido> pedidos;
     private Pedido pedido;
 }
-
-

@@ -11,7 +11,7 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
  *
  * @author flavio
  */
-public interface ClienteDao extends Dao<Cliente> {
+public interface ClienteDao<T extends Cliente> extends Dao<T> {
     
-    public Cliente obterPorEmail(String email) throws ExcecaoDao;
+    public T obterPorEmail(String email) throws ExcecaoDao;
 }

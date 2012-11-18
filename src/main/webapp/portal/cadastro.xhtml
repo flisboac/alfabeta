@@ -14,8 +14,8 @@
     <ui:define name="corpo">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/" />
-            <p:menuitem value="Cliente" url="/cliente/index.xhtml" />
-            <p:menuitem value="Cadastro" url="/cliente/cadastro.xhtml" />
+            <p:menuitem value="Cliente" url="/portal/index.xhtml" />
+            <p:menuitem value="Cadastro" url="/portal/cadastro.xhtml" />
         </p:breadCrumb>
 
         <h:form id="frmCadastro">
@@ -65,13 +65,18 @@
                 </p:panelGrid>
 
                 <p:separator />
+                
                 <p:commandButton id="btnCadastrar"
+                                 widgetVar="btnCadastrar"
                                  value="Cadastrar"
                                  update="@form"
+                                 onstart="btnCadastrar.disable()"
+                                 ajax="false"
                                  disabled="#{not cadastroClienteBean.edicaoValida}"
-                                 action="#{cadastroClienteBean.cadastrarCliente}"/>
+                                 action="#{cadastroClienteBean.cadastrarCliente()}"/>
 
                 <p:commandButton id="btnLimpar"
+                                 icon="ui-icon-trash"
                                  value="Limpar Campos"
                                  type="reset" />
             </center>

@@ -14,15 +14,18 @@
         <ui:insert name="head" />
     </h:head>
     <h:body>
-            
+
         <div id="wrapper">
+
+            <!--        <div id="wrapperbg">
+                        <div id="bg" class="effect-shadow" />
+                    </div>-->
             
-<!--        <div id="wrapperbg">
-            <div id="bg" class="effect-shadow" />
-        </div>-->
             <div id="wrapperup" class="effect-bg-carbon effect-glass">
                 <div id="cabecalho">
                     <div id="cabecalho_logo">
+                        <ui:debug />
+
                         <h1>ALFABETA</h1>
                     </div>
 
@@ -32,42 +35,45 @@
                     </div>
 
                     <div id="cabecalho_login">
-                        <h:form id="frmLogin">
+                        <h:form id="frmLoginCabecalho" rendered="#{not ocultarLoginCabecalho}">
                             <p>
-                               
-                                <h:outputLink rendered="#{not clienteBean.clienteLogado}" value="#{request.contextPath}/cliente/cadastro.xhtml">Cadastre-se!</h:outputLink>
+
+                                <h:outputLink rendered="#{not clienteBean.clienteLogado}" value="#{request.contextPath}/portal/cadastro.xhtml">Cadastre-se!</h:outputLink>
                                 <p:commandLink value="Perfil" rendered="#{clienteBean.clienteLogado}" />
                             </p>
                             <p>
                                 <p:commandButton id="btnLoginPanel"
                                                  value="Login"
                                                  icon="ui-icon-key"
+                                                 action="#{loginClienteBean.prepararInsercao}"
                                                  rendered="#{not clienteBean.clienteLogado}" />
                                 <p:commandButton id="btnLogoff"
                                                  value="Logoff"
-                                                 icon="ui-icon-key"
+                                                 icon="ui-icon-cancel"
+                                                 ajax="false"
                                                  immediate="true"
                                                  update="@all"
-                                                 action="#{clienteBean.efetuarLogoff()}"
+                                                 action="#{loginClienteBean.efetuarLogoff}"
                                                  rendered="#{clienteBean.clienteLogado}" />
                                 <p:overlayPanel id="pnlLogin"
                                                 for="btnLoginPanel"
                                                 widgetVar="pnlLogin">
                                     <p:panelGrid columns="2" styleClass="ui-panelgrid-noborder">
-                                        
+
                                         <h:outputLabel for="txtLogin" value="E-mail" />
-                                        <p:inputText id="txtLogin" value="#{clienteBean.cliente.email}" />
+                                        <p:inputText id="txtLogin" value="#{loginClienteBean.cliente.email}" />
 
                                         <h:outputLabel for="txtSenha" value="Senha" />
-                                        <p:password id="txtSenha" value="#{clienteBean.cliente.senha}" />
+                                        <p:password id="txtSenha" value="#{loginClienteBean.cliente.senha}" />
 
                                         <f:facet name="footer">
                                             <center>
                                                 <p:commandButton id="btnLogin"
                                                                  value="Login"
-                                                                 icon="ui=icon-key"
-                                                                 action="#{clienteBean.efetuarLogin}"
+                                                                 icon="ui-icon-key"
+                                                                 action="#{loginClienteBean.efetuarLogin}"
                                                                  onsuccess="pnlLogin.hide()"
+                                                                 disabled="#{loginClienteBean.edicaoValida}"
                                                                  ajax="false"
                                                                  update="@all" />
                                                 <p:commandButton id="btnCancelar"
@@ -91,20 +97,21 @@
                         <p:toolbar id="mnuPrincipal">
                             <p:toolbarGroup align="left">
                                 <p:menubar>
-                                    <p:menuitem value="Home" icon="ui-icon-home" url="/cliente/index.xhtml" />
-                                    <p:menuitem value="Acervo" icon="ui-icon-home" url="/cliente/acervo.xhtml" />
-                                    <p:menuitem value="Carrinho" icon="ui-icon-home" url="/cliente/carrinho.xhtml" 
+                                    <p:menuitem value="Home" icon="ui-icon-home" url="/portal/index.xhtml" />
+                                    <p:menuitem value="Acervo" icon="ui-icon-home" url="/portal/acervo.xhtml" />
+                                    <p:menuitem value="Carrinho" icon="ui-icon-home" url="/portal/cliente/carrinho.xhtml" 
                                                 rendered="#{clienteBean.clienteLogado}"/>
                                 </p:menubar>
                             </p:toolbarGroup>
-                            
+
                             <p:toolbarGroup align="right">
                                 <p:splitButton id="btnComprar"
                                                icon="ui-icon-cart"
-                                               value="Comprar"
+                                               value="#{clienteBean.valorTotalFormatado}"
                                                style="margin-top: 3px;font-size: 90%"
                                                rendered="#{clienteBean.clienteLogado}"
-                                               />
+                                               >
+                                </p:splitButton>
                             </p:toolbarGroup>
                         </p:toolbar>
                     </h:form>
@@ -123,6 +130,13 @@
                 </div>
             </div>
         </div>
+        
+        <div style="position: fixed; top: 0">
+            <p:button icon="ui-icon-locked"
+                      rendered="#{initParam.debug}"
+                      href="/admin/index.xhtml" />
+        </div>
+        
         <ui:insert name="extra" />
     </h:body>
 </html>

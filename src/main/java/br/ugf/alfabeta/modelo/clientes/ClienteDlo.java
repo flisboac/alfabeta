@@ -11,8 +11,7 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
  *
  * @author flavio
  */
-public interface ClienteDlo extends DloPersistencia<Cliente> {
+public interface ClienteDlo<T extends Cliente> extends DloPersistencia<T> {
 
-    public Cliente obterPorEmail(String email) throws ExcecaoDlo;
-    
+    public T obterPorEmail(String email) throws ExcecaoDlo;
 }

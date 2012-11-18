@@ -7,22 +7,54 @@ package br.ugf.alfabeta.modelo.clientes;
 import br.ugf.alfabeta.modelo.entidades.JpaDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 /**
  *
  * @author Ana
  */
-public class ClienteDaoImpl extends JpaDao<Cliente> implements ClienteDao {
+public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements ClienteDao<T> {
     
     public ClienteDaoImpl() {
-        super(Cliente.class);
+        this((Class<T>) Cliente.class);
     }
-
+    
+    public ClienteDaoImpl(Class<T> classeEntidade) {
+        super(classeEntidade);
+    }
+    
     @Override
-    public Cliente obterPorEmail(String email) throws ExcecaoDao {
-        Cliente retorno = null;
-        Class<Cliente> classeEntidade = getClasseEntidade();
+    public boolean existe(T cliente) throws ExcecaoDao {
+        
+        boolean retorno = super.existe(cliente);
+        
+        if (!retorno) {
+            try {
+                String jpql = "select x"
+                        + " from " + Cliente.class.getName() + " x"
+                        + " where x.email = :email";
+                EntityManager manager = this.helper.getEntityManager();
+                TypedQuery<Cliente> query = manager.createQuery(jpql, Cliente.class);
+                query.setParameter("email", cliente.getEmail());
+                Cliente entidade = query.getSingleResult();
+                retorno = true;
+                
+            } catch (NoResultException e) {
+                retorno = false;
+                
+            } catch (PersistenceException e) {
+                throw new ExcecaoDao(e);
+            }
+        }
+        return retorno;
+    }
+    
+    @Override
+    public T obterPorEmail(String email) throws ExcecaoDao {
+        T retorno = null;
+        Class<T> classeEntidade = getClasseEntidade();
         EntityManager manager = helper.getEntityManager();
         String jql = "select x"
                 + " from " + classeEntidade.getName() + " x"
@@ -30,7 +62,7 @@ public class ClienteDaoImpl extends JpaDao<Cliente> implements ClienteDao {
         
         try {
             manager.getTransaction().begin();
-            TypedQuery<Cliente> query = manager.createQuery(jql, classeEntidade);
+            TypedQuery<T> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("email", email);
             retorno = query.getSingleResult();
             manager.getTransaction().commit();

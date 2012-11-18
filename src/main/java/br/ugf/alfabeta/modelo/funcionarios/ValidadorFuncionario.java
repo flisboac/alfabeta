@@ -4,12 +4,12 @@
  */
 package br.ugf.alfabeta.modelo.funcionarios;
 
-import br.ugf.alfabeta.modelo.entidades.ValidadorEntidade;
+import br.ugf.alfabeta.modelo.clientes.ValidadorCliente;
 
 /**
  *
  * @author flavio
  */
-public class ValidadorFuncionario extends ValidadorEntidade<Funcionario> {
+public class ValidadorFuncionario extends ValidadorCliente<Funcionario> {
     
 }

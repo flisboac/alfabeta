@@ -9,6 +9,10 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <context-param>
+        <param-name>debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <!-- Corrige problemas com campos em beans de sessão recebendo valor nulo 
          a cada postback -->
     <context-param>

@@ -8,8 +8,23 @@
     </h:head>
     <h:body>
         <h:form id="frmRedirecionar">
-            <p:button value="Portal do Cliente" outcome="/cliente/index.xhtml" />
-            <p:button value="Portal de Administração" outcome="/admin/index.xhtml" />
+            <p:growl autoUpdate="true" showDetail="true" />
+            <p:button value="Portal do Cliente" href="/portal/index.xhtml" />
+            <p:button value="Portal de Administração" href="/admin/index.xhtml" />
+            <p:commandButton id="btnCargaInicial"
+                             widgetVar="btnCargaInicial"
+                             value="Carga Inicial"
+                             update="@this"
+                             action="#{instalacaoBean.instalar}"
+                             onstart="btnCargaInicial.disable()"
+                             oncomplete="btnCargaInicial.enable()" />
+            <p:commandButton id="btnInvalidarSessao"
+                             widgetVar="btnInvalidarSessao"
+                             value="Invalidar Sessão"
+                             update="@this"
+                             action="#{instalacaoBean.invalidarSessao}"
+                             onstart="btnInvalidarSessao.disable()"
+                             oncomplete="btnInvalidarSessao.enable()" />
         </h:form>
     </h:body>
 </html>

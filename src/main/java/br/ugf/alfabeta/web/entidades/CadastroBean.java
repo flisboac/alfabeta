@@ -12,7 +12,6 @@ import br.ugf.alfabeta.web.util.Bean;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
 /**
@@ -24,10 +23,10 @@ public abstract class CadastroBean<T extends Entidade> extends Bean implements S
     
     // [ AÇÕES ] ===============================================================
     
-    
-    @PostConstruct
+    @Override
     public void inicializar() {
         
+        super.inicializar();
         T entidade = instanciarEntidade();
         setEntidade(entidade);
     }

@@ -10,6 +10,6 @@ import br.ugf.alfabeta.modelo.entidades.ValidadorEntidade;
  *
  * @author flavio
  */
-public class ValidadorCliente extends ValidadorEntidade<Cliente> {
+public class ValidadorCliente<T extends Cliente> extends ValidadorEntidade<T> {
     
 }

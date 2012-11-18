@@ -4,12 +4,14 @@
  */
 package br.ugf.alfabeta.modelo.funcionarios;
 
-import br.ugf.alfabeta.modelo.entidades.Dao;
+import br.ugf.alfabeta.modelo.clientes.ClienteDao;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 
 /**
  *
  * @author flavio
  */
-public interface FuncionarioDao extends Dao<Funcionario> {
-    
+public interface FuncionarioDao extends ClienteDao<Funcionario> {
+
+    public Funcionario obterPorMatricula(String matricula) throws ExcecaoDao;
 }

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/cliente.xhtml">
+
+    <ui:param name="tituloPagina" value="Login" />
+    <ui:param name="mensagensGlobais" value="#{true}" />
+    <ui:param name="ocultarLoginCabecalho" value="#{true}" />
+    <ui:param name="ocultarLogo" value="#{true}" />
+    
+    <ui:define name="corpo">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/portal/index.xhtml" />
+            <p:menuitem value="Cliente" url="/portal/index.xhtml" />
+            <p:menuitem value="Login" url="/portal/login.xhtml" />
+        </p:breadCrumb>
+        
+        <h:form id="frmLogin">
+            <center>
+                <p:separator />
+                
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-nobackground">
+                    
+                    <h:outputLabel for="txtLogin" value="E-mail" />
+                    <p:inputText id="txtLogin"
+                                 value="#{loginClienteBean.cliente.email}"
+                                 >
+                        <p:ajax event="blur" update="msgTxtLogin btnLogin" />
+                    </p:inputText>
+                    <p:message id="msgTxtLogin" for="txtLogin" />
+
+                    <h:outputLabel for="txtSenha" value="Senha" />
+                    <p:password id="txtSenha"
+                                value="#{loginClienteBean.cliente.senha}"
+                                >
+                        <p:ajax event="blur" update="msgTxtSenha btnLogin" />
+                    </p:password>
+                    <p:message id="msgTxtSenha" for="txtSenha" />
+                    
+                    <f:facet name="footer">
+                        <center>
+                            <p:separator />
+                            <p:commandButton id="btnLogin"
+                                             value="Efetuar Login"
+                                             icon="ui-icon-key"
+                                             disabled="#{loginClienteBean.edicaoValida}"
+                                             action="#{loginClienteBean.efetuarLogin}" />
+                        </center>
+                    </f:facet>
+                </p:panelGrid>
+            </center>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -47,7 +47,7 @@ public class CadastroClienteBean extends CadastroBean<Cliente> {
         try {
             this.clienteDlo.inserir(cliente);
             getHelper().ok("Cliente cadastrado com sucesso!");
-            outcome = "/cliente/index.xhtml";
+            outcome = "/cliente/index.xhtml?faces-redirect=true";
             
         } catch (ExcecaoDlo ex) {
             
