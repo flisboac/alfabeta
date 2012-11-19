@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name="livro", uniqueConstraints= {
     @UniqueConstraint(columnNames={"id_livro"}), // ID
-    @UniqueConstraint(columnNames={"cod_livro", "id_editora"}) // Identidade
+    @UniqueConstraint(columnNames={"cod_livro"}) // Identidade
 })
 public class Livro implements Serializable, Entidade {
     

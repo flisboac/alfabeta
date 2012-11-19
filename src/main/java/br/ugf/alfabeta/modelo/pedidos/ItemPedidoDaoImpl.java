@@ -9,6 +9,8 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.livros.Livro;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -22,6 +24,38 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
     }
 
     @Override
+    public boolean existe(ItemPedido itemPedido) throws ExcecaoDao {
+        
+        boolean retorno = super.existe(itemPedido);
+        
+        if (!retorno) {
+            EntityManager manager = this.helper.getEntityManager();
+            
+            try {
+                String jpql = "select x"
+                        + " from " + ItemPedido.class.getName() + " x"
+                        + " where x.pedido = :pedido"
+                        + " and x.livro = :livro";
+                TypedQuery<ItemPedido> query = manager.createQuery(jpql, ItemPedido.class);
+                query.setParameter("pedido", itemPedido.getPedido());
+                query.setParameter("livro", itemPedido.getLivro());
+                ItemPedido entidade = query.getSingleResult();
+                retorno = true;
+                
+            } catch (NoResultException e) {
+                retorno = false;
+                
+            } catch (PersistenceException e) {
+                throw new ExcecaoDao(e);
+                
+            } finally {
+                manager.close();
+            }
+        }
+        return retorno;
+    }
+    
+    @Override
     public List<ItemPedido> listarPorLivro(Livro livro) throws ExcecaoDao {
         List<ItemPedido> retorno = null;
         Class<ItemPedido> classeEntidade = getClasseEntidade();
@@ -31,14 +65,15 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
                 + " where x.livro = :livro";
         
         try {
-            manager.getTransaction().begin();
             TypedQuery<ItemPedido> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("livro", livro);
             retorno = query.getResultList();
-            manager.getTransaction().commit();
             
         } catch (Exception e) {
             throw new ExcecaoDao(e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;
@@ -54,14 +89,15 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
                 + " where x.pedido = :pedido";
         
         try {
-            manager.getTransaction().begin();
             TypedQuery<ItemPedido> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("pedido", pedido);
             retorno = query.getResultList();
-            manager.getTransaction().commit();
             
         } catch (Exception e) {
             throw new ExcecaoDao(e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;
@@ -77,14 +113,15 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
                 + " where x.pendente = :pendente";
         
         try {
-            manager.getTransaction().begin();
             TypedQuery<ItemPedido> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("pendente", true);
             retorno = query.getResultList();
-            manager.getTransaction().commit();
             
         } catch (Exception e) {
             throw new ExcecaoDao(e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;

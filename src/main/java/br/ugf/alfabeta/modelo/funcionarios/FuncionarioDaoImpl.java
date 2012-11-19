@@ -7,6 +7,8 @@ package br.ugf.alfabeta.modelo.funcionarios;
 import br.ugf.alfabeta.modelo.clientes.ClienteDaoImpl;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -20,6 +22,36 @@ public class FuncionarioDaoImpl extends ClienteDaoImpl<Funcionario> implements F
     }
 
     @Override
+    public boolean existe(Funcionario itemEncomenda) throws ExcecaoDao {
+        
+        boolean retorno = super.existe(itemEncomenda);
+        
+        if (!retorno) {
+            EntityManager manager = this.helper.getEntityManager();
+            
+            try {
+                String jpql = "select x"
+                        + " from " + Funcionario.class.getName() + " x"
+                        + " where x.matricula = :matricula";
+                TypedQuery<Funcionario> query = manager.createQuery(jpql, Funcionario.class);
+                query.setParameter("matricula", itemEncomenda.getMatricula());
+                Funcionario entidade = query.getSingleResult();
+                retorno = true;
+                
+            } catch (NoResultException e) {
+                retorno = false;
+                
+            } catch (PersistenceException e) {
+                throw new ExcecaoDao(e);
+                
+            } finally {
+                manager.close();
+            }
+        }
+        return retorno;
+    }
+    
+    @Override
     public Funcionario obterPorMatricula(String matricula) throws ExcecaoDao {
         Funcionario retorno = null;
         Class<Funcionario> classeEntidade = getClasseEntidade();
@@ -29,14 +61,15 @@ public class FuncionarioDaoImpl extends ClienteDaoImpl<Funcionario> implements F
                 + " where x.matricula = :matricula";
         
         try {
-            manager.getTransaction().begin();
             TypedQuery<Funcionario> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("matricula", matricula);
             retorno = query.getSingleResult();
-            manager.getTransaction().commit();
             
         } catch (Exception e) {
             throw new ExcecaoDao(e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;

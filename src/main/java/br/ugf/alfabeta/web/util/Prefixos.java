@@ -11,6 +11,7 @@ package br.ugf.alfabeta.web.util;
 public class Prefixos {
     
     public static final String Formato = "%s%04d";
+    public static final String Editora = "G";
     public static final String Livro = "L";
     public static final String Funcionario = "F";
     public static final String Cliente = "C";

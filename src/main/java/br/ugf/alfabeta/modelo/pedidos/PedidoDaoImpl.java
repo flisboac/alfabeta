@@ -5,6 +5,11 @@
 package br.ugf.alfabeta.modelo.pedidos;
 
 import br.ugf.alfabeta.modelo.entidades.JpaDao;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -14,5 +19,37 @@ public class PedidoDaoImpl extends JpaDao<Pedido> implements PedidoDao {
 
     public PedidoDaoImpl() {
         super(Pedido.class);
+    }
+    
+    @Override
+    public boolean existe(Pedido pedido) throws ExcecaoDao {
+        
+        boolean retorno = super.existe(pedido);
+        
+        if (!retorno) {
+            EntityManager manager = this.helper.getEntityManager();
+            
+            try {
+                String jpql = "select x"
+                        + " from " + Pedido.class.getName() + " x"
+                        + " where x.codigo = :codigo"
+                        + " and x.clienteCriador = :clienteCriador";
+                TypedQuery<Pedido> query = manager.createQuery(jpql, Pedido.class);
+                query.setParameter("codigo", pedido.getCodigo());
+                query.setParameter("clienteCriador", pedido.getClienteCriador());
+                Pedido entidade = query.getSingleResult();
+                retorno = true;
+                
+            } catch (NoResultException e) {
+                retorno = false;
+                
+            } catch (PersistenceException e) {
+                throw new ExcecaoDao(e);
+                
+            } finally {
+                manager.close();
+            }
+        }
+        return retorno;
     }
 }

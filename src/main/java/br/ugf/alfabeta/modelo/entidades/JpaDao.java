@@ -36,6 +36,8 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
         } catch (PersistenceException ex) {
             throw new ExcecaoDao("Erro ao obter entidade '" + this.classe.getName() + "' com ID " + id + ".", ex);
             
+        } finally {
+            manager.close();
         }
         
         return retorno;
@@ -52,6 +54,12 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao inserir nova entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+            }
+            manager.close();
         }
     }
     
@@ -66,6 +74,12 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao alterar dados da entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+            }
+            manager.close();
         }
     }
     
@@ -80,6 +94,12 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao excluir entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+            }
+            manager.close();
         }
     }
     
@@ -89,12 +109,13 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
         EntityManager manager = this.helper.getEntityManager();
         
         try {
-            manager.getTransaction().begin();
             retorno = manager.contains(entidade);
-            manager.getTransaction().commit();
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao verificar a existência da entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;
@@ -110,6 +131,9 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao verificar a existência do ID " + id + "para a entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;
@@ -125,6 +149,9 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao listar entidades '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;
@@ -168,6 +195,9 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
                     + "', ordem: " + ordem 
                     + ", campos: [" + campos + "]."
                     , e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;

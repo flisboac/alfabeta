@@ -31,11 +31,12 @@ public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements Clie
         boolean retorno = super.existe(cliente);
         
         if (!retorno) {
+            EntityManager manager = this.helper.getEntityManager();
+            
             try {
                 String jpql = "select x"
                         + " from " + Cliente.class.getName() + " x"
                         + " where x.email = :email";
-                EntityManager manager = this.helper.getEntityManager();
                 TypedQuery<Cliente> query = manager.createQuery(jpql, Cliente.class);
                 query.setParameter("email", cliente.getEmail());
                 Cliente entidade = query.getSingleResult();
@@ -46,6 +47,9 @@ public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements Clie
                 
             } catch (PersistenceException e) {
                 throw new ExcecaoDao(e);
+                
+            } finally {
+                manager.close();
             }
         }
         return retorno;
@@ -61,14 +65,15 @@ public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements Clie
                 + " where x.email = :email";
         
         try {
-            manager.getTransaction().begin();
             TypedQuery<T> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("email", email);
             retorno = query.getSingleResult();
-            manager.getTransaction().commit();
             
         } catch (Exception e) {
             throw new ExcecaoDao(e);
+            
+        } finally {
+            manager.close();
         }
         
         return retorno;

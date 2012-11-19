@@ -11,8 +11,6 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
 import br.ugf.alfabeta.modelo.validacoes.Consulta;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;

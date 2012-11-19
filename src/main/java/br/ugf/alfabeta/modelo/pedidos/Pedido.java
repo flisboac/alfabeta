@@ -17,7 +17,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -40,7 +39,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "pedido", uniqueConstraints = {
     @UniqueConstraint(name = "pedido_pk", columnNames = {"id_pedido"}),
-    @UniqueConstraint(name = "pedido_uq", columnNames = {"cod_pedido"})
+    @UniqueConstraint(name = "pedido_uq", columnNames = {"id_cliente", "cod_pedido"})
 })
 public class Pedido implements Serializable, Entidade {
 
@@ -168,12 +167,12 @@ public class Pedido implements Serializable, Entidade {
 
     
     // [ HASHCODE / EQUALS ] ===================================================
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + (this.codigo != null ? this.codigo.hashCode() : 0);
+        hash = 29 * hash + (this.codigo != null ? this.codigo.hashCode() : 0);
+        hash = 29 * hash + (this.clienteCriador != null ? this.clienteCriador.hashCode() : 0);
         return hash;
     }
 
@@ -189,9 +188,12 @@ public class Pedido implements Serializable, Entidade {
         if ((this.codigo == null) ? (other.codigo != null) : !this.codigo.equals(other.codigo)) {
             return false;
         }
+        if (this.clienteCriador != other.clienteCriador && (this.clienteCriador == null || !this.clienteCriador.equals(other.clienteCriador))) {
+            return false;
+        }
         return true;
     }
-
+    
     
     // [ UTILS ] ===============================================================
     
