@@ -44,6 +44,11 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
     }
     
     @Override
+    public T obterCompleto(Long id) throws ExcecaoDao {
+        return obter(id);
+    }
+    
+    @Override
     public void inserir(T entidade) throws ExcecaoDao {
         EntityManager manager = this.helper.getEntityManager();
         
@@ -170,7 +175,7 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
         EntityManager manager = this.helper.getEntityManager();
         String sep = "";
         String jpql = "select x"
-                + " from " + classeEntidade.getName();
+                + " from " + classeEntidade.getName() + " x";
         
         if (campos.length > 0) {
             jpql += " order by ";

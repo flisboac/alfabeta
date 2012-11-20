@@ -19,8 +19,7 @@ import br.ugf.alfabeta.modelo.livros.LivroDlo;
 import br.ugf.alfabeta.modelo.livros.LivroDloImpl;
 import br.ugf.alfabeta.web.util.Bean;
 import br.ugf.alfabeta.web.util.Prefixos;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.math.BigDecimal;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.servlet.http.HttpSession;
@@ -155,7 +154,7 @@ public class InstalacaoBean extends Bean {
                 livro.setEditora(editora);
                 livro.setCodigo(Prefixos.Livro + idxEditora + "-" + idxLivro);
                 livro.setNome(Numeros[idxEditora] + " " + Numeros[idxLivro]);
-                livro.setPreco(PrecoBaseEditora * (idxEditora + 1) + PrecoBaseLivro * (idxLivro + 1));
+                livro.setPreco(new BigDecimal(PrecoBaseEditora * (idxEditora + 1) + PrecoBaseLivro * (idxLivro + 1)));
                 livro.setQuantidade(QuantidadeLivrosBase);
                 livro.setQuantidadeMinima(QuantidadeLivrosMinima);
                 

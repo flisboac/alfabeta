@@ -8,4 +8,126 @@
     xmlns:p="http://primefaces.org/ui"
     template="/WEB-INF/templates/cliente.xhtml">
     
+    <ui:define name="head">
+        <style>
+            .ui-lstLivros input {
+                width: 20px;
+            }
+        </style>
+    </ui:define>
+    
+    <ui:define name="corpo">
+
+        <h:form id="frmPesquisa">
+            <p:remoteCommand name="ajaxSubmit" />
+            <p:ajaxStatus />
+
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+
+                    <p:commandButton id="btnLstOrdenacao" style="font-size: 90% !important" value="Ordenação..." icon="ui-icon-triangle-1-s" />
+                    &nbsp;
+
+                    <p:selectBooleanCheckbox id="chkInverter"
+                                             value="#{clienteBean.resultadosInvertidosParaPesquisa}">
+                        <p:ajax event="change" update="@form" listener="#{clienteBean.atualizarPesquisa}" />
+                    </p:selectBooleanCheckbox> Inverter
+
+                    <p:overlayPanel id="pnlLstOrdenacao" 
+                                    widgetVar="pnlLstOrdenacao"
+                                    for="btnLstOrdenacao"
+                                    showEvent="mouseover"
+                                    >
+                        <p:orderList  id="lstOrdenacao"
+                                      value="#{clienteBean.camposDisponiveisParaPesquisa}"
+                                      var="campo"
+                                      converter="#{campoParaPesquisaConverter}"
+                                      controlsLocation="none"
+                                      itemLabel="#{campo.titulo}"
+                                      itemValue="#{campo}"
+                                      >
+                            <f:facet name="caption">
+                                Especifique a ordenação
+                            </f:facet>
+                        </p:orderList>
+
+                        <center>
+                            <p:separator style="width: 100%" />
+                            <p:commandButton id="btnPesquisarLstOrdenacao"
+                                             icon="ui-icon-search"
+                                             value="Pesquisar"
+                                             oncomplete="pnlLstOrdenacao.hide()"
+                                             action="#{clienteBean.atualizarPesquisa()}"
+                                             update="@form" />
+                        </center>
+                    </p:overlayPanel>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:inputText id="txtNomePesquisa"
+                                 value="#{clienteBean.nomeLivroParaPesquisa}"
+                                 >
+                        <p:ajax event="change" update="@form" listener="#{clienteBean.atualizarPesquisa}" />
+                    </p:inputText>
+
+                    <p:watermark for="txtNomePesquisa" value="Pesquisar por nome..." />
+
+                    &nbsp;
+
+                    <p:commandButton id="btnPesquisar"
+                                     icon="ui-icon-search"
+                                     action="#{clienteBean.atualizarPesquisa()}"
+                                     update="@form" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:separator />
+
+            <p:dataGrid id="lstLivros"
+                        widgetVar="lstLivros"
+                        value="#{clienteBean.itensParaPesquisa}"
+                        styleClass="ui-lstLivros"
+                        var="item"
+                        columns="3"  
+                        rows="12"
+                        paginator="true"  
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                        rowsPerPageTemplate="9,12,15"
+                        >
+                <p:panel header="#{item.livro.codigo}">  
+                    <h:panelGrid columns="1" style="width:100%">  
+                        <p:graphicImage value="/images/livro.png"/>   
+
+                        <h:panelGrid columns="2" style="width:100%">
+                            <h:outputText value="Nome:" />
+                            <h:outputText value="#{item.livro.nome}" />
+
+                            <h:outputText value="Editora:" />
+                            <h:outputText value="#{item.livro.editora.nome}" />
+
+                            <h:outputText value="Preço:" />
+                            <h:outputText value="R$ #{item.livro.preco}" />
+
+                            <p:spinner value="#{item.quantidade}"
+                                       style="width: 50px !important"
+                                       min="0">
+                                <p:ajax event="blur" update="@form" />
+                            </p:spinner>
+                            <p:commandButton icon="ui-icon-cart"
+                                             value="#{clienteBean.pedido.itens.contains(item) ? 'Remover' : 'Comprar'}"
+                                             style="width: 100%"
+                                             update="@form"
+                                             disabled="#{not clienteBean.clienteLogado}"
+                                             action="#{clienteBean.processarItem(item)}" />
+                        </h:panelGrid>
+                        
+                    </h:panelGrid>  
+                </p:panel>
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="extra">
+
+    </ui:define>
 </ui:composition>

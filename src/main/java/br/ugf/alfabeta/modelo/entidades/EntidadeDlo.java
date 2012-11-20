@@ -136,7 +136,12 @@ public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
         
         return retorno;
     }
-
+    
+    @Override
+    public T obterCompleto(Long id) throws ExcecaoDlo {
+        return obter(id);
+    }
+    
     @Override
     public boolean existe(T entidade) throws ExcecaoDlo {
         boolean retorno = false;

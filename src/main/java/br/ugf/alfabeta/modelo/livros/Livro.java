@@ -6,6 +6,7 @@ import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.GroupSequence;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,6 +30,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(columnNames={"id_livro"}), // ID
     @UniqueConstraint(columnNames={"cod_livro"}) // Identidade
 })
+@GroupSequence({Identidade.class, Livro.class})
 public class Livro implements Serializable, Entidade {
     
     @Id
@@ -58,7 +62,8 @@ public class Livro implements Serializable, Entidade {
     private int quantidade = 0;
     
     @Column(name="preco_livro")
-    private double preco;
+    @NotNull(message="Livro deve possuir um valor.", groups=Identidade.class)
+    private BigDecimal preco = new BigDecimal(0.0);
 
     // [ GETTERS / SETTERS ] ===================================================
     
@@ -111,11 +116,11 @@ public class Livro implements Serializable, Entidade {
         this.quantidade = quantidade;
     }
     
-    public double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
     
-    public void setPreco(double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

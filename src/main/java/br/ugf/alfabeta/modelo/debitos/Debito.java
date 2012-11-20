@@ -8,6 +8,7 @@ import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.pedidos.Pedido;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.GroupSequence;
 import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,6 +32,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name = "debito_pk", columnNames = {"id_debito"}),
     @UniqueConstraint(name = "debito_uq", columnNames = {"id_pedido"})
 })
+@GroupSequence({Identidade.class, Debito.class})
 public class Debito implements Entidade {
 
     @Id
@@ -48,7 +52,8 @@ public class Debito implements Entidade {
     private Pedido pedido;
     
     @Column(name="valor_debito", nullable = false)
-    private double valor;
+    @NotNull(message="Débito deve possuir um valor.", groups=Identidade.class)
+    private BigDecimal valor = new BigDecimal(0.0);
     
     @Override
     public Long getId() {
@@ -75,11 +80,11 @@ public class Debito implements Entidade {
         this.pedido = pedido;
     }
 
-    public double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 

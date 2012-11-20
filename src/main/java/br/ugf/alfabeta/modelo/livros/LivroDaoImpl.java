@@ -4,6 +4,7 @@
  */
 package br.ugf.alfabeta.modelo.livros;
 
+import br.ugf.alfabeta.modelo.editoras.Editora;
 import br.ugf.alfabeta.modelo.entidades.JpaDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import java.util.List;
@@ -63,6 +64,30 @@ public class LivroDaoImpl extends JpaDao<Livro> implements LivroDao {
         
         try {
             TypedQuery<Livro> query = manager.createQuery(jql, classeEntidade);
+            retorno = query.getResultList();
+            
+        } catch (Exception e) {
+            throw new ExcecaoDao(e);
+            
+        } finally {
+            manager.close();
+        }
+        
+        return retorno;
+    }
+
+    @Override
+    public List<Livro> listarPorEditora(Editora editora) throws ExcecaoDao {
+        List<Livro> retorno = null;
+        Class<Livro> classeEntidade = getClasseEntidade();
+        EntityManager manager = helper.getEntityManager();
+        String jql = "select x"
+                + " from " + classeEntidade.getName() + " x"
+                + " where x.editora < x.editora";
+        
+        try {
+            TypedQuery<Livro> query = manager.createQuery(jql, classeEntidade);
+            query.setParameter("editora", editora);
             retorno = query.getResultList();
             
         } catch (Exception e) {

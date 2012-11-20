@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,6 +26,7 @@ import javax.validation.constraints.Size;
 @Table(name="funcionario", uniqueConstraints={
     @UniqueConstraint(name = "funcionario_uq", columnNames={"matr_funcionario"})
 })
+@GroupSequence({Identidade.class, Funcionario.class})
 public class Funcionario extends Cliente {
     
     @Column(name="matr_funcionario", length=30, unique=true, nullable=false) 

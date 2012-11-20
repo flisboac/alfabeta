@@ -10,6 +10,7 @@ import br.ugf.alfabeta.modelo.entidades.Entidade;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -28,6 +29,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,8 +41,9 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "pedido", uniqueConstraints = {
     @UniqueConstraint(name = "pedido_pk", columnNames = {"id_pedido"}),
-    @UniqueConstraint(name = "pedido_uq", columnNames = {"id_cliente", "cod_pedido"})
+    @UniqueConstraint(name = "pedido_uq", columnNames = {"id_cliente", "dtcriacao_pedido"})
 })
+@GroupSequence({Identidade.class, Pedido.class})
 public class Pedido implements Serializable, Entidade {
 
     @Id
@@ -164,7 +167,6 @@ public class Pedido implements Serializable, Entidade {
     public void setDebito(Debito debito) {
         this.debito = debito;
     }
-
     
     // [ HASHCODE / EQUALS ] ===================================================
 
@@ -224,6 +226,20 @@ public class Pedido implements Serializable, Entidade {
         pedido.estado = this.estado;
         pedido.debito = this.debito;
         return pedido;
+    }
+    
+    public BigDecimal getValorTotal() {
+        
+        BigDecimal retorno = new BigDecimal(0.0);
+        List<ItemPedido> itensPedido = getItens();
+        
+        if (itensPedido != null) {
+            for (ItemPedido itemPedido : itensPedido) {
+                retorno.add(itemPedido.getLivro().getPreco());
+            }
+        }
+        
+        return retorno;
     }
     
 }

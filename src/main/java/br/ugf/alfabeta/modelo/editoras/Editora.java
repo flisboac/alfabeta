@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,6 +31,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name="editora_pk", columnNames = "id_editora"),
     @UniqueConstraint(name="editora_uq", columnNames = "cod_editora")
 })
+@GroupSequence({Identidade.class, Editora.class})
 public class Editora implements Serializable, Entidade {
 
     @Id

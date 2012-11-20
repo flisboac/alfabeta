@@ -26,6 +26,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -40,6 +41,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name = "encomenda_pk", columnNames={"id_encomenda"}),
     @UniqueConstraint(name = "encomenda_uq", columnNames={"cod_encomenda"})
 })
+@GroupSequence({Identidade.class, Encomenda.class})
 public class Encomenda implements Entidade, Serializable {
     
     @Id

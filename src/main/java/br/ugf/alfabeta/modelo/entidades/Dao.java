@@ -14,6 +14,7 @@ import java.util.List;
 public interface Dao<T extends Entidade> {
 
     T obter(Long id) throws ExcecaoDao;
+    T obterCompleto(Long id) throws ExcecaoDao;
     void inserir(T entidade) throws ExcecaoDao;
     void alterar(T entidade) throws ExcecaoDao;
     void excluir(T entidade) throws ExcecaoDao;

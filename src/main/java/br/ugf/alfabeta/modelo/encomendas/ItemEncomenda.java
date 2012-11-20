@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -28,6 +29,7 @@ import javax.validation.constraints.NotNull;
     @UniqueConstraint(name = "itemencomenda_pk", columnNames={"id_itemencomenda"}),
     @UniqueConstraint(name = "itemencomenda_uq", columnNames={"id_encomenda", "id_livro"})
 })
+@GroupSequence({Identidade.class, ItemEncomenda.class})
 public class ItemEncomenda implements Entidade {
     
     @Id

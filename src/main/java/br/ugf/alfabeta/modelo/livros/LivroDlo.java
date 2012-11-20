@@ -4,7 +4,10 @@
  */
 package br.ugf.alfabeta.modelo.livros;
 
+import br.ugf.alfabeta.modelo.editoras.Editora;
 import br.ugf.alfabeta.modelo.entidades.DloPersistencia;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
+import java.util.List;
 
 /**
  *
@@ -12,4 +15,5 @@ import br.ugf.alfabeta.modelo.entidades.DloPersistencia;
  */
 public interface LivroDlo extends DloPersistencia<Livro> {
     
+    public List<Livro> listarPorEditora(Editora editora) throws ExcecaoDlo;
 }

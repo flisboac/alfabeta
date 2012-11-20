@@ -4,7 +4,15 @@
  */
 package br.ugf.alfabeta.modelo.livros;
 
+import br.ugf.alfabeta.modelo.editoras.Editora;
+import br.ugf.alfabeta.modelo.editoras.ValidadorEditora;
 import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
+import br.ugf.alfabeta.modelo.entidades.Validador;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
+import br.ugf.alfabeta.modelo.validacoes.Consulta;
+import java.util.List;
 
 /**
  *
@@ -18,5 +26,28 @@ public class LivroDloImpl extends EntidadeDloPersistencia<Livro> implements Livr
     
     public LivroDloImpl(LivroDao dao) {
         super(dao, new ValidadorLivro());
+    }
+
+    @Override
+    public List<Livro> listarPorEditora(Editora editora) throws ExcecaoDlo {
+        
+        List<Livro> retorno = null;
+        LivroDao entidadeDao = (LivroDao) getDao();
+        Validador<Editora> validadorEditora = new ValidadorEditora();
+        
+        validadorEditora.validar(editora, Consulta.class);
+        
+        try {
+            retorno = entidadeDao.listarPorEditora(editora);
+            
+        } catch (ExcecaoDao ex) {
+            throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
+        }
+        
+        if (retorno == null) {
+            throw new ExcecaoPersistenciaDlo("Lista de livros nula retornada.");
+        }
+        
+        return retorno;
     }
 }

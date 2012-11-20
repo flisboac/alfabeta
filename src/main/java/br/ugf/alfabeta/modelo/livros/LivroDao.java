@@ -4,6 +4,7 @@
  */
 package br.ugf.alfabeta.modelo.livros;
 
+import br.ugf.alfabeta.modelo.editoras.Editora;
 import br.ugf.alfabeta.modelo.entidades.Dao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import java.util.List;
@@ -15,4 +16,5 @@ import java.util.List;
 public interface LivroDao extends Dao<Livro> {
     
     public List<Livro> listarEmFalta() throws ExcecaoDao;
+    public List<Livro> listarPorEditora(Editora editora) throws ExcecaoDao;
 }
