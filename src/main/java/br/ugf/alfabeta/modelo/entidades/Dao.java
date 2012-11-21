@@ -18,6 +18,7 @@ public interface Dao<T extends Entidade> {
     void inserir(T entidade) throws ExcecaoDao;
     void alterar(T entidade) throws ExcecaoDao;
     void excluir(T entidade) throws ExcecaoDao;
+    void atualizar(T entidade) throws ExcecaoDao;
     boolean existe(T entidade) throws ExcecaoDao;
     boolean existeId(Long id) throws ExcecaoDao;
     List<T> listar() throws ExcecaoDao;

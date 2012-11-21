@@ -69,7 +69,7 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
             query.setParameter("livro", livro);
             retorno = query.getResultList();
             
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new ExcecaoDao(e);
             
         } finally {
@@ -93,7 +93,7 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
             query.setParameter("pedido", pedido);
             retorno = query.getResultList();
             
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new ExcecaoDao(e);
             
         } finally {
@@ -110,14 +110,15 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
         EntityManager manager = helper.getEntityManager();
         String jql = "select x"
                 + " from " + classeEntidade.getName() + " x"
-                + " where x.pendente = :pendente";
+                + " where x.pendente = :pendente"
+                + " and x.pedido.";
         
         try {
             TypedQuery<ItemPedido> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("pendente", true);
             retorno = query.getResultList();
             
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new ExcecaoDao(e);
             
         } finally {

@@ -95,9 +95,13 @@
                         rowsPerPageTemplate="9,12,15"
                         >
                 <p:panel header="#{item.livro.codigo}">  
-                    <h:panelGrid columns="1" style="width:100%">  
-                        <p:graphicImage value="/images/livro.png"/>   
-
+                    <h:panelGrid columns="1" style="width:100%"> 
+                        <h:panelGroup>
+                            <center>
+                                <img src="#{request.contextPath}/resources/images/livro.png" style="padding-bottom: 10px" />
+                            </center>
+                        </h:panelGroup>
+                        
                         <h:panelGrid columns="2" style="width:100%">
                             <h:outputText value="Nome:" />
                             <h:outputText value="#{item.livro.nome}" />
@@ -110,13 +114,13 @@
 
                             <p:spinner value="#{item.quantidade}"
                                        style="width: 50px !important"
-                                       min="0">
-                                <p:ajax event="blur" update="@form" />
+                                       min="1">
+                                <p:ajax event="change" update="@form :frmMenu" process="@this" />
                             </p:spinner>
                             <p:commandButton icon="ui-icon-cart"
-                                             value="#{clienteBean.pedido.itens.contains(item) ? 'Remover' : 'Comprar'}"
+                                             value="#{clienteBean.pedido.itens.contains(item) ? 'Remover' : 'Adicionar'}"
                                              style="width: 100%"
-                                             update="@form"
+                                             update="@form :frmMenu"
                                              disabled="#{not clienteBean.clienteLogado}"
                                              action="#{clienteBean.processarItem(item)}" />
                         </h:panelGrid>

@@ -35,7 +35,7 @@
                                      action="#{cadastroFuncionarioBean.prepararEdicao()}"
                                      oncomplete="dlgEditar.show()"
                                      update=":frmEditar"
-                                     disabled="#{not empty cadastroFuncionarioBean.entidade}" />
+                                     disabled="#{cadastroFuncionarioBean.funcionario.id == null}" />
                     <p:commandButton id="btnExcluir"
                                      value="Excluir"
                                      icon="ui-icon-trash"
@@ -43,7 +43,7 @@
                                      oncomplete="dlgExcluir.show()"
                                      update=":frmExcluir"
                                      rendered="false"
-                                     disabled="#{not empty cadastroFuncionarioBean.entidade}" />
+                                     disabled="#{cadastroFuncionarioBean.funcionario.id == null}" />
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -53,6 +53,9 @@
                          value="#{cadastroFuncionarioBean.funcionarios}"
                          var="funcionario"
                          widgetVar="lstEntidade"
+                         rowKey="#{funcionario.id}"
+                         selection="#{cadastroFuncionarioBean.funcionario}"
+                         selectionMode="single"
                          >
                 
                 <p:column headerText="Matrícula"

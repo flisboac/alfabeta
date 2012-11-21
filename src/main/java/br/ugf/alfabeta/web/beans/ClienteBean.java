@@ -21,10 +21,8 @@ import br.ugf.alfabeta.web.util.Prefixos;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -153,9 +151,13 @@ public class ClienteBean extends Bean {
         if (this.pedido.getItens().contains(itemPedido)) {
             // Remover
             pedido.getItens().remove(itemPedido);
+            itemPedido.setQuantidade(0);
             
         } else {
             // Adicionar
+            if (itemPedido.getQuantidade() <= 0) {
+                itemPedido.setQuantidade(1);
+            }
             pedido.getItens().add(itemPedido);
         }
     }

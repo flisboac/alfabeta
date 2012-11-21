@@ -235,7 +235,9 @@ public class Pedido implements Serializable, Entidade {
         
         if (itensPedido != null) {
             for (ItemPedido itemPedido : itensPedido) {
-                retorno.add(itemPedido.getLivro().getPreco());
+                BigDecimal valorItem = itemPedido.getLivro().getPreco()
+                        .multiply(new BigDecimal(itemPedido.getQuantidade()));
+                retorno = retorno.add(valorItem);
             }
         }
         
