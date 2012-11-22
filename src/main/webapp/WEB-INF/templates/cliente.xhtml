@@ -136,9 +136,9 @@
         </div>
         
         <div style="position: fixed; top: 0">
-            <p:button icon="ui-icon-locked"
+            <ui:remove> <p:button icon="ui-icon-locked"
                       rendered="#{initParam.debug}"
-                      href="/admin/index.xhtml" />
+                      href="/admin/index.xhtml" /> </ui:remove>
         </div>
         
         <ui:insert name="extra" />
