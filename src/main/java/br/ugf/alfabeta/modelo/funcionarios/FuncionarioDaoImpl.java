@@ -22,6 +22,24 @@ public class FuncionarioDaoImpl extends ClienteDaoImpl<Funcionario> implements F
     }
 
     @Override
+    public void atualizar(Funcionario funcionario) throws ExcecaoDao {
+        super.atualizar(funcionario);
+        
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.refresh(funcionario);
+            funcionario.getEncomendas().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+    }
+    
+    @Override
     public boolean existe(Funcionario itemEncomenda) throws ExcecaoDao {
         
         boolean retorno = super.existe(itemEncomenda);

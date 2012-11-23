@@ -26,6 +26,24 @@ public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements Clie
     }
     
     @Override
+    public void atualizar(T cliente) throws ExcecaoDao {
+        super.atualizar(cliente);
+        
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.refresh(cliente);
+            cliente.getPedidos().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+    }
+    
+    @Override
     public boolean existe(T cliente) throws ExcecaoDao {
         
         boolean retorno = super.existe(cliente);

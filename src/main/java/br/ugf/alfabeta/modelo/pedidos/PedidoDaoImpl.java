@@ -22,6 +22,24 @@ public class PedidoDaoImpl extends JpaDao<Pedido> implements PedidoDao {
     }
     
     @Override
+    public void atualizar(Pedido pedido) throws ExcecaoDao {
+        super.atualizar(pedido);
+        
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.refresh(pedido);
+            pedido.getItens().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+    }
+    
+    @Override
     public boolean existe(Pedido pedido) throws ExcecaoDao {
         
         boolean retorno = super.existe(pedido);

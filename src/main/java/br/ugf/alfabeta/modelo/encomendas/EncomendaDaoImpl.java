@@ -22,6 +22,24 @@ public class EncomendaDaoImpl extends JpaDao<Encomenda> implements EncomendaDao 
     }
     
     @Override
+    public void atualizar(Encomenda encomenda) throws ExcecaoDao {
+        super.atualizar(encomenda);
+        
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.refresh(encomenda);
+            encomenda.getItens().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+    }
+    
+    @Override
     public boolean existe(Encomenda encomenda) throws ExcecaoDao {
         
         boolean retorno = super.existe(encomenda);

@@ -22,6 +22,24 @@ public class EditoraDaoImpl extends JpaDao<Editora> implements EditoraDao {
     }
 
     @Override
+    public void atualizar(Editora editora) throws ExcecaoDao {
+        super.atualizar(editora);
+        
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            manager.refresh(editora);
+            editora.getLivros().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+    }
+    
+    @Override
     public boolean existe(Editora editora) throws ExcecaoDao {
         
         boolean retorno = super.existe(editora);

@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -48,6 +47,14 @@ public class Funcionario extends Cliente {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    public List<Encomenda> getEncomendas() {
+        return encomendas;
+    }
+
+    public void setEncomendas(List<Encomenda> encomendas) {
+        this.encomendas = encomendas;
     }
     
     
