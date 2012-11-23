@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/cliente.xhtml">
+
+    <ui:param name="tituloPagina" value="Pedidos" />
+
+    <ui:define name="corpo">
+        <h:form id="frmPedidos">
+
+            <p:separator />
+
+            <p:fieldset legend="Pedidos em Andamento"
+                        collapsed="false"
+                        toggleable="true" >
+
+                <p:dataTable id="lstPedidosEmAndamento"
+                             widgetVar="lstPedidosEmAndamento"
+                             value="#{pedidoBean.pedidosEmAndamento}"
+                             var="pedidoEmAndamento">
+                    
+                    <p:column headerText="Código">
+                        #{pedidoEmAndamento.codigo}
+                    </p:column>
+                    
+                    <p:column headerText="Data de Criação">
+                        #{pedidoEmAndamento.dataHoraCriacao}
+                    </p:column>
+                    
+                    <p:column headerText="$ Total">
+                        #{pedidoEmAndamento.valorTotal}
+                    </p:column>
+                    
+                    <p:column style="width: 32px">
+                        <p:commandButton update="@form"
+                                         oncomplete="dlgVisualizarPedido.show()"
+                                         icon="ui-icon-search"
+                                         title="Cancelar Pedido">
+                            <f:setPropertyActionListener value="#{pedidoEmAndamento}" target="#{pedidoBean.pedido}" />  
+                        </p:commandButton>  
+                    </p:column>
+                    
+                    <p:column style="width: 32px">
+                        <p:commandButton update="@form"
+                                         oncomplete="dlgCancelarPedido.show()"
+                                         icon="ui-icon-trash"
+                                         title="Cancelar Pedido">
+                            <f:setPropertyActionListener value="#{pedidoEmAndamento}" target="#{pedidoBean.pedido}" />  
+                        </p:commandButton>  
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+            <p:separator />
+
+            <p:fieldset legend="Pedidos Finalizados"
+                        collapsed="false"
+                        toggleable="true">
+
+                <p:dataTable id="lstPedidosFinalizados"
+                             widgetVar="lstPedidosFinalizados"
+                             value="#{pedidoBean.pedidosFinalizados}"
+                             var="pedidoFinalizado">
+
+                    <p:column headerText="Código">
+                        #{pedidoEmAndamento.codigo}
+                    </p:column>
+                    
+                    <p:column headerText="Estado">
+                        #{pedidoEmAndamento.estado}
+                    </p:column>
+                    
+                    <p:column headerText="Data de Criação">
+                        #{pedidoEmAndamento.dataHoraCriacao}
+                    </p:column>
+                    
+                    <p:column headerText="Data de Finalização">
+                        #{pedidoEmAndamento.dataHoraCancelamento}
+                    </p:column>
+                    
+                    <p:column headerText="$ Total">
+                        #{pedidoEmAndamento.valorTotal}
+                    </p:column>
+                    
+                    <p:column style="width: 32px">
+                        <p:commandButton update="@form"
+                                         oncomplete="dlgVisualizarPedido.show()"
+                                         icon="ui-icon-search"
+                                         title="Cancelar Pedido">
+                            <f:setPropertyActionListener value="#{pedidoFinalizado}" target="#{pedidoBean.pedido}" />  
+                        </p:commandButton>  
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+            <p:dialog id="dlgVisualizarPedido"
+                      widgetVar="dlgVisualizarPedido"
+                      modal="true"
+                      closable="false"
+                      resizable="false"
+                      header="Visualizando Pedido"
+                      hideEffect="fade">
+
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Código:" />
+                        <h:outputText value="#{pedidoBean.pedido.codigo}" />
+                        
+                        <h:outputText value="Data e Hora de Criação:" />
+                        <h:outputText value="#{pedidoBean.pedido.dataHoraCriacao}" />
+                        
+                        <h:outputText value="Estado:" />
+                        <h:outputText value="#{pedidoBean.pedido.estado}" />
+                        
+                        <h:outputText value="Valor Total:" />
+                        <h:outputText value="R$ #{pedidoBean.pedido.valorTotal}" />
+                        
+                        <h:outputText value="Estado:" />
+                        <h:outputText value="#{pedidoBean.pedido.estado}" />
+                        
+                        <h:outputText value="Finalizado em:" rendered="#{pedidoBean.pedido.estado.terminal}" />
+                        <h:outputText value="#{pedidoBean.pedido.dataHoraCancelamento}" rendered="#{pedidoBean.pedido.estado.terminal}" />
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="1">
+                        <p:dataTable value="#{pedidoBean.pedido.itens}"
+                                     var="itemPedido"
+                                     paginator="true"
+                                     rows="10">
+                            
+                            <p:column headerText="Cód. Livro">
+                                #{itemPedido.livro.codigo}
+                            </p:column>
+                            
+                            <p:column headerText="Livro">
+                                #{itemPedido.livro}
+                            </p:column>
+                            
+                            <p:column headerText="Qtd.">
+                                #{itemPedido.quantidade}
+                            </p:column>
+                            
+                            <p:column headerText="Total Item">
+                                #{itemPedido.valorTotal}
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </p:dialog>
+
+            <p:confirmDialog id="dlgCancelarPedido"
+                             widgetVar="dlgCancelarPedido"
+                             closable="false"
+                             header="Cancelar Pedido"
+                             message="Tem certeza de que deseja cancelar este pedido?"
+                             >
+                <center>
+                    <p:commandButton id="btnCancelarPedido"
+                                     value="Cancelar"
+                                     icon="ui-icon-trash"
+                                     action="#{pedidoBean.cancelarPedido()}"
+                                     update="@form"
+                                     oncomplete="dlgCancelarPedido.hide()" />
+                    <p:commandButton id="btnFecharCancelarPedido"
+                                     value="Voltar"
+                                     icon="ui-icon-cancel"
+                                     immediate="true"
+                                     onclick="dlgCancelarPedido.hide()" />
+                </center>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

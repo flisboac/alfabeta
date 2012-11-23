@@ -17,6 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -71,18 +72,18 @@ public class Encomenda implements Entidade, Serializable {
     @NotNull(message="Encomenda deve possuir um estado.", groups=Identidade.class)
     private EstadoEncomenda estado = EstadoEncomenda.Criado;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_funcionario", referencedColumnName="id_cliente", nullable=false)
     @NotNull(message="Todo pedido deve ser originado de um funcionário.", groups=Identidade.class)
     @Valid
     private Funcionario funcionarioCriador;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="idcancelador_funcionario", referencedColumnName="id_cliente")
     @Valid
     private Funcionario funcionarioFinalizador;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_editora", referencedColumnName="id_editora", nullable=false)
     @Valid
     private Editora editora;

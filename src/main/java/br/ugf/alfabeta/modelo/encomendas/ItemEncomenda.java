@@ -10,6 +10,7 @@ import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -38,13 +39,13 @@ public class ItemEncomenda implements Entidade {
     @NotNull(message="ID não pode ser nulo.", groups=Identificacao.class)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_encomenda", nullable=false, referencedColumnName="id_encomenda")
     @NotNull(message="Item de encomenda deve pertencer a uma encomenda.", groups=Identidade.class)
     @Valid
     private Encomenda encomenda;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_livro", referencedColumnName="id_livro", nullable=false)
     @NotNull(message="Item de encomenda deve referenciar um livro.", groups=Identidade.class)
     @Valid

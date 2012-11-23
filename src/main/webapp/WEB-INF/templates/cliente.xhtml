@@ -49,7 +49,7 @@
                                                  rendered="#{not clienteBean.clienteLogado}" />
                                 <p:commandButton id="btnLogoff"
                                                  value="Logoff"
-                                                 icon="ui-icon-cancel"
+                                                 icon="ui-icon-power"
                                                  ajax="false"
                                                  immediate="true"
                                                  update="@all"
@@ -83,7 +83,7 @@
                                         </f:facet>
                                     </p:panelGrid>
                                 </p:overlayPanel>
-
+                                <p:defaultCommand target="btnLogin" scope="pnlLogin" />
                             </p>
                         </h:form>
                     </div>
@@ -97,11 +97,13 @@
                             <p:toolbarGroup align="left">
                                 <p:menubar>
                                     <p:menuitem value="Home" icon="ui-icon-home" url="/portal/index.xhtml" />
-                                    <p:menuitem value="Acervo" icon="ui-icon-home" url="/portal/acervo.xhtml" />
-                                    <p:menuitem value="Carrinho" icon="ui-icon-home" url="/portal/cliente/carrinho.xhtml" 
+                                    <p:menuitem value="Acervo" icon="ui-icon-note" url="/portal/acervo.xhtml" />
+                                    <p:menuitem value="Carrinho" icon="ui-icon-cart" url="/portal/cliente/carrinho.xhtml" 
                                                 rendered="#{clienteBean.clienteLogado}"/>
-                                    
-                                    <p:menuitem value="Página Inicial" icon="ui-icon-home" url="/index.xhtml"/>
+                                    <p:menuitem value="Pedidos" icon="ui-icon-bookmark" url="/portal/cliente/pedidos.xhtml" 
+                                                rendered="#{clienteBean.clienteLogado}"/>
+                                    <p:menuitem value="Débitos" icon="ui-icon-calculator" url="/portal/cliente/debitos.xhtml" 
+                                                rendered="#{clienteBean.clienteLogado}"/>
                                 </p:menubar>
                             </p:toolbarGroup>
 
@@ -136,9 +138,9 @@
         </div>
         
         <div style="position: fixed; top: 0">
-            <ui:remove> <p:button icon="ui-icon-locked"
+            <p:button icon="ui-icon-locked"
                       rendered="#{initParam.debug}"
-                      href="/admin/index.xhtml" /> </ui:remove> 
+                      href="/index.xhtml" /> 
         </div>
         
         <ui:insert name="extra" />

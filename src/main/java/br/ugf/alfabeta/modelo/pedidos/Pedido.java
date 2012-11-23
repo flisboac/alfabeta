@@ -13,11 +13,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -30,6 +32,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
+import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -73,22 +76,23 @@ public class Pedido implements Serializable, Entidade {
     @NotNull(message="Encomenda deve possuir um estado.", groups=Identidade.class)
     private EstadoPedido estado = EstadoPedido.Criado;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_cliente", referencedColumnName="id_cliente")
-    //@PrimaryKeyJoinColumn
     @NotNull(message="Todo pedido deve ser originado de um cliente.", groups=Identidade.class)
+    @Valid
     private Cliente clienteCriador;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="idcancelador_cliente", referencedColumnName="id_cliente")
-    //@PrimaryKeyJoinColumn
+    @Valid
     private Cliente clienteCancelador;
     
     @OneToMany(mappedBy="pedido", cascade= CascadeType.REMOVE)
     private List<ItemPedido> itens;
     
-    @OneToOne(mappedBy="pedido", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="pedido", orphanRemoval = true, cascade = CascadeType.ALL, fetch= FetchType.EAGER)
     @PrimaryKeyJoinColumn
+    @Valid
     private Debito debito;
     
     
@@ -168,6 +172,31 @@ public class Pedido implements Serializable, Entidade {
         this.debito = debito;
     }
     
+    /**
+     * Retorna true caso o pedido não esteja finalizado e haja qualquer
+     * item de pedido declarado como pendente.
+     */
+    public boolean isPendente() {
+        
+        boolean retorno = !getEstado().isTerminal();
+        
+        if (!retorno) {
+            List<ItemPedido> itensPedido = getItens();
+            
+            if (itensPedido != null) {
+                for (ItemPedido itemPedido : itensPedido) {
+                    
+                    if (itemPedido.isPendente()) {
+                        retorno = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return retorno;
+    }
+    
     // [ HASHCODE / EQUALS ] ===================================================
 
     @Override
@@ -235,9 +264,7 @@ public class Pedido implements Serializable, Entidade {
         
         if (itensPedido != null) {
             for (ItemPedido itemPedido : itensPedido) {
-                BigDecimal valorItem = itemPedido.getLivro().getPreco()
-                        .multiply(new BigDecimal(itemPedido.getQuantidade()));
-                retorno = retorno.add(valorItem);
+                retorno = retorno.add(itemPedido.getValorTotal());
             }
         }
         

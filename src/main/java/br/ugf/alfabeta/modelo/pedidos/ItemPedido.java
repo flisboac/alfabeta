@@ -9,8 +9,10 @@ import br.ugf.alfabeta.modelo.livros.Livro;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -38,12 +40,12 @@ public class ItemPedido implements Serializable, Entidade {
     @NotNull(message="ID não pode ser nulo.", groups=Identificacao.class)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_pedido", referencedColumnName="id_pedido", nullable=false)
     @NotNull(message="Item de pedido deve pertencer a um pedido.", groups=Identidade.class)
     private Pedido pedido;
     
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_livro", referencedColumnName="id_livro", nullable=false)
     @NotNull(message="Item de pedido deve referenciar um livro.", groups=Identidade.class)
     private Livro livro;
@@ -94,7 +96,12 @@ public class ItemPedido implements Serializable, Entidade {
     public void setPendente(boolean pendente) {
         this.pendente = pendente;
     }
-
+    
+    public BigDecimal getValorTotal() {
+        
+        return getLivro().getPreco().multiply(new BigDecimal(getQuantidade()));
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

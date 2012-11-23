@@ -11,6 +11,7 @@ import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -45,7 +45,7 @@ public class Debito implements Entidade {
     @Size(min=1, max=30, message="Código da nota fiscal excede os limites de tamanho.", groups=Identidade.class)
     private String codigoNf;
     
-    @OneToOne
+    @OneToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="id_pedido", referencedColumnName="id_pedido", nullable = false)
     @NotNull(message="Todo débito deve ter um pedido de origem.", groups=Identidade.class)
     @Valid
