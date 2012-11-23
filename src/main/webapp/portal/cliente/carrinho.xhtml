@@ -8,6 +8,14 @@
     xmlns:p="http://primefaces.org/ui"
     template="/WEB-INF/templates/cliente.xhtml">
     
+    <ui:define name="head">
+        <style>
+            .ui-spinner input {
+                width: 20px;
+            }
+        </style>
+    </ui:define>
+    
     <ui:define name="corpo">
         
         
@@ -20,29 +28,38 @@
                 
                 <p:dataTable id="lstItensNoCarrinho"
                              widgetVar="lstItensNoCarrinho"
-                             value=""
-                             var="ItensNoCarrinho">
+                             value="#{clienteBean.pedido.itens}"
+                             var="item">
                 
                     <p:column headerText="Em Estoque">
-                        Teste
+                        
                     </p:column>
                     
-                    <p:column headerText="Livro">
-                        Teste
+                    <p:column headerText="Código">
+                        #{item.livro.codigo}
+                    </p:column>
+                    
+                    <p:column headerText="Nome">
+                        #{item.livro.nome}
                     </p:column>
                     
                     <p:column headerText="Quantidade" >
                        <p:spinner value="#{item.quantidade}"
+                             styleClass="ui-spinner"
                                        style="width: 50px !important"
                                        min="1">
                                 <p:ajax event="change" update="@form :frmCarrinho" process="@this" />
                             </p:spinner>
                     </p:column>
                     
-                    <p:column headerText="Remover">
+                    <p:column headerText="Total">
+                        #{item.valorTotal}
+                    </p:column>
+                    
+                    <p:column>
                         <p:commandButton     
-                                             id="btnRemover"
-                                             icon="ui-icon-delete"/>
+                                            id="btnRemover"
+                                            icon="ui-icon-circle-close"/>
                     </p:column>
             
                 </p:dataTable>

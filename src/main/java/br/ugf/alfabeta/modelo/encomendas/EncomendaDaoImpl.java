@@ -22,6 +22,26 @@ public class EncomendaDaoImpl extends JpaDao<Encomenda> implements EncomendaDao 
     }
     
     @Override
+    public Encomenda obterCompleto(Long id) throws ExcecaoDao {
+        
+        Encomenda retorno = null;
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            retorno = manager.find(this.classe, id);
+            retorno.getItens().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+        
+        return retorno;
+    }
+    
+    @Override
     public void atualizar(Encomenda encomenda) throws ExcecaoDao {
         super.atualizar(encomenda);
         

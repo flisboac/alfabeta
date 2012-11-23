@@ -39,7 +39,7 @@ import javax.validation.constraints.Size;
 })
 @Inheritance(strategy= InheritanceType.JOINED)
 @GroupSequence({Identidade.class, Cliente.class})
-public class Cliente implements Serializable, Entidade {
+public class Cliente implements Serializable, Entidade<Cliente> {
    
     /**
      * Ientificação numérica única para a entidade.
@@ -173,6 +173,7 @@ public class Cliente implements Serializable, Entidade {
         return clone(new Cliente());
     }
     
+    @Override
     public Cliente clone(Cliente cliente) {
         
         cliente.id = this.id;

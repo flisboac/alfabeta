@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name = "debito_uq", columnNames = {"id_pedido"})
 })
 @GroupSequence({Identidade.class, Debito.class})
-public class Debito implements Entidade {
+public class Debito implements Entidade<Debito> {
 
     @Id
     @GeneratedValue
@@ -124,11 +124,16 @@ public class Debito implements Entidade {
     public Debito clone() {
         
         Debito debito = new Debito();
+        return clone(debito);
+    }
+    
+    @Override
+    public Debito clone(Debito debito) {
+        
         debito.id = this.id;
         debito.pedido = this.pedido;
         debito.valor = this.valor;
         debito.codigoNf = this.codigoNf;
         return debito;
     }
-    
 }

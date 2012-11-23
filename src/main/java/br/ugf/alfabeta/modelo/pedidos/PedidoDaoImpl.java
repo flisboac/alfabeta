@@ -22,6 +22,26 @@ public class PedidoDaoImpl extends JpaDao<Pedido> implements PedidoDao {
     }
     
     @Override
+    public Pedido obterCompleto(Long id) throws ExcecaoDao {
+        
+        Pedido retorno = null;
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            retorno = manager.find(this.classe, id);
+            retorno.getItens().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+        
+        return retorno;
+    }
+    
+    @Override
     public void atualizar(Pedido pedido) throws ExcecaoDao {
         super.atualizar(pedido);
         

@@ -13,7 +13,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -33,7 +32,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name="editora_uq", columnNames = "cod_editora")
 })
 @GroupSequence({Identidade.class, Editora.class})
-public class Editora implements Serializable, Entidade {
+public class Editora implements Serializable, Entidade<Editora> {
 
     @Id
     @GeneratedValue
@@ -141,6 +140,12 @@ public class Editora implements Serializable, Entidade {
     public Editora clone() {
         
         Editora editora = new Editora();
+        return clone(editora);
+    }
+
+    @Override
+    public Editora clone(Editora editora) {
+        
         editora.id = this.id;
         editora.nome = this.nome;
         editora.endereco = this.endereco;

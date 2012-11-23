@@ -26,7 +26,7 @@ public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements Pe
     public PedidoDloImpl(PedidoDao dao) {
         super(dao, new ValidadorPedido());
     }
-
+    
     @Override
     public void finalizarPedido(Pedido pedido) throws ExcecaoDlo {
 

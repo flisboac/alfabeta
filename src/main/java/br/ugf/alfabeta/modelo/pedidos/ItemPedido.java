@@ -32,7 +32,7 @@ import javax.validation.constraints.NotNull;
     @UniqueConstraint(name = "itempedido_uq", columnNames={"id_pedido", "id_livro"})
 })
 @GroupSequence({Identidade.class, ItemPedido.class})
-public class ItemPedido implements Serializable, Entidade {
+public class ItemPedido implements Serializable, Entidade<ItemPedido> {
     
     @Id
     @GeneratedValue
@@ -143,6 +143,12 @@ public class ItemPedido implements Serializable, Entidade {
     public ItemPedido clone() {
         
         ItemPedido itemPedido = new ItemPedido();
+        return clone(itemPedido);
+    }
+    
+    @Override
+    public ItemPedido clone(ItemPedido itemPedido) {
+        
         itemPedido.id = this.id;
         itemPedido.livro = this.livro;
         itemPedido.pedido = this.pedido;

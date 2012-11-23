@@ -6,6 +6,7 @@ package br.ugf.alfabeta.modelo.clientes;
 
 import br.ugf.alfabeta.modelo.entidades.JpaDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
+import br.ugf.alfabeta.modelo.pedidos.Pedido;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
@@ -26,14 +27,18 @@ public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements Clie
     }
     
     @Override
-    public void atualizar(T cliente) throws ExcecaoDao {
-        super.atualizar(cliente);
+    public T obterCompleto(Long id) throws ExcecaoDao {
         
+        T retorno = null;
         EntityManager manager = this.helper.getEntityManager();
         
         try {
-            manager.refresh(cliente);
-            cliente.getPedidos().size();
+            retorno = manager.find(this.classe, id);
+            retorno.getPedidos().size();
+            String jpql = "select x from Pedido"
+                    + " where x.clienteCriador = :cliente";
+            TypedQuery<Pedido> query = manager.createQuery(jpql, Pedido.class);
+            retorno.setPedidos(query.getResultList());
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
@@ -41,6 +46,8 @@ public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements Clie
         } finally {
             manager.close();
         }
+        
+        return retorno;
     }
     
     @Override

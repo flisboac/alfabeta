@@ -56,7 +56,7 @@ public class PedidoBean extends Bean {
         this.pedidosFinalizados = new ArrayList<Pedido>();
         
         try {
-            this.clienteDlo.atualizar(clienteAtual);
+            clienteAtual = (Cliente) this.clienteDlo.obterCompleto(clienteAtual.getId());
             
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao obter lista de pedidos.");

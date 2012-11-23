@@ -22,6 +22,26 @@ public class EditoraDaoImpl extends JpaDao<Editora> implements EditoraDao {
     }
 
     @Override
+    public Editora obterCompleto(Long id) throws ExcecaoDao {
+        
+        Editora retorno = null;
+        EntityManager manager = this.helper.getEntityManager();
+        
+        try {
+            retorno = manager.find(this.classe, id);
+            retorno.getLivros().size();
+            
+        } catch (PersistenceException e) {
+            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
+            
+        } finally {
+            manager.close();
+        }
+        
+        return retorno;
+    }
+    
+    @Override
     public void atualizar(Editora editora) throws ExcecaoDao {
         super.atualizar(editora);
         

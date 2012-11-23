@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(columnNames={"cod_livro"}) // Identidade
 })
 @GroupSequence({Identidade.class, Livro.class})
-public class Livro implements Serializable, Entidade {
+public class Livro implements Serializable, Entidade<Livro> {
     
     @Id
     @GeneratedValue
@@ -163,6 +163,12 @@ public class Livro implements Serializable, Entidade {
     public Livro clone() {
         
         Livro livro = new Livro();
+        return clone(livro);
+    }
+
+    @Override
+    public Livro clone(Livro livro) {
+        
         livro.id = this.id;
         livro.codigo = this.codigo;
         livro.nome = this.nome;

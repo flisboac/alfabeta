@@ -46,7 +46,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name = "pedido_uq", columnNames = {"id_cliente", "dtcriacao_pedido"})
 })
 @GroupSequence({Identidade.class, Pedido.class})
-public class Pedido implements Serializable, Entidade {
+public class Pedido implements Serializable, Entidade<Pedido> {
 
     @Id
     @GeneratedValue
@@ -244,16 +244,7 @@ public class Pedido implements Serializable, Entidade {
     public Pedido clone() {
         
         Pedido pedido = new Pedido();
-        pedido.id = this.id;
-        pedido.codigo = this.codigo;
-        pedido.clienteCriador = this.clienteCriador;
-        pedido.clienteCancelador = this.clienteCancelador;
-        pedido.dataHoraCriacao = this.dataHoraCriacao;
-        pedido.dataHoraCancelamento = this.dataHoraCancelamento;
-        pedido.itens = this.itens;
-        pedido.estado = this.estado;
-        pedido.debito = this.debito;
-        return pedido;
+        return clone(pedido);
     }
     
     public BigDecimal getValorTotal() {
@@ -268,6 +259,21 @@ public class Pedido implements Serializable, Entidade {
         }
         
         return retorno;
+    }
+
+    @Override
+    public Pedido clone(Pedido pedido) {
+        
+        pedido.id = this.id;
+        pedido.codigo = this.codigo;
+        pedido.clienteCriador = this.clienteCriador;
+        pedido.clienteCancelador = this.clienteCancelador;
+        pedido.dataHoraCriacao = this.dataHoraCriacao;
+        pedido.dataHoraCancelamento = this.dataHoraCancelamento;
+        pedido.itens = this.itens;
+        pedido.estado = this.estado;
+        pedido.debito = this.debito;
+        return pedido;
     }
     
 }

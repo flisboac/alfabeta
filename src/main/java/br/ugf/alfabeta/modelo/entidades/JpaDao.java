@@ -210,16 +210,7 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
 
     @Override
     public void atualizar(T entidade) throws ExcecaoDao {
-        EntityManager manager = this.helper.getEntityManager();
-        
-        try {
-            manager.refresh(entidade);
-            
-        } catch (PersistenceException e) {
-            throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);
-            
-        } finally {
-            manager.close();
-        }
+        T objeto = obterCompleto(entidade.getId());
+        entidade.clone(objeto);
     }
 }
