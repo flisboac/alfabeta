@@ -9,6 +9,48 @@
     template="/WEB-INF/templates/cliente.xhtml">
     
     <ui:define name="corpo">
-        Carrinho
+        
+        
+        <h:form id="frmCarrinho">
+            
+            <p:fieldset legend="Itens no Carrinho"
+                        collapsed="false"
+                        toggleable="true" 
+                         >
+                
+                <p:dataTable id="lstItensNoCarrinho"
+                             widgetVar="lstItensNoCarrinho"
+                             value=""
+                             var="ItensNoCarrinho">
+                
+                    <p:column headerText="Em Estoque">
+                        Teste
+                    </p:column>
+                    
+                    <p:column headerText="Livro">
+                        Teste
+                    </p:column>
+                    
+                    <p:column headerText="Quantidade" >
+                       <p:spinner value="#{item.quantidade}"
+                                       style="width: 50px !important"
+                                       min="1">
+                                <p:ajax event="change" update="@form :frmCarrinho" process="@this" />
+                            </p:spinner>
+                    </p:column>
+                    
+                    <p:column headerText="Remover">
+                        <p:commandButton     
+                                             id="btnRemover"
+                                             icon="ui-icon-delete"/>
+                    </p:column>
+            
+                </p:dataTable>
+                
+                </p:fieldset> 
+            
+                        
+        </h:form>
+        
     </ui:define>
 </ui:composition>
