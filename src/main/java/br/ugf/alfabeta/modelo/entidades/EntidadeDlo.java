@@ -140,7 +140,27 @@ public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
     
     @Override
     public T obterCompleto(Long id) throws ExcecaoDlo {
-        return obter(id);
+        T retorno = null;
+        Dao<T> entidadeDao = getDao();
+        
+        if (id == null) {
+            throw new ExcecaoCriticaDlo("ID não pode ser nulo.");
+        }
+        
+        try {
+            retorno = entidadeDao.obterCompleto(id);
+            
+        } catch (ExcecaoDao ex) {
+            throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
+        }
+        
+        if (retorno == null || retorno.getId() == null) {
+            throw new ExcecaoPersistenciaDlo("Valor inválido retornado da camada de persistência.");
+        }
+        
+        //validar(retorno, Persistencia.class);
+        
+        return retorno;
     }
     
     @Override

@@ -123,6 +123,10 @@ public class Livro implements Serializable, Entidade<Livro> {
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
+    
+    public boolean isForaDeEstoque() {
+        return this.getQuantidade() <= this.getQuantidadeMinima();
+    }
 
     // [ EQUALS / HASHCODE ] ===================================================
     

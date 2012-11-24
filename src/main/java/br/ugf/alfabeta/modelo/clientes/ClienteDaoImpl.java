@@ -35,10 +35,10 @@ public class ClienteDaoImpl<T extends Cliente> extends JpaDao<T> implements Clie
         try {
             retorno = manager.find(this.classe, id);
             retorno.getPedidos().size();
-            String jpql = "select x from Pedido"
-                    + " where x.clienteCriador = :cliente";
-            TypedQuery<Pedido> query = manager.createQuery(jpql, Pedido.class);
-            retorno.setPedidos(query.getResultList());
+            //String jpql = "select x from Pedido x"
+            //        + " where x.clienteCriador = :cliente";
+            //TypedQuery<Pedido> query = manager.createQuery(jpql, Pedido.class);
+            //retorno.setPedidos(query.getResultList());
             
         } catch (PersistenceException e) {
             throw new ExcecaoDao("Erro ao atualizar entidade '" + this.classe.getName() + "'.", e);

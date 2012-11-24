@@ -45,10 +45,43 @@ public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements Pe
             for (ItemPedido itemPedido : pedido.getItens()) {
                 
                 Livro livro = itemPedido.getLivro();
-                livroDlo.atualizar(livro);
-                livro.setQuantidade(livro.getQuantidade() + itemPedido.getQuantidade());
-                livroDlo.alterar(livro);
+                int quantidade = livroDlo.getQuantidadeEmEstoque(livro);
+                livroDlo.setQuantidadeEmEstoque(livro, quantidade + itemPedido.getQuantidade());
             }
         }
+    }
+    
+    @Override
+    public void efetuarPedido(Pedido pedido) throws ExcecaoDlo {
+        
+        if (pedido == null) {
+            throw new ExcecaoCriticaDlo("Pedido nulo passado para cancelamento.");
+        }
+
+        if (pedido.getEstado() != EstadoPedido.Criado) {
+            throw new ExcecaoCriticaDlo("Tentando efetuar pedido com estado não-inicial.");
+        }
+        
+        if (pedido.getId() != null || existe(pedido)) {
+            throw new ExcecaoCriticaDlo("Tentando efetuar pedido já existente.");
+        }
+        
+        // Verifica se existe quantidade suficiente para todos os livros
+        for (ItemPedido itemPedido : pedido.getItens()) {
+            
+            Livro livro = itemPedido.getLivro();
+            int quantidade = livroDlo.getQuantidadeEmEstoque(livro);
+            
+            if (quantidade < itemPedido.getQuantidade()) {
+                throw new ExcecaoCriticaDlo("Não é possível atender a quantidade de "
+                        + itemPedido.getQuantidade() + " livro(s)"
+                        + " (Cód.: " + livro.getCodigo()
+                        + ", estoque: " + quantidade + ").");
+            }
+            
+            livroDlo.setQuantidadeEmEstoque(livro, quantidade - itemPedido.getQuantidade());
+        }
+        
+        inserir(pedido);
     }
 }

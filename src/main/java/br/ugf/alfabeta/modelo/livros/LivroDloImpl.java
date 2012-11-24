@@ -8,6 +8,7 @@ import br.ugf.alfabeta.modelo.editoras.Editora;
 import br.ugf.alfabeta.modelo.editoras.ValidadorEditora;
 import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 import br.ugf.alfabeta.modelo.entidades.Validador;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoCriticaDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDao;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoPersistenciaDlo;
@@ -49,5 +50,36 @@ public class LivroDloImpl extends EntidadeDloPersistencia<Livro> implements Livr
         }
         
         return retorno;
+    }
+    
+    @Override
+    public int getQuantidadeEmEstoque(Livro livro) throws ExcecaoDlo {
+        
+        if (livro == null) {
+            throw new ExcecaoCriticaDlo("Livro nulo passado.");
+        }
+        
+        if (livro.getId() == null) {
+            throw new ExcecaoCriticaDlo("Livro não possui identificação.");
+        }
+        
+        Livro livroReal = obterCompleto(livro.getId());
+        return livroReal.getQuantidade();
+    }
+    
+    @Override
+    public void setQuantidadeEmEstoque(Livro livro, int quantidade) throws ExcecaoDlo {
+        
+        if (livro == null) {
+            throw new ExcecaoCriticaDlo("Livro nulo passado.");
+        }
+        
+        if (livro.getId() == null) {
+            throw new ExcecaoCriticaDlo("Livro não possui identificação.");
+        }
+        
+        Livro livroReal = obterCompleto(livro.getId());
+        livroReal.setQuantidade(quantidade);
+        alterar(livroReal);
     }
 }

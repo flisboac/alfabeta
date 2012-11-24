@@ -106,16 +106,17 @@ public class ClienteBean extends Bean {
             return;
         }
         
-        // Pesquisa por nome
-        if (nomeLivroParaPesquisa != null && !nomeLivroParaPesquisa.isEmpty()) {
-            Iterator<Livro> iter = this.livrosParaPesquisa.iterator();
+        // Remover livros com estoque baixo, pesquisa por nome
+        Iterator<Livro> iter = this.livrosParaPesquisa.iterator();
+
+        while (iter.hasNext()) {
+            Livro livro = iter.next();
             
-            while (iter.hasNext()) {
-                Livro livro = iter.next();
-                
-                if (!livro.getNome().contains(nomeLivroParaPesquisa)) {
-                    iter.remove();
-                }
+            if (livro.isForaDeEstoque() || 
+                    (nomeLivroParaPesquisa != null 
+                    && !nomeLivroParaPesquisa.isEmpty() 
+                    && !livro.getNome().contains(nomeLivroParaPesquisa))) {
+                iter.remove();
             }
         }
         

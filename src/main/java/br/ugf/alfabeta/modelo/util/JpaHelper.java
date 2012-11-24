@@ -16,10 +16,11 @@ public class JpaHelper {
     
     public static final String NomePersistenceUnit = "alfabeta";
     
-    private EntityManagerFactory emf;
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(NomePersistenceUnit);
+    private EntityManagerFactory factory;
     
     public JpaHelper() {
-        this.emf = Persistence.createEntityManagerFactory(NomePersistenceUnit);
+        
     }
     
     public JpaHelper(String nomeUnit, String... opcoes) {
@@ -33,11 +34,21 @@ public class JpaHelper {
             }
         }
         
-        this.emf = Persistence.createEntityManagerFactory(unit);
+        this.factory = Persistence.createEntityManagerFactory(unit);
+    }
+    
+    public EntityManagerFactory getEntityManagerFactory() {
+        EntityManagerFactory retorno = this.factory;
+        
+        if (retorno == null) {
+            retorno = emf;
+        }
+        
+        return retorno;
     }
     
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return getEntityManagerFactory().createEntityManager();
     }
     
 }

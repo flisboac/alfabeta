@@ -16,4 +16,6 @@ import java.util.List;
 public interface LivroDlo extends DloPersistencia<Livro> {
     
     public List<Livro> listarPorEditora(Editora editora) throws ExcecaoDlo;
+    public int getQuantidadeEmEstoque(Livro livro) throws ExcecaoDlo;
+    public void setQuantidadeEmEstoque(Livro livro, int quantidade) throws ExcecaoDlo;
 }

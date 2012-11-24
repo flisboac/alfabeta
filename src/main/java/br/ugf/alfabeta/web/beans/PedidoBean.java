@@ -45,7 +45,7 @@ public class PedidoBean extends Bean {
     public void inicializar() {
         super.inicializar();
         this.pedido = instanciarPedido();
-        this.clienteAtual = getHelper().getClienteLogado().clone();
+        this.clienteAtual = getHelper().getClienteLogado();
         carregarPedidos();
     }
     

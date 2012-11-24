@@ -13,6 +13,7 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
  */
 public interface PedidoDlo extends DloPersistencia<Pedido> {
 
+    public void efetuarPedido(Pedido pedido) throws ExcecaoDlo;
     public void finalizarPedido(Pedido pedido) throws ExcecaoDlo;
     
 }
