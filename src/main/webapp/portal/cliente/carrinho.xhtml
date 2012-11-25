@@ -48,7 +48,7 @@
                              styleClass="ui-spinner"
                                        style="width: 50px !important"
                                        min="1">
-                                <p:ajax event="change" update="@form :frmCarrinho" process="@this" />
+                                <p:ajax event="change" update="@form :frmMenu" process="@this" />
                             </p:spinner>
                     </p:column>
                     
@@ -70,13 +70,16 @@
                 <br/>
                 <center>
                 <p:commandButton id="btnCancelar"
-                             value="Cancelar"
+                                value="Cancelar"
+                                action="#{clienteBean.esvaziar()}"
+                                update="@form :frmMenu"
                              
                              />&nbsp;
                 
                 <p:commandButton id="btnFinalizar"
                              value="Finalizar"
-                             
+                             action="#{clienteBean.comprar()}"
+                             update="@form :frmMenu"
                              />
                 </center>
                 </p:fieldset> 
