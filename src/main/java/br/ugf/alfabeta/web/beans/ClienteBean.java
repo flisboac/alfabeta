@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -161,6 +163,20 @@ public class ClienteBean extends Bean {
             }
             pedido.getItens().add(itemPedido);
         }
+    }
+    
+    public int verificarLivrosDisponiveisNoEstoque(ItemPedido item){
+         
+        int retorno = 0;
+        
+        try {
+          retorno = livroDlo.getQuantidadeEmEstoque(item.getLivro());
+        } catch (ExcecaoDlo ex) {
+            getHelper().erro("Erro ao tentar recuperar os livros disponiveis em estoque!");
+        }
+        
+        
+        return retorno;
     }
     
     public List<CampoParaPesquisa> getCamposDisponiveisParaPesquisa() {

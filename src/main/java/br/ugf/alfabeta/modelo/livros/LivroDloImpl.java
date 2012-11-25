@@ -64,7 +64,7 @@ public class LivroDloImpl extends EntidadeDloPersistencia<Livro> implements Livr
         }
         
         Livro livroReal = obterCompleto(livro.getId());
-        return livroReal.getQuantidade();
+        return livroReal.getQuantidadeMinima();
     }
     
     @Override

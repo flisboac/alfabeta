@@ -32,7 +32,7 @@
                              var="item">
                 
                     <p:column headerText="Em Estoque">
-                        
+                        #{clienteBean.verificarLivrosDisponiveisNoEstoque(item)}
                     </p:column>
                     
                     <p:column headerText="Código">
@@ -57,16 +57,31 @@
                     </p:column>
                     
                     <p:column>
-                        <p:commandButton     
+                        <p:commandButton    
+                                            value="Remover"
+                                            update="@form :frmMenu"
+                                            disabled="#{not clienteBean.clienteLogado}"
+                                            action="#{clienteBean.processarItem(item)}"
                                             id="btnRemover"
                                             icon="ui-icon-circle-close"/>
                     </p:column>
             
                 </p:dataTable>
+                <br/>
+                <center>
+                <p:commandButton id="btnCancelar"
+                             value="Cancelar"
+                             
+                             />&nbsp;
                 
+                <p:commandButton id="btnFinalizar"
+                             value="Finalizar"
+                             
+                             />
+                </center>
                 </p:fieldset> 
             
-                        
+            
         </h:form>
         
     </ui:define>
