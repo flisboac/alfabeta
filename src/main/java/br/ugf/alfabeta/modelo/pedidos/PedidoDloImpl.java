@@ -73,10 +73,14 @@ public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements Pe
             int quantidade = livroDlo.getQuantidadeEmEstoque(livro);
             
             if (quantidade < itemPedido.getQuantidade()) {
-                throw new ExcecaoCriticaDlo("Não é possível atender a quantidade de "
-                        + itemPedido.getQuantidade() + " livro(s)"
-                        + " (Cód.: " + livro.getCodigo()
-                        + ", estoque: " + quantidade + ").");
+//                throw new ExcecaoCriticaDlo("Não é possível atender a quantidade de "
+//                        + itemPedido.getQuantidade() + " livro(s)"
+//                        + " (Cód.: " + livro.getCodigo()
+//                        + ", estoque: " + quantidade + ").");
+                itemPedido.setPendente(true);
+                
+            } else {
+                itemPedido.setPendente(false);
             }
             
             livroDlo.setQuantidadeEmEstoque(livro, quantidade - itemPedido.getQuantidade());

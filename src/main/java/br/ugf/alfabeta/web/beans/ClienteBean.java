@@ -35,101 +35,99 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class ClienteBean extends Bean {
-    
+
     private transient ClienteDlo clienteDlo = new ClienteDloImpl();
     private transient LivroDlo livroDlo = new LivroDloImpl();
     private transient PedidoDlo pedidoDlo = new PedidoDloImpl();
-    
     private boolean resultadosInvertidosParaPesquisa;
     private List<CampoParaPesquisa> camposDisponiveisParaPesquisa;
     private String nomeLivroParaPesquisa;
-    
     private List<Livro> livrosParaPesquisa;
     private List<ItemPedido> itensParaPesquisa;
-    
     // Carrinho
     private Pedido pedido;
-    
+
     @Override
     public void inicializar() {
         super.inicializar();
-        
+
         this.camposDisponiveisParaPesquisa = Arrays.asList(CampoParaPesquisa.values());
         esvaziar();
         atualizarPesquisa();
     }
-    
+
     public String getValorTotalFormatado() {
-        
+
         return "R$ " + this.pedido.getValorTotal();
     }
-    
+
     public void comprar() {
-        
+
         Date dataCriacao = new Date();
         this.pedido.setClienteCriador(getHelper().getClienteLogado());
         this.pedido.setDataHoraCriacao(dataCriacao);
         this.pedido.setCodigo(Prefixos.Pedido + String.format("%016X", dataCriacao.getTime()));
         
         try {
-            pedidoDlo.inserir(pedido);
-            
+            pedidoDlo.efetuarPedido(pedido);
+
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao efetuar pedido!");
         }
-        
+
         esvaziar();
     }
-    
+
     public void esvaziar() {
-        
+
         this.pedido = new Pedido();
         this.pedido.setItens(new ArrayList<ItemPedido>());
+        getHelper().ok("Operação concluída com sucesso.");
     }
-    
+
     public void atualizarPesquisa() {
-        
+
         // Ordenação
         String[] nomesParaPesquisa = new String[camposDisponiveisParaPesquisa.size()];
         for (int i = 0; i < nomesParaPesquisa.length; i++) {
             nomesParaPesquisa[i] = camposDisponiveisParaPesquisa.get(i).getNomeCampo();
         }
-        
+
         OrdemListagem ordem = OrdemListagem.Ascendente;
         if (this.resultadosInvertidosParaPesquisa) {
             ordem = OrdemListagem.Descendente;
         }
-        
+
         try {
             this.livrosParaPesquisa = this.livroDlo.listarOrdenado(ordem, nomesParaPesquisa);
-            
+
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao listar livros", "Por favor, tente novamente!");
             return;
         }
-        
+
         // Remover livros com estoque baixo, pesquisa por nome
         Iterator<Livro> iter = this.livrosParaPesquisa.iterator();
 
         while (iter.hasNext()) {
             Livro livro = iter.next();
-            
-            if (livro.isForaDeEstoque() || 
-                    (nomeLivroParaPesquisa != null 
-                    && !nomeLivroParaPesquisa.isEmpty() 
+
+            if (livro.isForaDeEstoque()
+                    || (nomeLivroParaPesquisa != null
+                    && !nomeLivroParaPesquisa.isEmpty()
                     && !livro.getNome().contains(nomeLivroParaPesquisa))) {
                 iter.remove();
             }
         }
-        
+
         // Construção dos itens de pedido
         this.itensParaPesquisa = new ArrayList<ItemPedido>();
         for (Livro livro : livrosParaPesquisa) {
-            
+
             ItemPedido itemPedido = new ItemPedido();
             itemPedido.setPedido(pedido);
             itemPedido.setLivro(livro);
-            
+
             if (!this.pedido.getItens().isEmpty()) {
                 for (ItemPedido itemPedidoComprado : this.pedido.getItens()) {
 
@@ -140,22 +138,22 @@ public class ClienteBean extends Bean {
                         itensParaPesquisa.add(itemPedido);
                     }
                 }
-                
+
             } else {
                 itensParaPesquisa.add(itemPedido);
             }
         }
-        
+
         //getHelper().ok("Listando livros...");
     }
 
     public void processarItem(ItemPedido itemPedido) {
-        
+
         if (this.pedido.getItens().contains(itemPedido)) {
             // Remover
             pedido.getItens().remove(itemPedido);
             itemPedido.setQuantidade(0);
-            
+
         } else {
             // Adicionar
             if (itemPedido.getQuantidade() <= 0) {
@@ -164,17 +162,43 @@ public class ClienteBean extends Bean {
             pedido.getItens().add(itemPedido);
         }
     }
+
+    public boolean isItemLivroEmEstoque(ItemPedido item) {
+
+        boolean retorno = false;
+        int quantidade = getQuantidadeLivrosEmEstoque(item);
+        
+        if (quantidade >= item.getQuantidade()) {
+            retorno = true;
+        }
+        
+        return retorno;
+    }
     
-    public int verificarLivrosDisponiveisNoEstoque(ItemPedido item){
-         
+    public int getQuantidadeLivrosEmEstoque(ItemPedido itemPedido) {
+        
         int retorno = 0;
         
         try {
-          retorno = livroDlo.getQuantidadeEmEstoque(item.getLivro());
+            retorno = livroDlo.getQuantidadeEmEstoque(itemPedido.getLivro());
+            
         } catch (ExcecaoDlo ex) {
-            getHelper().erro("Erro ao tentar recuperar os livros disponiveis em estoque!");
+            // ...
         }
         
+        return retorno;
+    }
+    
+    public List<ItemPedido> getItensPendentes() {
+        
+        List<ItemPedido> retorno = new ArrayList<ItemPedido>();
+        
+        for (ItemPedido itemPedido : pedido.getItens()) {
+            
+            if (!isItemLivroEmEstoque(itemPedido)) {
+                retorno.add(itemPedido);
+            }
+        }
         
         return retorno;
     }
@@ -186,7 +210,7 @@ public class ClienteBean extends Bean {
     public void setCamposDisponiveisParaPesquisa(List<CampoParaPesquisa> camposDisponiveisParaPesquisa) {
         this.camposDisponiveisParaPesquisa = camposDisponiveisParaPesquisa;
     }
-    
+
     public boolean isResultadosInvertidosParaPesquisa() {
         return resultadosInvertidosParaPesquisa;
     }
@@ -194,7 +218,7 @@ public class ClienteBean extends Bean {
     public void setResultadosInvertidosParaPesquisa(boolean resultadosInvertidosParaPesquisa) {
         this.resultadosInvertidosParaPesquisa = resultadosInvertidosParaPesquisa;
     }
-    
+
     public String getNomeLivroParaPesquisa() {
         return nomeLivroParaPesquisa;
     }
@@ -226,6 +250,4 @@ public class ClienteBean extends Bean {
     public void setItensParaPesquisa(List<ItemPedido> itensParaPesquisa) {
         this.itensParaPesquisa = itensParaPesquisa;
     }
-    
-    
 }

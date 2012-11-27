@@ -31,8 +31,13 @@
                              value="#{clienteBean.pedido.itens}"
                              var="item">
                 
-                    <p:column headerText="Em Estoque">
-                        #{clienteBean.verificarLivrosDisponiveisNoEstoque(item)}
+                    <p:column>
+                        <center>
+                            <h:graphicImage library="icons" name="ok.png"
+                                            rendered="#{clienteBean.isItemLivroEmEstoque(item)}" />
+                            <h:graphicImage library="icons" name="cancel.png"
+                                            rendered="#{not clienteBean.isItemLivroEmEstoque(item)}" />
+                        </center>
                     </p:column>
                     
                     <p:column headerText="Código">
@@ -43,7 +48,7 @@
                         #{item.livro.nome}
                     </p:column>
                     
-                    <p:column headerText="Quantidade" >
+                    <p:column headerText="Qtd." >
                        <p:spinner value="#{item.quantidade}"
                              styleClass="ui-spinner"
                                        style="width: 50px !important"
@@ -57,29 +62,32 @@
                     </p:column>
                     
                     <p:column>
-                        <p:commandButton    
-                                            value="Remover"
-                                            update="@form :frmMenu"
-                                            disabled="#{not clienteBean.clienteLogado}"
-                                            action="#{clienteBean.processarItem(item)}"
-                                            id="btnRemover"
-                                            icon="ui-icon-circle-close"/>
+                        <center>
+                            <p:commandButton    
+                                                update="@form :frmMenu"
+                                                disabled="#{not clienteBean.clienteLogado}"
+                                                action="#{clienteBean.processarItem(item)}"
+                                                id="btnRemover"
+                                                icon="ui-icon-circle-close"/>
+                        </center>
                     </p:column>
             
                 </p:dataTable>
                 <br/>
                 <center>
-                <p:commandButton id="btnCancelar"
-                                value="Cancelar"
-                                action="#{clienteBean.esvaziar()}"
-                                update="@form :frmMenu"
-                             
-                             />&nbsp;
+                <p:commandButton id="btnEsvaziar"
+                                 value="Esvaziar"
+                                 onclick="dlgEsvaziar.show()"
+                                 immediate="true"
+                                 update="@form :frmMenu :frmEsvaziar"
+                                 />
+                &nbsp;
                 
                 <p:commandButton id="btnFinalizar"
                              value="Finalizar"
-                             action="#{clienteBean.comprar()}"
-                             update="@form :frmMenu"
+                             onclick="dlgEsvaziar.show()"
+                             immediate="true"
+                             update="@form :frmMenu :frmConfirmar"
                              />
                 </center>
                 </p:fieldset> 
@@ -87,5 +95,103 @@
             
         </h:form>
         
+    </ui:define>
+    
+    <ui:define name="extra">
+        <h:form id="frmConfirmar">
+            <p:dialog id="dlgConfirmar"
+                      widgetVar="dlgConfirmar"
+                      modal="true"
+                      hideEffect="fade"
+                      resizable="false"
+                      header="Confirmar Compra de Livros"
+                      >
+                
+                <h:outputText value="Tem certeza de que deseja efetuar a compra?" 
+                              rendered="#{empty clienteBean.itensPendentes}"/>
+                
+                <h:outputText value="Há livros que estão atualmente fora de estoque.
+                              Deseja esperar a chegada dos livros?"
+                              rendered="#{not empty clienteBean.itensPendentes}"/>
+                
+                <p:dataTable value="#{clienteBean.itensPendentes}"
+                             var="item"
+                             rendered="#{not empty clienteBean.itensPendentes}"
+                             >
+                    
+                    <f:facet name="header">
+                        Livros Em Falta
+                    </f:facet>
+                    
+                    <p:column headerText="Livro">
+                        #{item.livro.nome}
+                    </p:column>
+                    
+                    <p:column headerText="Qtd. Pedida">
+                        #{item.quantidade}
+                    </p:column>
+                    
+                    <p:column headerText="Qtd. Em Estoque">
+                        #{clienteBean.getQuantidadeLivrosEmEstoque(item)}
+                    </p:column>
+                </p:dataTable>
+                
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="btnConfirmarCompra"
+                                         widgetVar="btnConfirmarCompra"
+                                         value="Confirmar"
+                                         icon="ui-icon-cart"
+                                         onstart="btnConfirmarCompra.disable();
+                                            btnCancelarConfirmar.disable()"
+                                         oncomplete="btnConfirmarCompra.enable();
+                                            btnCancelarConfirmar.enable();
+                                            dlgConfirmar.hide()"
+                                         action="#{clienteBean.comprar()}"
+                                         update="@form :frmMenu :frmCarrinho"
+                                         />
+                        <p:commandButton id="btnCancelarConfirmar"
+                                         value="Cancelar"
+                                         icon="ui-icon-cancel"
+                                         widgetVar="btnCancelarConfirmar"
+                                         immediate="true"
+                                         onclick="dlgConfirmar.hide()"
+                                         />
+                    </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+        
+        
+        <h:form id="frmEsvaziar">
+            <p:confirmDialog id="dlgEsvaziar"
+                             widgetVar="dlgEsvaziar"
+                             header="Esvaziar Carrinho"
+                             closable="false"
+                             message="Tem certeza de que deseja esvaziar seu carrinho?"
+                             >
+                <center>
+                    <p:commandButton id="btnEsvaziar"
+                                     widgetVar="btnEsvaziar"
+                                     value="Esvaziar"
+                                     icon="ui-icon-trash"
+                                     onstart="btnEsvaziar.disable();
+                                        btnCancelarEsvaziar.disable()"
+                                     oncomplete="btnEsvaziar.enable();
+                                        btnCancelarEsvaziar.enable();
+                                        dlgEsvaziar.hide()"
+                                     action="#{clienteBean.comprar()}"
+                                     update="@form :frmMenu :frmCarrinho"
+                                     />
+                    <p:commandButton id="btnCancelarEsvaziar"
+                                     value="Cancelar"
+                                     icon="ui-icon-cancel"
+                                     widgetVar="btnCancelarEsvaziar"
+                                     immediate="true"
+                                     onclick="dlgEsvaziar.hide()"
+                                     />
+                </center>
+            </p:confirmDialog>
+        </h:form>
     </ui:define>
 </ui:composition>
