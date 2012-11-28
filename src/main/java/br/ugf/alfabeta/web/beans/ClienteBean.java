@@ -18,13 +18,13 @@ import br.ugf.alfabeta.modelo.pedidos.PedidoDloImpl;
 import br.ugf.alfabeta.web.util.Bean;
 import br.ugf.alfabeta.web.util.CampoParaPesquisa;
 import br.ugf.alfabeta.web.util.Prefixos;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -57,8 +57,15 @@ public class ClienteBean extends Bean {
     }
 
     public String getValorTotalFormatado() {
-
-        return "R$ " + this.pedido.getValorTotal();
+        
+        String retorno = "(Vazio)";
+        BigDecimal valor = this.pedido.getValorTotal();
+        
+        if (valor.compareTo(new BigDecimal(0.0)) > 0) {
+            retorno = "R$ " + valor;
+        }
+        
+        return retorno;
     }
 
     public void comprar() {
@@ -70,12 +77,11 @@ public class ClienteBean extends Bean {
         
         try {
             pedidoDlo.efetuarPedido(pedido);
+            esvaziar();
 
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao efetuar pedido!");
         }
-
-        esvaziar();
     }
 
     public void esvaziar() {
@@ -83,6 +89,13 @@ public class ClienteBean extends Bean {
         this.pedido = new Pedido();
         this.pedido.setItens(new ArrayList<ItemPedido>());
         getHelper().ok("Operação concluída com sucesso.");
+        
+        if (itensParaPesquisa != null) {
+            for (ItemPedido itemParaPesquisa : itensParaPesquisa) {
+
+                itemParaPesquisa.setQuantidade(0);
+            }
+        }
     }
 
     public void atualizarPesquisa() {

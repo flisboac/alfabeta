@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author flisboac
  */
-@WebFilter("/portal/*")
-public class ClienteFilter implements Filter {
+@WebFilter("/admin/cadastrolol/*")
+public class AdminFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {    
@@ -34,18 +34,20 @@ public class ClienteFilter implements Filter {
         helper.setSessao(sessao);
         String caminho = req.getRequestURI();
         
-        if (caminho.startsWith(req.getContextPath() + "/portal/cliente")
-                && !helper.isClienteLogado()) {
+        if (caminho.endsWith("login.xhtml")) {
+            
+            if (helper.isFuncionarioLogado()) {
+                sessao.setAttribute("alfabeta.mensagemOk", "Você já está logado!");
+                res.sendRedirect(req.getContextPath() + "/admin/index.xhtml");
+            }
+
+        } else if (!helper.isFuncionarioLogado()) {
             if (sessao == null) {
                 sessao = req.getSession(true);
             }
             sessao.setAttribute("alfabeta.portal.proximaPagina", caminho);
             sessao.setAttribute("alfabeta.mensagemErro", "É necessário efetuar login para acessar a página.");
-            res.sendRedirect(req.getContextPath() + "/portal/login.xhtml");
-
-        } else if (caminho.endsWith("login.xhtml") && helper.isClienteLogado()) {
-            sessao.setAttribute("alfabeta.mensagemOk", "Você já está logado!");
-            res.sendRedirect(req.getContextPath() + "/portal/index.xhtml");
+            res.sendRedirect(req.getContextPath() + "/admin/login.xhtml");
             
         } else {
             

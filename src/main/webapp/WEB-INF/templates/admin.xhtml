@@ -43,10 +43,7 @@
                     <h:form id="frmLogin">
                         <p>Olá, Usuário</p>
                         <p>
-                            <p:commandButton value="Login" icon="ui-icon-login" style="width: 100%" action="/admin/login.xhtml" />
-                            <br/><br/>
-                            <p:commandButton value="Logoff" icon="ui-icon-logoff" style="width: 100%"/>
-                                                        
+                            <p:commandButton value="Logoff" icon="ui-icon-logoff" action="#{loginAdminBean.efetuarLogoff()}" style="width: 100%"/>
                         </p>
                     </h:form>
                 </div>
