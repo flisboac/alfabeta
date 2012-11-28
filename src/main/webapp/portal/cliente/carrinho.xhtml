@@ -77,7 +77,7 @@
                 <center>
                 <p:commandButton id="btnEsvaziar"
                                  value="Esvaziar"
-                                 onclick="dlgEsvaziar.show()"
+                                 oncomplete="dlgEsvaziar.show()"
                                  immediate="true"
                                  update="@form :frmMenu :frmEsvaziar"
                                  />
@@ -85,9 +85,10 @@
                 
                 <p:commandButton id="btnFinalizar"
                              value="Finalizar"
-                             onclick="dlgEsvaziar.show()"
+                             oncomplete="dlgConfirmar.show()"
                              immediate="true"
                              update="@form :frmMenu :frmConfirmar"
+                             
                              />
                 </center>
                 </p:fieldset> 
