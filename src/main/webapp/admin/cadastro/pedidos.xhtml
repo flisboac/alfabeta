@@ -49,12 +49,37 @@
                          value="#{visualizacaoPedidoBean.pedidos}"
                          var="pedido"
                          rowKey="#{pedido.id}"
-                         selection="#{cadastroPedidoBean.pedido}"
+                         selection="#{visualizacaoPedidoBean.pedido}"
                          selectionMode="single"
                          rows="10"
                          >
                 <p:ajax event="rowSelect" update="@form" />
                 <p:ajax event="rowUnselect" update="@form" />
+
+
+                <p:column headerText="Código">
+                    #{pedido.codigo}
+                </p:column>
+
+                <p:column headerText="Estado">
+                    #{pedido.estado}
+                </p:column>
+
+                <p:column headerText="Pendente?">
+                    #{pedido.pendente}
+                </p:column>
+
+                <p:column headerText="Criado em">
+                    #{pedido.dataHoraCriacao}
+                </p:column>
+
+                <p:column headerText="Finalizado em">
+                    #{pedido.dataHoraCancelamento}
+                </p:column>
+
+                <p:column headerText="Total">
+                    R$ #{pedido.valorTotal}
+                </p:column>
 
                 <p:column headerText="Código"
                           filterBy="#{pedido.codigo}"
@@ -76,23 +101,65 @@
                       resizable="false"
                       hideEffect="fade"
                       >
-                <p:panelGrid columns="3" styleClass="ui-panelgrid-noborder">
-                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.Codigo}" />
-                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.dataHoraCriacao}" />
-                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.estado}" />
-                    <h:outputText value="#{VisualizacaoPedidoBean.pedido.clientecriador.nome}" />
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Código:" />
+                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.codigo}" />
 
-                    <f:facet name="footer">
-                        <center>
-                            <p:commandButton id="btnCancelar"
-                                             value="Cancelar"
-                                             icon="ui-icon-cancel"
-                                             immediate="false"
-                                             onclick="dlgEditar.hide()"
-                                             />
-                        </center>
-                    </f:facet>
-                </p:panelGrid>
+                        <h:outputText value="Data de Criação:" />
+                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.dataHoraCriacao}" />
+
+                        <h:outputText value="Estado:" />
+                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.estado}" />
+
+                        <h:outputText value="Valor Total:" />
+                        <h:outputText value="&nbsp;R$ #{visualizacaoPedidoBean.pedido.valorTotal}" />
+
+                        <h:outputText value="Estado:" />
+                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.estado}" />
+
+                        <h:outputText value="Finalizado em:" rendered="#{visualizacaoPedidoBean.pedido.estado.terminal}" />
+                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.dataHoraCancelamento}" rendered="#{visualizacaoPedidoBean.pedido.estado.terminal}" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1" style="margin-left: 10px">
+                        <p:dataTable value="#{visualizacaoPedidoBean.pedido.itens}"
+                                     var="itemPedido"
+                                     paginator="true"
+                                     rows="10">
+
+                            <p:column headerText="Cód.">
+                                #{itemPedido.livro.codigo}
+                            </p:column>
+
+                            <p:column headerText="Livro">
+                                #{itemPedido.livro.nome}
+                            </p:column>
+
+                            <p:column headerText="Qtd.">
+                                #{itemPedido.quantidade}
+                            </p:column>
+
+                            <p:column headerText="Pendente?">
+                                #{itemPedido.pendente ? 'Sim' : 'Não'}
+                            </p:column>
+
+                            <p:column headerText="Total">
+                                R$ #{itemPedido.valorTotal}
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </h:panelGrid>
+                
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="bnFecharVisualizacao"
+                                         value="Fechar"
+                                         icon="ui-icon-cancel"
+                                         immediate="true"
+                                         onclick="dlgVisualizar.hide()" />
+                    </center>
+                </f:facet>
             </p:dialog>
         </h:form>
 
