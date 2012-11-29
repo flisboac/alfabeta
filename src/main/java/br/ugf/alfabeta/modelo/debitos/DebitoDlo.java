@@ -5,6 +5,7 @@
 package br.ugf.alfabeta.modelo.debitos;
 
 import br.ugf.alfabeta.modelo.entidades.DloPersistencia;
+import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 
 /**
  *
@@ -12,4 +13,5 @@ import br.ugf.alfabeta.modelo.entidades.DloPersistencia;
  */
 public interface DebitoDlo extends DloPersistencia<Debito> {
     
+    public void pagarDebito(Debito debito) throws ExcecaoDlo;
 }

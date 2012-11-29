@@ -12,6 +12,8 @@ import br.ugf.alfabeta.modelo.livros.Livro;
 import br.ugf.alfabeta.modelo.livros.LivroDlo;
 import br.ugf.alfabeta.modelo.livros.LivroDloImpl;
 import br.ugf.alfabeta.modelo.pedidos.ItemPedido;
+import br.ugf.alfabeta.modelo.pedidos.ItemPedidoDlo;
+import br.ugf.alfabeta.modelo.pedidos.ItemPedidoDloImpl;
 import br.ugf.alfabeta.modelo.pedidos.Pedido;
 import br.ugf.alfabeta.modelo.pedidos.PedidoDlo;
 import br.ugf.alfabeta.modelo.pedidos.PedidoDloImpl;
@@ -19,7 +21,6 @@ import br.ugf.alfabeta.web.util.Bean;
 import br.ugf.alfabeta.web.util.CampoParaPesquisa;
 import br.ugf.alfabeta.web.util.Prefixos;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -77,6 +78,7 @@ public class ClienteBean extends Bean {
         
         try {
             pedidoDlo.efetuarPedido(pedido);
+            
             esvaziar();
 
         } catch (ExcecaoDlo ex) {

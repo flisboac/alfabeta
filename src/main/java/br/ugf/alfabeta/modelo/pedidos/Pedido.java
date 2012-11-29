@@ -61,13 +61,11 @@ public class Pedido implements Serializable, Entidade<Pedido> {
     
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "dtcriacao_pedido", nullable = false)
-    @Future(message="Pedido deve ser gerado em uma data futura.", groups=Identidade.class)
     @NotNull(message = "Pedido deve ter uma data de criação.", groups = Identidade.class)
     private Date dataHoraCriacao = new Date();
     
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "dtcancelamento_pedido")
-    @Future(message="Cancelamento do pedido deve ocorrer em uma data futura.", groups=Identidade.class)
     private Date dataHoraCancelamento;
     
     @Enumerated(EnumType.ORDINAL)
