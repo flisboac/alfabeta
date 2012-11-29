@@ -31,14 +31,7 @@
                                      action="#{visualizacaoDebitoBean.prepararVisualizacao()}"
                                      oncomplete="dlgVisualizar.show()"
                                      />    
-                                     
-                    <p:commandButton id="btnFinalizar"
-                                     value="Finalizar"
-                                     icon="ui-icon-end"
-                                     update=":frmFinalizar"
-                                     action="#{finalizacaoDebitoBean.prepararFinalizacao()}"
-                                     oncomplete="dlgFinalizar.show()"
-                                     /> 
+                    
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -57,6 +50,22 @@
                 <p:ajax event="rowUnselect" update="@form" />  
        
                     </p:dataTable>
+       </h:form>
+    </ui:define>
+              
+       <ui:define name="extra">
+        <h:form id="frmVisualizar">
+            <p:dialog id="dlgVisualizar" 
+                      widgetVar="dlgVisualizar"
+                      modal="true"
+                      header="Visualizar Debito"
+                      resizable="false"
+                      hideEffect="fade"
+                      >
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-noborder"> 
+                    <h:outputText value="#{VisualizacaoDebitoBean.debitos}" />
+                </p:panelGrid>
+            </p:dialog>
         </h:form>
    </ui:define>
 </ui:composition>
