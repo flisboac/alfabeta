@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition
+<ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -8,64 +8,20 @@
     xmlns:p="http://primefaces.org/ui"
     template="/WEB-INF/templates/cliente.xhtml">
     
-    <ui:param name="tituloPagina" value="Débitos" />
-    <ui:param name="mensagensglobais" value="#{true}" />
+    <ui:param name="tituloPagina" value="Debitos" />
     
-    <ui:define name="cabecalho">
-        <p:breadCrumb>
-            <p:menuitem value="Home" outcome="/admin/index.xhtml" />
-            <p:menuitem value="Cadastro" outcome="/admin/index.xhtml" />
-            <p:menuitem value="Debitos" outcome="/admin/cadastro/debitos.xhtml"/>
-        </p:breadCrumb>
-    </ui:define>
+    <ui:define name="corpo">
+        <h:form id="frmDebitos">
 
-    <ui:define name="corpo"> 
+            <p:separator />
 
-        <h:form id="frmListar">
-            <p:toolbar> 
-                <p:toolbarGroup align="right"> 
-                    <p:commandButton id="btnVisualizar"
-                                     value="Visualizar"
-                                     icon="ui-icon-visualize"
-                                     update=":frmVisualizar"
-                                     action="#{visualizacaoDebitoBean.prepararVisualizacao()}"
-                                     oncomplete="dlgVisualizar.show()"
-                                     />    
-                    
-                </p:toolbarGroup>
-            </p:toolbar>
+            <p:dataTable id="lstDebitosEmAndamento" 
+                             widgetVar="lstDebitosEmAndamento"
+                             value="#{debitoBean.debitoEmAndamento}"
+                             var="debitoEmAndamento">
 
-                    <p:separator />
-                    
-                    <p:dataTable id="lstEntidades" 
-                         widgetVar="lstEntidades"
-                         value="#{visualizacaoDebitoBean.debitos}"
-                         var="debitos"
-                         rowKey="#{debito.id}"
-                         selection="#{cadastroDebitoBean.debito}"
-                         selectionMode="single"
-                         rows="10"
-                         >
-                <p:ajax event="rowSelect" update="@form" />
-                <p:ajax event="rowUnselect" update="@form" />  
-       
-                    </p:dataTable>
-       </h:form>
-    </ui:define>
-              
-       <ui:define name="extra">
-        <h:form id="frmVisualizar">
-            <p:dialog id="dlgVisualizar" 
-                      widgetVar="dlgVisualizar"
-                      modal="true"
-                      header="Visualizar Debito"
-                      resizable="false"
-                      hideEffect="fade"
-                      >
-                <p:panelGrid columns="3" styleClass="ui-panelgrid-noborder"> 
-                    <h:outputText value="#{VisualizacaoDebitoBean.debitos}" />
-                </p:panelGrid>
-            </p:dialog>
+            </p:dataTable>
+
         </h:form>
-   </ui:define>
+    </ui:define>
 </ui:composition>
