@@ -122,6 +122,7 @@ public class PedidoBean extends Bean {
         
         try {
             this.pedidoDlo.finalizarPedido(pedido);
+            getHelper().ok("Pedido finalizado com sucesso.");
             
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Não foi possível finalizar pedido.");

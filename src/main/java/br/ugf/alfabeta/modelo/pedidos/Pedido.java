@@ -178,7 +178,7 @@ public class Pedido implements Serializable, Entidade<Pedido> {
         boolean retorno = !(getEstado().isTerminal());
         
         if (!retorno) {
-            List<ItemPedido> itensPedido = getItens();
+            List<ItemPedido> itensPedido = this.itens;
             
             if (itensPedido != null) {
                 for (ItemPedido itemPedido : itensPedido) {

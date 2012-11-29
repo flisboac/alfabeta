@@ -73,23 +73,23 @@
                              var="pedidoFinalizado">
 
                     <p:column headerText="Código">
-                        #{pedidoEmAndamento.codigo}
+                        #{pedidoFinalizado.codigo}
                     </p:column>
                     
                     <p:column headerText="Estado">
-                        #{pedidoEmAndamento.estado}
+                        #{pedidoFinalizado.estado}
                     </p:column>
                     
                     <p:column headerText="Data de Criação">
-                        #{pedidoEmAndamento.dataHoraCriacao}
+                        #{pedidoFinalizado.dataHoraCriacao}
                     </p:column>
                     
                     <p:column headerText="Data de Finalização">
-                        #{pedidoEmAndamento.dataHoraCancelamento}
+                        #{pedidoFinalizado.dataHoraCancelamento}
                     </p:column>
                     
                     <p:column headerText="$ Total">
-                        #{pedidoEmAndamento.valorTotal}
+                        #{pedidoFinalizado.valorTotal}
                     </p:column>
                     
                     <p:column style="width: 32px">
@@ -114,48 +114,62 @@
                 <h:panelGrid columns="2">
                     <h:panelGrid columns="2">
                         <h:outputText value="Código:" />
-                        <h:outputText value="#{pedidoBean.pedido.codigo}" />
+                        <h:outputText value="&nbsp;#{pedidoBean.pedido.codigo}" />
                         
-                        <h:outputText value="Data e Hora de Criação:" />
-                        <h:outputText value="#{pedidoBean.pedido.dataHoraCriacao}" />
+                        <h:outputText value="Data de Criação:" />
+                        <h:outputText value="&nbsp;#{pedidoBean.pedido.dataHoraCriacao}" />
                         
                         <h:outputText value="Estado:" />
-                        <h:outputText value="#{pedidoBean.pedido.estado}" />
+                        <h:outputText value="&nbsp;#{pedidoBean.pedido.estado}" />
                         
                         <h:outputText value="Valor Total:" />
-                        <h:outputText value="R$ #{pedidoBean.pedido.valorTotal}" />
+                        <h:outputText value="&nbsp;R$ #{pedidoBean.pedido.valorTotal}" />
                         
                         <h:outputText value="Estado:" />
-                        <h:outputText value="#{pedidoBean.pedido.estado}" />
+                        <h:outputText value="&nbsp;#{pedidoBean.pedido.estado}" />
                         
                         <h:outputText value="Finalizado em:" rendered="#{pedidoBean.pedido.estado.terminal}" />
-                        <h:outputText value="#{pedidoBean.pedido.dataHoraCancelamento}" rendered="#{pedidoBean.pedido.estado.terminal}" />
+                        <h:outputText value="&nbsp;#{pedidoBean.pedido.dataHoraCancelamento}" rendered="#{pedidoBean.pedido.estado.terminal}" />
                     </h:panelGrid>
                     
-                    <h:panelGrid columns="1">
+                    <h:panelGrid columns="1" style="margin-left: 10px">
                         <p:dataTable value="#{pedidoBean.pedido.itens}"
                                      var="itemPedido"
                                      paginator="true"
                                      rows="10">
                             
-                            <p:column headerText="Cód. Livro">
+                            <p:column headerText="Cód.">
                                 #{itemPedido.livro.codigo}
                             </p:column>
                             
                             <p:column headerText="Livro">
-                                #{itemPedido.livro}
+                                #{itemPedido.livro.nome}
                             </p:column>
                             
                             <p:column headerText="Qtd.">
                                 #{itemPedido.quantidade}
                             </p:column>
                             
-                            <p:column headerText="Total Item">
+                            <p:column headerText="Pendente?">
+                                #{itemPedido.pendente ? 'Sim' : 'Não'}
+                            </p:column>
+                            
+                            <p:column headerText="Total">
                                 #{itemPedido.valorTotal}
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>
                 </h:panelGrid>
+                
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton id="bnFecharVisualizacao"
+                                         value="Fechar"
+                                         icon="ui-icon-cancel"
+                                         immediate="true"
+                                         onclick="dlgVisualizarPedido.hide()" />
+                    </center>
+                </f:facet>
             </p:dialog>
 
             <p:confirmDialog id="dlgCancelarPedido"
