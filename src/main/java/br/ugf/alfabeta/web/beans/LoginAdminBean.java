@@ -66,7 +66,7 @@ public class LoginAdminBean extends CadastroBean<Funcionario> {
             
         } else {
             getHelper().ok("Bem-vindo, " + funcionarioReal.getNome());
-            outcome = "/admin/index.xhtml";
+            outcome = "/admin/index.xhtml?faces-redirect=true";
         }
         
         return outcome;

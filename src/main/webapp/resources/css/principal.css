@@ -1,12 +1,31 @@
-/* 
-    Document   : principal
-    Created on : 11/11/2012, 23:58:32
-    Author     : ubuntu
-    Description:
-        Purpose of the stylesheet follows.
-*/
 
-root { 
-    display: block;
+a:link {
+    color:red;
 }
 
+a:visited {
+    color:black;
+    text-decoration: none;
+}
+
+a:hover{
+    color:green;
+    text-decoration: underline;
+}
+p {
+    text-align: center;
+    color: black;
+    font-family: Arial;
+}
+
+H1, H2, H3, H4 {
+    color: green;
+    font-size: 18pt;
+    font-family: Arial, Helvetica, Sans-serif;
+}
+
+H5, H6 {
+    color:yellow;
+    font-size: 18pt;
+    font-family: Arial, Helvetica, Sans-serif;
+}
