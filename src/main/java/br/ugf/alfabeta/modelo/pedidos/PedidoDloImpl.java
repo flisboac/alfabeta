@@ -4,12 +4,16 @@
  */
 package br.ugf.alfabeta.modelo.pedidos;
 
+import br.ugf.alfabeta.modelo.debitos.Debito;
+import br.ugf.alfabeta.modelo.debitos.DebitoDlo;
+import br.ugf.alfabeta.modelo.debitos.DebitoDloImpl;
 import br.ugf.alfabeta.modelo.entidades.EntidadeDloPersistencia;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoCriticaDlo;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.livros.Livro;
 import br.ugf.alfabeta.modelo.livros.LivroDlo;
 import br.ugf.alfabeta.modelo.livros.LivroDloImpl;
+import java.math.BigDecimal;
 
 /**
  *
@@ -17,7 +21,9 @@ import br.ugf.alfabeta.modelo.livros.LivroDloImpl;
  */
 public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements PedidoDlo {
     
+    private ItemPedidoDlo itemPedidoDlo = new ItemPedidoDloImpl();
     private LivroDlo livroDlo = new LivroDloImpl();
+    private DebitoDlo debitoDlo = new DebitoDloImpl();
     
     public PedidoDloImpl() {
         super(new PedidoDaoImpl(), new ValidadorPedido());
@@ -44,10 +50,22 @@ public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements Pe
         if (pedido.getEstado() == EstadoPedido.Cancelado) {
             for (ItemPedido itemPedido : pedido.getItens()) {
                 
-                Livro livro = itemPedido.getLivro();
-                int quantidade = livroDlo.getQuantidadeEmEstoque(livro);
-                livroDlo.setQuantidadeEmEstoque(livro, quantidade + itemPedido.getQuantidade());
+                // Apenas itens não pendentes devem ser repostos.
+                if (!itemPedido.isPendente()) {
+                    Livro livro = itemPedido.getLivro();
+                    int quantidade = livroDlo.getQuantidadeEmEstoque(livro);
+                    livroDlo.setQuantidadeEmEstoque(livro, quantidade + itemPedido.getQuantidade());
+                }
             }
+            
+        // Pedido foi finalizado, gerar débitos
+        } else if (pedido.getEstado() == EstadoPedido.Atendido) {
+            
+            BigDecimal valorTotal = pedido.getValorTotal();
+            Debito debito = new Debito();
+            debito.setValor(valorTotal);
+            debito.setPedido(pedido);
+            debitoDlo.inserir(debito);
         }
     }
     
@@ -80,10 +98,12 @@ public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements Pe
                 itemPedido.setPendente(true);
                 
             } else {
+                // Reduz o estoque do livro
                 itemPedido.setPendente(false);
+                livroDlo.setQuantidadeEmEstoque(livro, quantidade - itemPedido.getQuantidade());
             }
             
-            livroDlo.setQuantidadeEmEstoque(livro, quantidade - itemPedido.getQuantidade());
+            itemPedidoDlo.inserir(itemPedido);
         }
         
         inserir(pedido);
