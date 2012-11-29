@@ -116,7 +116,7 @@
                                                action="/portal/cliente/carrinho.xhtml?faces-redirect=true"
                                                >
                                     <p:menuitem value="Comprar Tudo" icon="ui-icon-check" url="/portal/cliente/carrinho.xhtml" />
-                                    <p:menuitem value="Esvaziar Carrinho" icon="ui-icon-close" action="#{clienteBean.esvaziar()}" update="btnComprar" />
+                                    <p:menuitem value="Esvaziar Carrinho" icon="ui-icon-close" action="#{clienteBean.esvaziar()}" update="@all" />
                                 </p:splitButton>
                             </p:toolbarGroup>
                         </p:toolbar>

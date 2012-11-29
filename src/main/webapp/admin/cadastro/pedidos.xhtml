@@ -115,9 +115,6 @@
                         <h:outputText value="Valor Total:" />
                         <h:outputText value="&nbsp;R$ #{visualizacaoPedidoBean.pedido.valorTotal}" />
 
-                        <h:outputText value="Estado:" />
-                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.estado}" />
-
                         <h:outputText value="Finalizado em:" rendered="#{visualizacaoPedidoBean.pedido.estado.terminal}" />
                         <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.dataHoraCancelamento}" rendered="#{visualizacaoPedidoBean.pedido.estado.terminal}" />
                     </h:panelGrid>
@@ -171,7 +168,7 @@
                              >
                 <center>
                     <p:commandButton id="btnFinalizar"
-                                     action="#{cadastroLivroBean.finalizarPedido}"
+                                     action="#{visualizacaoPedidoBean.cancelarPedido}"
                                      icon="ui-icon-trash"
                                      value="Finalizar"
                                      update=":frmListar"

@@ -30,7 +30,9 @@
                     </p:column>
                     
                     <p:column headerText="Data de Criação">
-                        #{pedidoEmAndamento.dataHoraCriacao}
+                        <h:outputText value="#{pedidoEmAndamento.dataHoraCriacao}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt-BR" timeZone="GMT-2"/>
+                        </h:outputText>
                     </p:column>
                     
                     <p:column headerText="Pendente?">
@@ -81,11 +83,16 @@
                     </p:column>
                     
                     <p:column headerText="Criado em">
-                        #{pedidoFinalizado.dataHoraCriacao}
+                        <h:outputText value="#{pedidoFinalizado.dataHoraCriacao}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt-BR" timeZone="GMT-2"/>
+                        </h:outputText>
+                        
                     </p:column>
                     
                     <p:column headerText="Finalizado em">
-                        #{pedidoFinalizado.dataHoraCancelamento}
+                        <h:outputText value="#{pedidoFinalizado.dataHoraCancelamento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt-BR" timeZone="GMT-2"/>
+                        </h:outputText>
                     </p:column>
                     
                     <p:column headerText="Total">
@@ -124,9 +131,6 @@
                         
                         <h:outputText value="Valor Total:" />
                         <h:outputText value="&nbsp;R$ #{pedidoBean.pedido.valorTotal}" />
-                        
-                        <h:outputText value="Estado:" />
-                        <h:outputText value="&nbsp;#{pedidoBean.pedido.estado}" />
                         
                         <h:outputText value="Finalizado em:" rendered="#{pedidoBean.pedido.estado.terminal}" />
                         <h:outputText value="&nbsp;#{pedidoBean.pedido.dataHoraCancelamento}" rendered="#{pedidoBean.pedido.estado.terminal}" />

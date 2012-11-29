@@ -123,6 +123,7 @@ public class PedidoBean extends Bean {
         
         try {
             this.pedidoDlo.finalizarPedido(pedido);
+            carregarPedidos();
             getHelper().ok("Pedido finalizado com sucesso.");
             
         } catch (ExcecaoDlo ex) {
