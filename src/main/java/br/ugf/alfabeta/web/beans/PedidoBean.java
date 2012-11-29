@@ -11,13 +11,18 @@ import br.ugf.alfabeta.modelo.clientes.ClienteDloImpl;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.modelo.pedidos.EstadoPedido;
 import br.ugf.alfabeta.modelo.pedidos.ItemPedido;
+import br.ugf.alfabeta.modelo.pedidos.ItemPedidoDlo;
+import br.ugf.alfabeta.modelo.pedidos.ItemPedidoDloImpl;
 import br.ugf.alfabeta.modelo.pedidos.Pedido;
 import br.ugf.alfabeta.modelo.pedidos.PedidoDlo;
 import br.ugf.alfabeta.modelo.pedidos.PedidoDloImpl;
 import br.ugf.alfabeta.web.util.Bean;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -29,6 +34,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class PedidoBean extends Bean {
     
+    private transient ItemPedidoDlo itemPedidoDlo = new ItemPedidoDloImpl();
     private transient PedidoDlo pedidoDlo = new PedidoDloImpl();
     private transient ClienteDlo clienteDlo = new ClienteDloImpl();
     
@@ -65,12 +71,30 @@ public class PedidoBean extends Bean {
         }
         
         List<Pedido> pedidos = clienteAtual.getPedidos();
-        for (Pedido pedidoCliente : pedidos) {
-            
+        for (Pedido pedidoCliente : pedidos) {    
+            try {
+                pedidoCliente.setItens(itemPedidoDlo.listarPorPedido(pedidoCliente));
+
+            } catch (ExcecaoDlo ex) {
+                getHelper().getSessao().setAttribute("alfabeta.mensagemErro", "Erro ao listar pedidos!");
+
+                try {
+                    String context = getHelper().getRequest().getContextPath();
+                    getHelper().getResponse().sendRedirect(context + "/portal/index.xhtml");
+
+                } catch (IOException ex1) {
+                    // Ferrou!
+                    Logger.getLogger(PedidoBean.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                
+                return;
+            }
+                
             if (pedidoCliente.getEstado().isTerminal()) {
                 this.pedidosFinalizados.add(pedidoCliente);
                 
             } else {
+                
                 this.pedidosEmAndamento.add(pedidoCliente);
             }
         }

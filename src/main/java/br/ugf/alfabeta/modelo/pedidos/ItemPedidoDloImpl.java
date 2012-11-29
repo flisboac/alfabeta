@@ -68,7 +68,7 @@ public class ItemPedidoDloImpl extends EntidadeDloPersistencia<ItemPedido> imple
         getValidadorPedido().validar(pedido, Persistencia.class);
         
         try {
-            itemPedidoDao.listarPorPedido(pedido);
+            retorno = itemPedidoDao.listarPorPedido(pedido);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex);

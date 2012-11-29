@@ -9,6 +9,7 @@ import br.ugf.alfabeta.modelo.pedidos.Pedido;
 import br.ugf.alfabeta.modelo.validacoes.Identidade;
 import br.ugf.alfabeta.modelo.validacoes.Identificacao;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
@@ -55,6 +58,10 @@ public class Debito implements Entidade<Debito> {
     @NotNull(message="Débito deve possuir um valor.", groups=Identidade.class)
     private BigDecimal valor = new BigDecimal(0.0);
     
+    @Column(name="dtpag_debito", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataPagamento;
+    
     @Override
     public Long getId() {
         return id;
@@ -86,6 +93,14 @@ public class Debito implements Entidade<Debito> {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public Date getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(Date dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
 
     @Override
@@ -135,5 +150,9 @@ public class Debito implements Entidade<Debito> {
         debito.valor = this.valor;
         debito.codigoNf = this.codigoNf;
         return debito;
+    }
+
+    public boolean isPago() {
+        return getCodigoNf() != null;
     }
 }

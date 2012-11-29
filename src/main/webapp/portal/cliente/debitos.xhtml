@@ -12,16 +12,45 @@
     
     <ui:define name="corpo">
         <h:form id="frmDebitos">
-
-            <p:separator />
-
             <p:dataTable id="lstDebitosEmAndamento" 
                              widgetVar="lstDebitosEmAndamento"
-                             value="#{debitoBean.debitoEmAndamento}"
+                             value="#{debitoBean.debitosEmAndamento}"
                              var="debitoEmAndamento">
-
+                <f:facet name="header">
+                    Débitos Não Pagos
+                </f:facet>
+                
+                <p:column headerText="Pedido">
+                    #{debitoEmAndamento.pedido.codigo}
+                </p:column>
+                
+                <p:column headerText="Valor">
+                    R$ #{debitoEmAndamento.valor}
+                </p:column>
             </p:dataTable>
+            
+            <p:separator />
 
+            <p:dataTable id="lstDebitosPagos" 
+                             widgetVar="lstDebitosPagos"
+                             value="#{debitoBean.debitosPagos}"
+                             var="debitoPago">
+                <f:facet name="header">
+                    Débitos Pagos
+                </f:facet>
+                
+                <p:column headerText="Pedido">
+                    #{debitoPago.pedido.codigo}
+                </p:column>
+                
+                <p:column headerText="Valor">
+                    R$ #{debitoPago.valor}
+                </p:column>
+                
+                <p:column headerText="Data Recebimento">
+                    #{debitoPago.dataPagamento}
+                </p:column>
+            </p:dataTable>
         </h:form>
     </ui:define>
 </ui:composition>

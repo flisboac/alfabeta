@@ -33,6 +33,10 @@
                         #{pedidoEmAndamento.dataHoraCriacao}
                     </p:column>
                     
+                    <p:column headerText="Pendente?">
+                        #{pedidoEmAndamento.pendente ? 'Sim' : 'Não'}
+                    </p:column>
+                    
                     <p:column headerText="$ Total">
                         #{pedidoEmAndamento.valorTotal}
                     </p:column>

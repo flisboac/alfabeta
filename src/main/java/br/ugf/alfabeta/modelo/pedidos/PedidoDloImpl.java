@@ -84,6 +84,8 @@ public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements Pe
             throw new ExcecaoCriticaDlo("Tentando efetuar pedido já existente.");
         }
         
+        inserir(pedido);
+        
         // Verifica se existe quantidade suficiente para todos os livros
         for (ItemPedido itemPedido : pedido.getItens()) {
             
@@ -106,6 +108,5 @@ public class PedidoDloImpl extends EntidadeDloPersistencia<Pedido> implements Pe
             itemPedidoDlo.inserir(itemPedido);
         }
         
-        inserir(pedido);
     }
 }
