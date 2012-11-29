@@ -90,7 +90,8 @@ public class ClienteBean extends Bean {
 
         this.pedido = new Pedido();
         this.pedido.setItens(new ArrayList<ItemPedido>());
-        getHelper().ok("Operação concluída com sucesso.");
+        
+        atualizarPesquisa();
         
         if (itensParaPesquisa != null) {
             for (ItemPedido itemParaPesquisa : itensParaPesquisa) {
@@ -98,6 +99,8 @@ public class ClienteBean extends Bean {
                 itemParaPesquisa.setQuantidade(0);
             }
         }
+        
+        getHelper().ok("Operação concluída com sucesso.");
     }
 
     public void atualizarPesquisa() {

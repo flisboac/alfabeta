@@ -37,8 +37,8 @@
                         #{pedidoEmAndamento.pendente ? 'Sim' : 'Não'}
                     </p:column>
                     
-                    <p:column headerText="$ Total">
-                        #{pedidoEmAndamento.valorTotal}
+                    <p:column headerText="Total">
+                        R$ #{pedidoEmAndamento.valorTotal}
                     </p:column>
                     
                     <p:column style="width: 32px">
@@ -80,16 +80,16 @@
                         #{pedidoFinalizado.estado}
                     </p:column>
                     
-                    <p:column headerText="Data de Criação">
+                    <p:column headerText="Criado em">
                         #{pedidoFinalizado.dataHoraCriacao}
                     </p:column>
                     
-                    <p:column headerText="Data de Finalização">
+                    <p:column headerText="Finalizado em">
                         #{pedidoFinalizado.dataHoraCancelamento}
                     </p:column>
                     
-                    <p:column headerText="$ Total">
-                        #{pedidoFinalizado.valorTotal}
+                    <p:column headerText="Total">
+                        R$ #{pedidoFinalizado.valorTotal}
                     </p:column>
                     
                     <p:column style="width: 32px">
@@ -155,7 +155,7 @@
                             </p:column>
                             
                             <p:column headerText="Total">
-                                #{itemPedido.valorTotal}
+                                R$ #{itemPedido.valorTotal}
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>

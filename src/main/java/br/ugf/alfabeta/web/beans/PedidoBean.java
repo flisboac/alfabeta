@@ -73,7 +73,8 @@ public class PedidoBean extends Bean {
         List<Pedido> pedidos = clienteAtual.getPedidos();
         for (Pedido pedidoCliente : pedidos) {    
             try {
-                pedidoCliente.setItens(itemPedidoDlo.listarPorPedido(pedidoCliente));
+                List<ItemPedido> itensPedido = itemPedidoDlo.listarPorPedido(pedidoCliente);
+                pedidoCliente.setItens(itensPedido);
 
             } catch (ExcecaoDlo ex) {
                 getHelper().getSessao().setAttribute("alfabeta.mensagemErro", "Erro ao listar pedidos!");

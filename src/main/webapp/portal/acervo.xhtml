@@ -114,6 +114,7 @@
 
                             <p:spinner value="#{item.quantidade}"
                                        style="width: 50px !important"
+                                       disabled="#{not clienteBean.clienteLogado}"
                                        min="1">
                                 <p:ajax event="change" update="@form :frmMenu" process="@this" />
                             </p:spinner>

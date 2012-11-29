@@ -32,7 +32,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -175,9 +174,9 @@ public class Pedido implements Serializable, Entidade<Pedido> {
      */
     public boolean isPendente() {
         
-        boolean retorno = !(getEstado().isTerminal());
+        boolean retorno = false;
         
-        if (!retorno) {
+        if (!getEstado().isTerminal()) {
             List<ItemPedido> itensPedido = this.itens;
             
             if (itensPedido != null) {
