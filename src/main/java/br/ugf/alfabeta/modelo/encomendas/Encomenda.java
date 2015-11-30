@@ -29,8 +29,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 /**
@@ -44,6 +44,7 @@ import javax.validation.constraints.Size;
 })
 @GroupSequence({Identidade.class, Encomenda.class})
 public class Encomenda implements Entidade<Encomenda>, Serializable {
+    public static final String PREFIXO = "E";
     
     @Id
     @GeneratedValue
@@ -58,13 +59,13 @@ public class Encomenda implements Entidade<Encomenda>, Serializable {
     
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "dtcriacao_encomenda", nullable = false)
-    @Future(message="Encomenda deve ser gerada em uma data futura.", groups=Identidade.class)
+    //@Past(message="Encomenda deve ser gerada em uma data passada.", groups=Identidade.class)
     @NotNull(message = "Encomenda deve ter uma data de criação.", groups = Identidade.class)
     private Date dataHoraCriacao = new Date();
     
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "dtfinalizacao_encomenda")
-    @Future(message="Cancelamento da encomenda deve ocorrer em uma data futura.", groups=Identidade.class)
+    @Past(message="Cancelamento da encomenda deve ocorrer em uma data passada.", groups=Identidade.class)
     private Date dataHoraFinalizacao;
     
     @Enumerated(EnumType.ORDINAL)
@@ -73,8 +74,8 @@ public class Encomenda implements Entidade<Encomenda>, Serializable {
     private EstadoEncomenda estado = EstadoEncomenda.Criado;
     
     @ManyToOne(fetch= FetchType.EAGER)
-    @JoinColumn(name="id_funcionario", referencedColumnName="id_cliente", nullable=false)
-    @NotNull(message="Todo pedido deve ser originado de um funcionário.", groups=Identidade.class)
+    @JoinColumn(name="id_funcionario", referencedColumnName="id_cliente")
+    //@NotNull(message="Todo pedido deve ser originado de um funcionário.", groups=Identidade.class)
     @Valid
     private Funcionario funcionarioCriador;
     
@@ -88,7 +89,7 @@ public class Encomenda implements Entidade<Encomenda>, Serializable {
     @Valid
     private Editora editora;
     
-    @OneToMany(mappedBy="encomenda", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="encomenda", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ItemEncomenda> itens;
     
     

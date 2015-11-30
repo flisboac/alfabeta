@@ -82,7 +82,7 @@ public class ClienteBean extends Bean {
             esvaziar();
 
         } catch (ExcecaoDlo ex) {
-            getHelper().erro("Erro ao efetuar pedido!");
+            getHelper().erro("Erro ao efetuar pedido!", ex.getLocalizedMessage());
         }
     }
 
@@ -130,10 +130,13 @@ public class ClienteBean extends Bean {
         while (iter.hasNext()) {
             Livro livro = iter.next();
 
-            if (livro.isForaDeEstoque()
-                    || (nomeLivroParaPesquisa != null
-                    && !nomeLivroParaPesquisa.isEmpty()
-                    && !livro.getNome().contains(nomeLivroParaPesquisa))) {
+//            if (livro.isForaDeEstoque()
+//                    || (nomeLivroParaPesquisa != null
+//                    && !nomeLivroParaPesquisa.isEmpty()
+//                    && !livro.getNome().contains(nomeLivroParaPesquisa))) {
+            if ((nomeLivroParaPesquisa != null
+                && !nomeLivroParaPesquisa.isEmpty()
+                && !livro.getNome().contains(nomeLivroParaPesquisa))) {
                 iter.remove();
             }
         }

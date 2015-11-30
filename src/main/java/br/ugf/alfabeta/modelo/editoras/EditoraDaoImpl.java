@@ -42,7 +42,7 @@ public class EditoraDaoImpl extends JpaDao<Editora> implements EditoraDao {
     }
     
     @Override
-    public void atualizar(Editora editora) throws ExcecaoDao {
+    public Editora atualizar(Editora editora) throws ExcecaoDao {
         super.atualizar(editora);
         
         EntityManager manager = this.helper.getEntityManager();
@@ -57,6 +57,8 @@ public class EditoraDaoImpl extends JpaDao<Editora> implements EditoraDao {
         } finally {
             manager.close();
         }
+        
+        return editora;
     }
     
     @Override

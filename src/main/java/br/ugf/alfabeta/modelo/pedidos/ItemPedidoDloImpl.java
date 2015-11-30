@@ -47,7 +47,7 @@ public class ItemPedidoDloImpl extends EntidadeDloPersistencia<ItemPedido> imple
         getValidadorLivro().validar(livro, Persistencia.class);
         
         try {
-            itemPedidoDao.listarPorLivro(livro);
+            retorno = itemPedidoDao.listarPorLivro(livro);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex);
@@ -99,4 +99,5 @@ public class ItemPedidoDloImpl extends EntidadeDloPersistencia<ItemPedido> imple
         
         return retorno;
     }
+
 }

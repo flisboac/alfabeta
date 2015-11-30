@@ -34,9 +34,9 @@ public class ClienteDloImpl<T extends Cliente> extends EntidadeDloPersistencia<T
     }
     
     @Override
-    public void inserir(T cliente) throws ExcecaoDlo {
+    public T inserir(T cliente) throws ExcecaoDlo {
         
-        super.inserir(cliente);
+        return super.inserir(cliente);
     }
     
     @Override

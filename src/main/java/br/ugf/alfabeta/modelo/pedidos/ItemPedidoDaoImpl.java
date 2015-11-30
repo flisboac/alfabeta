@@ -62,11 +62,13 @@ public class ItemPedidoDaoImpl extends JpaDao<ItemPedido> implements ItemPedidoD
         EntityManager manager = helper.getEntityManager();
         String jql = "select x"
                 + " from " + classeEntidade.getName() + " x"
-                + " where x.livro = :livro";
+                + " where x.livro = :livro"
+                + " and x.pedido.estado = :estado";
         
         try {
             TypedQuery<ItemPedido> query = manager.createQuery(jql, classeEntidade);
             query.setParameter("livro", livro);
+            query.setParameter("estado", EstadoPedido.Criado);
             retorno = query.getResultList();
             
         } catch (PersistenceException e) {

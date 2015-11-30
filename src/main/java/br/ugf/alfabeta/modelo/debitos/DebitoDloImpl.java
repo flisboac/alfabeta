@@ -67,7 +67,7 @@ public class DebitoDloImpl extends EntidadeDloPersistencia<Debito> implements De
             throw new ExcecaoCriticaDlo("Tentando pagar um debito já pago.");
         }
         
-        debito.setCodigoNf(Prefixos.Debito + String.format("%032x", new Date().getTime()));
+        debito.setCodigoNf(Prefixos.Debito + String.format("%016x", new Date().getTime()));
         debito.setDataPagamento(new Date());
         alterar(debito);
     }

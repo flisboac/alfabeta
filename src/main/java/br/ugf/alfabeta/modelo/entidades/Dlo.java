@@ -17,7 +17,7 @@ public interface Dlo<T extends Entidade> {
     T obter(Long id) throws ExcecaoDlo;
     T obterCompleto(Long id) throws ExcecaoDlo;
     boolean existe(T entidade) throws ExcecaoDlo;
-    void atualizar(T entidade) throws ExcecaoDlo;
+    T atualizar(T entidade) throws ExcecaoDlo;
     boolean existeId(Long id) throws ExcecaoDlo;
     List<T> listar() throws ExcecaoDlo;
     List<T> listarOrdenado(OrdemListagem ordem, String... campos) throws ExcecaoDlo;

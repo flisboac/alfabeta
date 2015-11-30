@@ -49,7 +49,7 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
     }
     
     @Override
-    public void inserir(T entidade) throws ExcecaoDao {
+    public T inserir(T entidade) throws ExcecaoDao {
         EntityManager manager = this.helper.getEntityManager();
         
         try {
@@ -66,15 +66,17 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             }
             manager.close();
         }
+        
+        return entidade;
     }
     
     @Override
-    public void alterar(T entidade) throws ExcecaoDao {
+    public T alterar(T entidade) throws ExcecaoDao {
         EntityManager manager = this.helper.getEntityManager();
         
         try {
             manager.getTransaction().begin();
-            manager.merge(entidade);
+            entidade = manager.merge(entidade);
             manager.getTransaction().commit();
             
         } catch (PersistenceException e) {
@@ -86,6 +88,8 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
             }
             manager.close();
         }
+        
+        return entidade;
     }
     
     @Override
@@ -209,8 +213,9 @@ public class JpaDao<T extends Entidade> implements Dao<T> {
     }
 
     @Override
-    public void atualizar(T entidade) throws ExcecaoDao {
+    public T atualizar(T entidade) throws ExcecaoDao {
         T objeto = obterCompleto(entidade.getId());
         entidade.clone(objeto);
+        return entidade;
     }
 }

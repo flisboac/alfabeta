@@ -12,8 +12,8 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
  */
 public interface DloPersistencia<T extends Entidade> extends Dlo<T> {
     
-    void inserir(T entidade) throws ExcecaoDlo;
-    void alterar(T entidade) throws ExcecaoDlo;
-    void persistir(T entidade) throws ExcecaoDlo;
+    T inserir(T entidade) throws ExcecaoDlo;
+    T alterar(T entidade) throws ExcecaoDlo;
+    T persistir(T entidade) throws ExcecaoDlo;
     void excluir(T entidade) throws ExcecaoDlo;
 }

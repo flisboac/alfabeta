@@ -15,10 +15,10 @@ public interface Dao<T extends Entidade> {
 
     T obter(Long id) throws ExcecaoDao;
     T obterCompleto(Long id) throws ExcecaoDao;
-    void inserir(T entidade) throws ExcecaoDao;
-    void alterar(T entidade) throws ExcecaoDao;
+    T inserir(T entidade) throws ExcecaoDao;
+    T alterar(T entidade) throws ExcecaoDao;
     void excluir(T entidade) throws ExcecaoDao;
-    void atualizar(T entidade) throws ExcecaoDao;
+    T atualizar(T entidade) throws ExcecaoDao;
     boolean existe(T entidade) throws ExcecaoDao;
     boolean existeId(Long id) throws ExcecaoDao;
     List<T> listar() throws ExcecaoDao;

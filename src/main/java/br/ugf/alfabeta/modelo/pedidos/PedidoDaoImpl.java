@@ -42,7 +42,7 @@ public class PedidoDaoImpl extends JpaDao<Pedido> implements PedidoDao {
     }
     
     @Override
-    public void atualizar(Pedido pedido) throws ExcecaoDao {
+    public Pedido atualizar(Pedido pedido) throws ExcecaoDao {
         super.atualizar(pedido);
         
         EntityManager manager = this.helper.getEntityManager();
@@ -57,6 +57,8 @@ public class PedidoDaoImpl extends JpaDao<Pedido> implements PedidoDao {
         } finally {
             manager.close();
         }
+        
+        return pedido;
     }
     
     @Override

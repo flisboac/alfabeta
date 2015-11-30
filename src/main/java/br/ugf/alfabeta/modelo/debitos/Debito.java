@@ -44,8 +44,8 @@ public class Debito implements Entidade<Debito> {
     @Column(name = "id_debito", unique = true, nullable = false)
     private Long id;
     
-    @Column(name = "nf_debito", length = 30)
-    @Size(min=1, max=30, message="Código da nota fiscal excede os limites de tamanho.", groups=Identidade.class)
+    @Column(name = "nf_debito", length = 64)
+    @Size(min=1, max=64, message="Código da nota fiscal excede os limites de tamanho.", groups=Identidade.class)
     private String codigoNf;
     
     @OneToOne(fetch= FetchType.EAGER)

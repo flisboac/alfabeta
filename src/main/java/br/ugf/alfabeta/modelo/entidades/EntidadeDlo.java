@@ -251,13 +251,13 @@ public class EntidadeDlo<T extends Entidade> implements Dlo<T> {
     }
 
     @Override
-    public void atualizar(T entidade) throws ExcecaoDlo {
+    public T atualizar(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = getDao();
         
         validar(entidade, Persistencia.class);
         
         try {
-            entidadeDao.atualizar(entidade);
+            return entidadeDao.atualizar(entidade);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);

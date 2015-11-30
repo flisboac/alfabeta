@@ -12,6 +12,8 @@ import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
 import br.ugf.alfabeta.web.util.Bean;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -63,7 +65,15 @@ public class VisualizacaoEncomendaBean extends Bean {
     }
     
     public void finalizar() {
-        
+        try {
+            encomendaDlo.finalizar(encomenda);
+            inicializar();
+            getHelper().ok("Encomenda finalizada com sucesso!");
+            
+        } catch (ExcecaoDlo ex) {
+            inicializar();
+            getHelper().erro("Erro ao finalizar a encomenda!", ex.getLocalizedMessage());
+        }
     }
     
     // [ GETTERS / SETTERS ] ===================================================

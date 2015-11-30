@@ -4,7 +4,11 @@
  */
 package br.ugf.alfabeta.web.beans;
 
+import br.ugf.alfabeta.modelo.debitos.Debito;
+import br.ugf.alfabeta.modelo.debitos.DebitoDlo;
+import br.ugf.alfabeta.modelo.debitos.DebitoDloImpl;
 import br.ugf.alfabeta.modelo.excecoes.ExcecaoDlo;
+import br.ugf.alfabeta.modelo.pedidos.EstadoPedido;
 import br.ugf.alfabeta.modelo.pedidos.ItemPedido;
 import br.ugf.alfabeta.modelo.pedidos.ItemPedidoDlo;
 import br.ugf.alfabeta.modelo.pedidos.ItemPedidoDloImpl;
@@ -28,6 +32,7 @@ import javax.faces.bean.ViewScoped;
 public class VisualizacaoPedidoBean extends Bean {
 
     private transient PedidoDlo pedidoDlo = new PedidoDloImpl();
+    private transient DebitoDlo debitoDlo = new DebitoDloImpl();
     private transient ItemPedidoDlo itemPedidoDlo = new ItemPedidoDloImpl();
     private List<Pedido> pedidos;
     private Pedido pedido;
@@ -35,6 +40,7 @@ public class VisualizacaoPedidoBean extends Bean {
     @Override
     public void inicializar() {
         super.inicializar();
+        this.pedido = new Pedido();
 
         try {
             this.pedidos = pedidoDlo.listar();
@@ -79,5 +85,42 @@ public class VisualizacaoPedidoBean extends Bean {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
+    }
+    
+    public void finalizarPedido() {
+        try {
+            pedido.setEstado(EstadoPedido.Atendido);
+            pedidoDlo.finalizarPedido(pedido);
+            inicializar();
+            helper.ok("Pedido finalizado com sucesso!");
+            
+        } catch (ExcecaoDlo ex) {
+            helper.erro("Não foi possível finalizar pedido!", ex.getLocalizedMessage());
+        }
+    }
+    
+    public void prepararConfirmarPagamento() {
+        
+    }
+    
+    public void prepararVisualizacao() {
+        
+    }
+    
+    public void prepararFinalizacao() {
+        
+    }
+    
+    public void confirmarPagamento() {
+        Debito debito = pedido.getDebito();        
+        try {
+            this.pedido = new Pedido();
+            debitoDlo.pagarDebito(debito);
+            inicializar();
+            helper.ok("Pagamento confirmado com sucesso!");
+            
+        } catch (ExcecaoDlo ex) {
+            helper.erro("Não foi possível confirmar o pagamento do pedido!", ex.getLocalizedMessage());
+        }
     }
 }

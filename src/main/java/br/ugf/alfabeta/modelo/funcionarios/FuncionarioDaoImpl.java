@@ -22,7 +22,7 @@ public class FuncionarioDaoImpl extends ClienteDaoImpl<Funcionario> implements F
     }
 
     @Override
-    public void atualizar(Funcionario funcionario) throws ExcecaoDao {
+    public Funcionario atualizar(Funcionario funcionario) throws ExcecaoDao {
         super.atualizar(funcionario);
         
         EntityManager manager = this.helper.getEntityManager();
@@ -37,6 +37,8 @@ public class FuncionarioDaoImpl extends ClienteDaoImpl<Funcionario> implements F
         } finally {
             manager.close();
         }
+        
+        return funcionario;
     }
     
     @Override

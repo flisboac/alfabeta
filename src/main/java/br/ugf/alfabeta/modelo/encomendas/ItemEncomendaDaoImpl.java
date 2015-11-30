@@ -33,7 +33,7 @@ public class ItemEncomendaDaoImpl extends JpaDao<ItemEncomenda> implements ItemE
             
             try {
                 String jpql = "select x"
-                        + " from " + Encomenda.class.getName() + " x"
+                        + " from " + ItemEncomenda.class.getName() + " x"
                         + " where x.encomenda = :encomenda"
                         + " and x.livro = :livro";
                 TypedQuery<ItemEncomenda> query = manager.createQuery(jpql, ItemEncomenda.class);

@@ -57,6 +57,8 @@
                          selection="#{cadastroFuncionarioBean.funcionario}"
                          selectionMode="single"
                          >
+                <p:ajax event="rowSelect" update="@form" />
+                <p:ajax event="rowUnselect" update="@form" />
                 
                 <p:column headerText="Matrícula"
                           filterBy="#{funcionario.matricula}"
@@ -143,7 +145,7 @@
                                          icon="ui-icon-disk"
                                          action="#{cadastroFuncionarioBean.salvar()}"
                                          disabled="#{not cadastroFuncionarioBean.edicaoValida}"
-                                         update=":frmCadastro"
+                                         update="@form :frmCadastro"
                                          oncomplete="dlgEditar.hide()" />
                         <p:commandButton id="btnCancelar"
                                         value="Cancelar"
@@ -155,7 +157,7 @@
             </p:dialog>
         </h:form>
         
-        <h:form id="frmExcluir" rendered="false">
+        <h:form id="frmExcluir">
             <p:confirmDialog id="dlgExcluir"
                              widgetVar="dlgExcluir"
                              closable="false"
@@ -168,7 +170,7 @@
                                      icon="ui-icon-trash"
                                      action="#{cadastroFuncionarioBean.excluir()}"
                                      oncomplete="dlgEditar.hide()"
-                                     update=":frmCadastro" />
+                                     update="@form :frmCadastro" />
                     <p:commandButton id="btnCancelar"
                                      value="Cancelar"
                                      immediate="true"

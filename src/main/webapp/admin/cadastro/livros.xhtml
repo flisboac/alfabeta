@@ -134,12 +134,14 @@
                     <p:message id="msgTxtCodigo" for="txtCodigo"/>
                     
                     <h:outputLabel for="txtPreco" value="Preço" />
-                    <p:inputText id="txtPreco"
+                    <p:inputMask id="txtPreco"
                                  label="preco"
                                  value="#{cadastroLivroBean.livro.preco}"
+                                 mask="R$999.99"
                                  >
+                        <f:convertNumber type="currency" currencySymbol="R$"/>
                         <p:ajax event="blur" update="msgTxtPreco btnEditar" />
-                    </p:inputText>
+                    </p:inputMask>
                     <p:message id="msgTxtPreco" for="txtPreco"/>
 
                     <h:outputLabel for="txtNome" value="Nome" />
@@ -181,7 +183,7 @@
                         <p:commandButton id="btnEditar"
                                          value="Cadastrar"
                                          icon="ui-icon-disk"
-                                         update=":frmCadastro"
+                                         update="@form :frmCadastro"
                                          disabled="#{not cadastroLivroBean.edicaoValida}"
                                          action="#{cadastroLivroBean.salvar()}"
                                          oncomplete="dlgEditar.hide()"
@@ -208,7 +210,7 @@
                                      action="#{cadastroLivroBean.excluir}"
                                      icon="ui-icon-trash"
                                      value="Excluir"
-                                     update=":frmCadastro"
+                                     update="@form :frmCadastro"
                                      oncomplete="dlgExcluir.hide()"
                                      />
                     <p:commandButton id="btnCancelar"

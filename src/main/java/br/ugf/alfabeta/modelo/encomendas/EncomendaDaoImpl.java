@@ -42,7 +42,7 @@ public class EncomendaDaoImpl extends JpaDao<Encomenda> implements EncomendaDao 
     }
     
     @Override
-    public void atualizar(Encomenda encomenda) throws ExcecaoDao {
+    public Encomenda atualizar(Encomenda encomenda) throws ExcecaoDao {
         super.atualizar(encomenda);
         
         EntityManager manager = this.helper.getEntityManager();
@@ -57,6 +57,8 @@ public class EncomendaDaoImpl extends JpaDao<Encomenda> implements EncomendaDao 
         } finally {
             manager.close();
         }
+        
+        return encomenda;
     }
     
     @Override

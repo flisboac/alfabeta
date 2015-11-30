@@ -34,33 +34,37 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
     }
     
     @Override
-    public void inserir(T entidade) throws ExcecaoDlo {
+    public T inserir(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = (Dao<T>) getDao();
         
         validar(entidade, Identidade.class);
         try {
-            entidadeDao.inserir(entidade);
+            entidade = entidadeDao.inserir(entidade);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
         }
+        
+        return entidade;
     }
     
     @Override
-    public void alterar(T entidade) throws ExcecaoDlo {
+    public T alterar(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = (Dao<T>) getDao();
         
         validar(entidade, Persistencia.class);
         try {
-            entidadeDao.alterar(entidade);
+            entidade = entidadeDao.alterar(entidade);
             
         } catch (ExcecaoDao ex) {
             throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
         }
+        
+        return entidade;
     }
     
     @Override
-    public void persistir(T entidade) throws ExcecaoDlo {
+    public T persistir(T entidade) throws ExcecaoDlo {
         Dao<T> entidadeDao = (Dao<T>) getDao();
         
         if (entidade != null) {
@@ -69,7 +73,7 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
                     if (existeId(entidade.getId())) {
                         // Já existe uma entidade com o ID passado, 
                         // alterar a existente
-                        entidadeDao.alterar(entidade);
+                        entidade = entidadeDao.alterar(entidade);
                         
                     } else {
                         // ID inválido passado, lançar erro!
@@ -86,7 +90,7 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
                         throw new ExcecaoCriticaDlo("Já existe outra entidade com a identidade passada.");
                         
                     } else {
-                        entidadeDao.inserir(entidade);
+                        entidade = entidadeDao.inserir(entidade);
                     }
                 }
 
@@ -94,6 +98,8 @@ public class EntidadeDloPersistencia<T extends Entidade> extends EntidadeDlo<T> 
                 throw new ExcecaoPersistenciaDlo(ex.getMessage(), ex);
             }
         }
+        
+        return entidade;
     }
     
     @Override

@@ -41,7 +41,7 @@
                 
                 <div id="login" class="itemmenulateral">
                     <h:form id="frmLogin">
-                        <p>Olá, Usuário</p>
+                        <p>Olá, Administrador</p>
                         <p>
                             <p:commandButton value="Logoff" icon="ui-icon-logoff" action="#{loginAdminBean.efetuarLogoff()}" style="width: 100%"/>
                         </p>
@@ -52,7 +52,7 @@
                     <h:form id="frmMenu">
                         <center>
                             <p:tieredMenu autoDisplay="true" >
-                                <p:menuitem value="Funcionários" icon="ui-icon-person" url="/admin/cadastro/funcionarios.xhtml" />
+                                <p:menuitem value="Funcionários" icon="ui-icon-person" url="/admin/cadastro/funcionarios.xhtml" rendered="false"/>
                                 <p:menuitem value="Livros" icon="ui-icon-note" url="/admin/cadastro/livros.xhtml" />
                                 <p:menuitem value="Encomendas" icon="ui-icon-bookmark" url="/admin/cadastro/encomendas.xhtml" />
                                 <p:menuitem value="Pedidos" icon="ui-icon-cart" url="/admin/cadastro/pedidos.xhtml" />

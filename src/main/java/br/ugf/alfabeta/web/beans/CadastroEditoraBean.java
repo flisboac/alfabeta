@@ -53,7 +53,7 @@ public class CadastroEditoraBean extends CadastroBean<Editora> {
             getHelper().ok("Editora cadastrada com sucesso.");
             
         } catch (ExcecaoDlo ex) {
-            getHelper().erro("Erro ao cadastrar editora.");
+            getHelper().erro("Erro ao cadastrar editora.", ex.getLocalizedMessage());
         }
     }
     
@@ -66,6 +66,13 @@ public class CadastroEditoraBean extends CadastroBean<Editora> {
         } catch (ExcecaoDlo ex) {
             getHelper().erro("Erro ao listar editoras.");
         }
+    }
+    
+    @Override
+    public boolean isEdicaoValida() {
+        return super.isEdicaoValida() 
+                && editora.getCodigo() != null && !editora.getCodigo().isEmpty()
+                && editora.getEndereco() != null && !editora.getEndereco().isEmpty();
     }
     
     // [ GETTERS / SETTERS ] ===================================================

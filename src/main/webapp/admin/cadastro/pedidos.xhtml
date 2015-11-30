@@ -9,7 +9,7 @@
     template="/WEB-INF/templates/admin.xhtml">
 
     <ui:param name="tituloPagina" value="Cadastro de Pedidos" />
-    <ui:param name="mensagensglobais" value="#{true}" />
+    <ui:param name="mensagensglobais" value="true" />
 
     <ui:define name="cabecalho">
         <p:breadCrumb>
@@ -28,6 +28,7 @@
                                      value="Visualizar"
                                      icon="ui-icon-visualize"
                                      update=":frmVisualizar"
+                                     disabled="#{visualizacaoPedidoBean.pedido.id == null}"
                                      action="#{visualizacaoPedidoBean.prepararVisualizacao()}"
                                      oncomplete="dlgVisualizar.show()"
                                      />    
@@ -36,8 +37,18 @@
                                      value="Finalizar"
                                      icon="ui-icon-end"
                                      update=":frmFinalizar"
-                                     action="#{finalizacaoPedidoBean.prepararFinalizacao()}"
+                                     disabled="#{visualizacaoPedidoBean.pedido.id == null or visualizacaoPedidoBean.pedido.pendente or visualizacaoPedidoBean.pedido.estado.terminal}"
+                                     action="#{visualizacaoPedidoBean.prepararFinalizacao()}"
                                      oncomplete="dlgFinalizar.show()"
+                                     />
+                    
+                    <p:commandButton id="btnEliminarDebito"
+                                     value="Confirmar Pagamento"
+                                     icon="ui-icon-end"
+                                     update=":frmConfirmarPagamento"
+                                     disabled="#{visualizacaoPedidoBean.pedido.id == null or visualizacaoPedidoBean.pedido.pendente or not visualizacaoPedidoBean.pedido.estado.terminal or visualizacaoPedidoBean.pedido.debito.pago}"
+                                     action="#{visualizacaoPedidoBean.prepararConfirmarPagamento()}"
+                                     oncomplete="dlgConfirmarPagamento.show()"
                                      />    
                 </p:toolbarGroup>
             </p:toolbar>
@@ -51,7 +62,10 @@
                          rowKey="#{pedido.id}"
                          selection="#{visualizacaoPedidoBean.pedido}"
                          selectionMode="single"
+                         paginator="true"
+                         paginatorAlwaysVisible="true"
                          rows="10"
+                         rowsPerPageTemplate="5,10,20"
                          >
                 <p:ajax event="rowSelect" update="@form" />
                 <p:ajax event="rowUnselect" update="@form" />
@@ -80,7 +94,15 @@
                 <p:column headerText="Total">
                     R$ #{pedido.valorTotal}
                 </p:column>
-
+                
+                <p:column headerText="Data de Pagamento" rendered="#{empty pedido.debito or not pedido.debito.pago}">
+                    #{empty pedido.debito ? '(Pedido não finalizado)' : '(Sem confirmação)'}
+                </p:column>
+                
+                <p:column headerText="Data de Pagamento" rendered="#{not empty pedido.debito and pedido.debito.pago}">
+                    #{pedido.debito.dataPagamento}
+                </p:column>
+                
                 <p:column headerText="Código"
                           filterBy="#{pedido.codigo}"
                           filterMatchMode="contains"
@@ -117,6 +139,12 @@
 
                         <h:outputText value="Finalizado em:" rendered="#{visualizacaoPedidoBean.pedido.estado.terminal}" />
                         <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.dataHoraCancelamento}" rendered="#{visualizacaoPedidoBean.pedido.estado.terminal}" />
+                        
+                        <h:outputText value="Pago?" rendered="#{not empty visualizacaoPedidoBean.pedido.debito}" />
+                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.debito.pago ? 'Sim'  : 'Não' }" rendered="#{not empty visualizacaoPedidoBean.pedido.debito}" />
+                        
+                        <h:outputText value="Data de Pagamento:" rendered="#{not empty visualizacaoPedidoBean.pedido.debito and visualizacaoPedidoBean.pedido.debito.pago}" />
+                        <h:outputText value="&nbsp;#{visualizacaoPedidoBean.pedido.debito.dataPagamento}" rendered="#{not empty visualizacaoPedidoBean.pedido.debito and visualizacaoPedidoBean.pedido.debito.pago}" />
                     </h:panelGrid>
 
                     <h:panelGrid columns="1" style="margin-left: 10px">
@@ -160,7 +188,7 @@
             </p:dialog>
         </h:form>
 
-        <h:form id="frmFinalizar" rendered="false">
+        <h:form id="frmFinalizar">
             <p:confirmDialog id="dlgFinalizar"
                              header="Finalizar Pedido"
                              message="Tem certeza que deseja finalizar o pedido?"
@@ -168,13 +196,36 @@
                              >
                 <center>
                     <p:commandButton id="btnFinalizar"
-                                     action="#{visualizacaoPedidoBean.cancelarPedido}"
+                                     action="#{visualizacaoPedidoBean.finalizarPedido}"
                                      icon="ui-icon-trash"
                                      value="Finalizar"
-                                     update=":frmListar"
+                                     update="@form :frmListar"
                                      oncomplete="dlgFinalizar.hide()"
                                      />
 
+                </center>
+            </p:confirmDialog>
+        </h:form>
+        
+        <h:form id="frmConfirmarPagamento">
+            <p:confirmDialog id="dlgConfirmarPagamento"
+                             header="Confirmar Pagamento"
+                             message="Tem certeza que deseja confirmar o pagamento deste pedido?"
+                             widgetVar="dlgConfirmarPagamento"
+                             >
+                <center>
+                    <p:commandButton id="btnConfirmarPagamento"
+                                     action="#{visualizacaoPedidoBean.confirmarPagamento}"
+                                     icon="ui-icon-trash"
+                                     value="Confirmar"
+                                     update="@all"
+                                     oncomplete="dlgConfirmarPagamento.hide()"
+                                     />
+                    <p:commandButton id="bnFecharConfirmarPagamento"
+                                     value="Fechar"
+                                     icon="ui-icon-cancel"
+                                     immediate="true"
+                                     onclick="dlgConfirmarPagamento.hide()" />
                 </center>
             </p:confirmDialog>
         </h:form>
